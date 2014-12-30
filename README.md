@@ -1,8 +1,7 @@
-router
-======
-
 News Aggregation and Routing
 ======
+http://copyroute.com
+===
 
 Copyroute harvests hundereds of News Feeds (RSS) from the internet, and provides Web-Based search & analytics to the end User.
 
