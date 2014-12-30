@@ -1,0 +1,112 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:int="http://www.springframework.org/schema/integration"
+   	   xmlns:stream="http://www.springframework.org/schema/integration/stream"
+       xsi:schemaLocation="
+       		http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+            http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+       		http://www.springframework.org/schema/integration 			http://www.springframework.org/schema/integration/spring-integration.xsd
+			http://www.springframework.org/schema/integration/stream 	http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+            ">	
+
+	<!-- Spring : Scan for Components -->
+<!-- 	<context:spring-configured/> -->
+<!-- 	<context:component-scan base-package="com.penguinsrising.services.workflow.engine"/> -->
+<!-- 	<context:component-scan base-package="com.penguinsrising.services"/> -->
+
+
+	<!-- Activiti Config :  =============================================================-->
+	 
+	<!-- VBMS Master Process -->
+<!-- 	<bean id="authorization" class="com.penguinsrising.services.Authorization" /> -->
+<!-- 	<bean id="award" class="com.penguinsrising.services.Award" />   -->
+<!-- 	<bean id="development" class="com.penguinsrising.services.Development" />   -->
+<!-- 	<bean id="intake" class="com.penguinsrising.services.Intake" />   -->
+<!-- 	<bean id="rating" class="com.penguinsrising.services.Rating" />   -->
+
+	<!-- Intake Sub Process -->
+<!-- 	<bean id="triageDocuments" class="com.penguinsrising.services.intake.TriageDocuments" /> -->
+<!-- 	<bean id="establishEndProduct" class="com.penguinsrising.services.intake.EstablishEndProduct" /> -->
+<!-- 	<bean id="setupContentions" class="com.penguinsrising.services.intake.SetupContentions" /> -->
+
+	<!-- Beans must be added here to allow the bpmn-environment to see java -->
+	<!-- Custom LDAP Configuration adds interceptors here as well -->
+	<bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+		<property name="dataSource" ref="dataSource" />
+	   	<property name="transactionManager" ref="transactionManager" />
+	   	<property name="databaseSchemaUpdate" value="true" />
+	   	<property name="jobExecutorActivate" value="false" />
+	   	<property name="deploymentResources" value="classpath*:/bpmn2/*.bpmn"/>
+<!-- 	   	<property name="beans"> -->
+<!-- 		    <map> -->
+<!-- 		       <entry key="authorization" value-ref="authorization" /> -->
+<!-- 		       <entry key="award" value-ref="award" /> -->
+<!-- 		       <entry key="development" value-ref="development" /> -->
+<!-- 		       <entry key="intake" value-ref="intake" /> -->
+<!-- 		       <entry key="rating" value-ref="rating" /> -->
+
+<!-- 		       <entry key="triageDocuments" value-ref="triageDocuments" /> -->
+<!-- 		       <entry key="establishEndProduct" value-ref="establishEndProduct" /> -->
+<!-- 		       <entry key="setupContentions" value-ref="setupContentions" /> -->
+<!-- 		    </map> -->
+<!-- 	   	</property> -->
+		<property name="customSessionFactories">
+			<list>
+			<bean class="com.penguinsrising.services.ldap.LDAPUserManagerFactory">
+				<constructor-arg ref="ldapConnectionParams" />
+			</bean>
+			<bean class="com.penguinsrising.services.ldap.LDAPGroupManagerFactory">
+				<constructor-arg ref="ldapConnectionParams" />
+			</bean>
+			</list>
+		</property>  
+	 </bean>
+	 
+	 
+	<!-- Activiti Process Engine and Services -->
+	<!-- (these don't inject well; maybe the load order??? -->
+	 <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+	   <property name="processEngineConfiguration" ref="processEngineConfiguration" />
+	 </bean>
+<!-- 	 <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" /> -->
+<!-- 	 <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" /> -->
+<!-- 	 <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" /> -->
+<!-- 	 <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" /> -->
+<!-- 	 <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" /> -->
+<!-- 	 <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService" /> -->
+<!-- 	 <bean id="formService" factory-bean="processEngine" factory-method="getFormService" /> -->
+	
+	<!-- LDAP Access -->
+	 <bean id="ldapConnectionParams" class="com.penguinsrising.services.ldap.LDAPConnectionParams">
+		<property name="ldapServer" value="penguins-rising.com" />
+		<property name="ldapPort" value="10389" />
+		<property name="ldapUser" value="uid=admin,ou=system" />
+		<property name="ldapPassword" value="07722374470" />
+	 </bean>
+	 
+	 <!--  Activiti - Persistance DB -->
+	 <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	   <property name="driverClass" value="org.h2.Driver" />
+	   <property name="url" value="jdbc:h2:mem:activiti;DB_CLOSE_DELAY=1000" />
+	   <property name="username" value="sa" />
+	   <property name="password" value="" />
+	 </bean>
+	
+	 <!-- bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	   <property name="driverClass" value="oracle.jdbc.OracleDriver" />
+	   <property name="url" value="jdbc:oracle:thin:@localhost:1521:activiti" />
+	   <property name="username" value="system" />
+	   <property name="password" value="welcome1" />
+	 </bean -->
+	 
+	<!-- Transaction Annotations -->
+	 <tx:annotation-driven transaction-manager="transactionManager"/>
+	 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	   <property name="dataSource" ref="dataSource" />
+	 </bean>
+	
+
+</beans>

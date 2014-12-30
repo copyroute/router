@@ -1,0 +1,150 @@
+version: 1
+
+#!RESULT ERROR
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:50.321
+#!ERROR [LDAP: error code 19 - CONSTRAINT_VIOLATION: failed for MessageType : MODIFY_REQUEST Message ID : 27     Modify Request         Object : 'uid=jason.hardman,ou=users,dc=copyroute,dc=com'             Modification[0]                 Operation :  replace                 Modification objectclass: organizationalperson objectclass: person objectclass: inetorgperson objectclass: top            Modification[1]                 Operation :  replace                 Modification cn: jason.hardman            Modification[2]                 Operation :  replace                 Modification sn: jason.hardman            Modification[3]                 Operation :  replace                 Modification mail: jason.hardman@copyroute.com            Modification[4]                 Operation :  replace                 Modification uid: jason.hardman            Modification[5]                 Operation :  replace                 Modification userPassword: 0x68 0x34 0x63 0x6B 0x33 0x72 0x70 0x72 0x30 0x30 0x66 org.apache.directory.api.ldap.model.message.ModifyRequestImpl@34f49305: invalid reuse of password present in password history]
+dn: uid=jason.hardman,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: jason.hardman
+sn: jason.hardman
+mail: jason.hardman@copyroute.com
+uid: jason.hardman
+userPassword: h4ck3rpr00f
+
+#!RESULT ERROR
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:50.421
+#!ERROR [LDAP: error code 19 - CONSTRAINT_VIOLATION: failed for MessageType : MODIFY_REQUEST Message ID : 29     Modify Request         Object : 'uid=angela.niquette,ou=users,dc=copyroute,dc=com'             Modification[0]                 Operation :  replace                 Modification objectclass: organizationalperson objectclass: person objectclass: inetorgperson objectclass: top            Modification[1]                 Operation :  replace                 Modification cn: angela.niquette            Modification[2]                 Operation :  replace                 Modification sn: angela.niquette            Modification[3]                 Operation :  replace                 Modification mail: angela.niquette@copyroute.com            Modification[4]                 Operation :  replace                 Modification uid: angela.niquette            Modification[5]                 Operation :  replace                 Modification userPassword: 0x68 0x34 0x63 0x6B 0x33 0x72 0x70 0x72 0x30 0x30 0x66 org.apache.directory.api.ldap.model.message.ModifyRequestImpl@e4a7a428: invalid reuse of password present in password history]
+dn: uid=angela.niquette,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: angela.niquette
+sn: angela.niquette
+mail: angela.niquette@copyroute.com
+uid: angela.niquette
+userPassword: h4ck3rpr00f
+
+#!RESULT ERROR
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:50.530
+#!ERROR [LDAP: error code 19 - CONSTRAINT_VIOLATION: failed for MessageType : MODIFY_REQUEST Message ID : 31     Modify Request         Object : 'uid=michael.casale,ou=users,dc=copyroute,dc=com'             Modification[0]                 Operation :  replace                 Modification objectclass: organizationalperson objectclass: person objectclass: inetorgperson objectclass: top            Modification[1]                 Operation :  replace                 Modification cn: michael.casale            Modification[2]                 Operation :  replace                 Modification sn: michael.casale            Modification[3]                 Operation :  replace                 Modification mail: michael.casale@copyroute.com            Modification[4]                 Operation :  replace                 Modification uid: michael.casale            Modification[5]                 Operation :  replace                 Modification userPassword: 0x68 0x34 0x63 0x6B 0x33 0x72 0x70 0x72 0x30 0x30 0x66 org.apache.directory.api.ldap.model.message.ModifyRequestImpl@b5a4b979: invalid reuse of password present in password history]
+dn: uid=michael.casale,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: michael.casale
+sn: michael.casale
+mail: michael.casale@copyroute.com
+uid: michael.casale
+userPassword: h4ck3rpr00f
+
+#!RESULT OK
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:50.624
+dn: uid=alex.jordan,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: alex.jordan
+sn: alex.jordan
+mail: alex.jordan@copyroute.com
+uid: alex.jordan
+userPassword: h4ck3rpr00f
+
+#!RESULT OK
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:50.735
+dn: uid=michael.churchill,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: michael.churchill
+sn: michael.churchill
+mail: michael.churchill@copyroute.com
+uid: michael.churchill
+userPassword: h4ck3rpr00f
+
+#!RESULT ERROR
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:50.829
+#!ERROR [LDAP: error code 19 - CONSTRAINT_VIOLATION: failed for MessageType : MODIFY_REQUEST Message ID : 35     Modify Request         Object : 'uid=adam.gillespie,ou=users,dc=copyroute,dc=com'             Modification[0]                 Operation :  replace                 Modification objectclass: organizationalperson objectclass: person objectclass: inetorgperson objectclass: top            Modification[1]                 Operation :  replace                 Modification cn: adam.gillespie            Modification[2]                 Operation :  replace                 Modification sn: adam.gillespie            Modification[3]                 Operation :  replace                 Modification mail: adam.gillespie@copyroute.com            Modification[4]                 Operation :  replace                 Modification uid: adam.gillespie            Modification[5]                 Operation :  replace                 Modification userPassword: 0x68 0x34 0x63 0x6B 0x33 0x72 0x70 0x72 0x30 0x30 0x66 org.apache.directory.api.ldap.model.message.ModifyRequestImpl@89d1bb7e: invalid reuse of password present in password history]
+dn: uid=adam.gillespie,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: adam.gillespie
+sn: adam.gillespie
+mail: adam.gillespie@copyroute.com
+uid: adam.gillespie
+userPassword: h4ck3rpr00f
+
+#!RESULT ERROR
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:50.979
+#!ERROR [LDAP: error code 19 - CONSTRAINT_VIOLATION: failed for MessageType : MODIFY_REQUEST Message ID : 37     Modify Request         Object : 'uid=steve.hardman,ou=users,dc=copyroute,dc=com'             Modification[0]                 Operation :  replace                 Modification objectclass: organizationalperson objectclass: person objectclass: inetorgperson objectclass: top            Modification[1]                 Operation :  replace                 Modification cn: steve.hardman            Modification[2]                 Operation :  replace                 Modification sn: steve.hardman            Modification[3]                 Operation :  replace                 Modification mail: steve.hardman@copyroute.com            Modification[4]                 Operation :  replace                 Modification uid: steve.hardman            Modification[5]                 Operation :  replace                 Modification userPassword: 0x68 0x34 0x63 0x6B 0x33 0x72 0x70 0x72 0x30 0x30 0x66 org.apache.directory.api.ldap.model.message.ModifyRequestImpl@66919a47: invalid reuse of password present in password history]
+dn: uid=steve.hardman,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: steve.hardman
+sn: steve.hardman
+mail: steve.hardman@copyroute.com
+uid: steve.hardman
+userPassword: h4ck3rpr00f
+
+#!RESULT ERROR
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:51.089
+#!ERROR [LDAP: error code 19 - CONSTRAINT_VIOLATION: failed for MessageType : MODIFY_REQUEST Message ID : 39     Modify Request         Object : 'uid=ron.hardman,ou=users,dc=copyroute,dc=com'             Modification[0]                 Operation :  replace                 Modification objectclass: organizationalperson objectclass: person objectclass: inetorgperson objectclass: top            Modification[1]                 Operation :  replace                 Modification cn: ron.hardman            Modification[2]                 Operation :  replace                 Modification sn: ron.hardman            Modification[3]                 Operation :  replace                 Modification mail: ron.hardman@copyroute.com            Modification[4]                 Operation :  replace                 Modification uid: ron.hardman            Modification[5]                 Operation :  replace                 Modification userPassword: 0x68 0x34 0x63 0x6B 0x33 0x72 0x70 0x72 0x30 0x30 0x66 org.apache.directory.api.ldap.model.message.ModifyRequestImpl@948e3947: invalid reuse of password present in password history]
+dn: uid=ron.hardman,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: ron.hardman
+sn: ron.hardman
+mail: ron.hardman@copyroute.com
+uid: ron.hardman
+userPassword: h4ck3rpr00f
+
+#!RESULT ERROR
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:51.181
+#!ERROR [LDAP: error code 19 - CONSTRAINT_VIOLATION: failed for MessageType : MODIFY_REQUEST Message ID : 41     Modify Request         Object : 'uid=justin.hardman,ou=users,dc=copyroute,dc=com'             Modification[0]                 Operation :  replace                 Modification objectclass: organizationalperson objectclass: person objectclass: inetorgperson objectclass: top            Modification[1]                 Operation :  replace                 Modification cn: justin.hardman            Modification[2]                 Operation :  replace                 Modification sn: justin.hardman            Modification[3]                 Operation :  replace                 Modification mail: justin.hardman@copyroute.com            Modification[4]                 Operation :  replace                 Modification uid: justin.hardman            Modification[5]                 Operation :  replace                 Modification userPassword: 0x68 0x34 0x63 0x6B 0x33 0x72 0x70 0x72 0x30 0x30 0x66 org.apache.directory.api.ldap.model.message.ModifyRequestImpl@edf6b8e9: invalid reuse of password present in password history]
+dn: uid=justin.hardman,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: justin.hardman
+sn: justin.hardman
+mail: justin.hardman@copyroute.com
+uid: justin.hardman
+userPassword: h4ck3rpr00f
+
+#!RESULT ERROR
+#!CONNECTION ldap://162.209.100.11:10389
+#!DATE 2014-10-08T23:40:51.281
+#!ERROR [LDAP: error code 19 - CONSTRAINT_VIOLATION: failed for MessageType : MODIFY_REQUEST Message ID : 43     Modify Request         Object : 'uid=randy.hardman,ou=users,dc=copyroute,dc=com'             Modification[0]                 Operation :  replace                 Modification objectclass: organizationalperson objectclass: person objectclass: inetorgperson objectclass: top            Modification[1]                 Operation :  replace                 Modification cn: randy.hardman            Modification[2]                 Operation :  replace                 Modification sn: randy.hardman            Modification[3]                 Operation :  replace                 Modification mail: randy.hardman@copyroute.com            Modification[4]                 Operation :  replace                 Modification uid: randy.hardman            Modification[5]                 Operation :  replace                 Modification userPassword: 0x68 0x34 0x63 0x6B 0x33 0x72 0x70 0x72 0x30 0x30 0x66 org.apache.directory.api.ldap.model.message.ModifyRequestImpl@a265ff3e: invalid reuse of password present in password history]
+dn: uid=randy.hardman,ou=users,dc=copyroute,dc=com
+objectclass: organizationalperson
+objectclass: person
+objectclass: inetorgperson
+objectclass: top
+cn: randy.hardman
+sn: randy.hardman
+mail: randy.hardman@copyroute.com
+uid: randy.hardman
+userPassword: h4ck3rpr00f
+

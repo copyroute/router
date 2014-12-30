@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:beans="http://www.springframework.org/schema/beans"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:int="http://www.springframework.org/schema/integration"
+		xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:sws="http://www.springframework.org/schema/web-services"
+       	xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:tx="http://www.springframework.org/schema/tx" 		
+		xmlns:amqp="http://www.springframework.org/schema/integration/amqp"
+		xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+		xmlns:int-feed="http://www.springframework.org/schema/integration/feed"
+		xmlns:int-http="http://www.springframework.org/schema/integration/http"
+		xmlns:stream="http://www.springframework.org/schema/integration/stream"
+		xmlns:jaxws="http://cxf.apache.org/jaxws"
+		xmlns:cxf="http://camel.apache.org/schema/cxf" 
+
+		xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+		xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+
+ 		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 				http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context 				http://www.springframework.org/schema/context/spring-context.xsd
+
+            http://www.springframework.org/schema/aop 					http://www.springframework.org/schema/aop/spring-aop-3.1.xsd         
+			http://www.springframework.org/schema/jee 					http://www.springframework.org/schema/jee/spring-jee-3.1.xsd         
+			http://www.springframework.org/schema/tx 					http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+
+			http://www.springframework.org/schema/web-services 			http://www.springframework.org/schema/web-services/web-services.xsd
+      		http://www.springframework.org/schema/mvc 					http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	        http://www.springframework.org/schema/util					http://www.springframework.org/schema/util/spring-util.xsd
+
+			http://www.springframework.org/schema/integration 			http://www.springframework.org/schema/integration/spring-integration.xsd
+			http://www.springframework.org/schema/integration/amqp 		http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+			http://www.springframework.org/schema/rabbit 				http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+			http://www.springframework.org/schema/amqp 					http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+
+			http://www.springframework.org/schema/integration/feed 		http://www.springframework.org/schema/integration/feed/spring-integration-feed.xsd
+			http://www.springframework.org/schema/integration/stream 	http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+			http://www.springframework.org/schema/integration/file 		http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+			http://www.springframework.org/schema/integration/http 		http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+
+			http://www.springframework.org/schema/data/mongo			http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd
+
+">
+	<mvc:annotation-driven />
+ 	<context:component-scan base-package="com.penguinsrising.ui.controller" />  
+	<context:component-scan base-package="com.penguinsrising.services"/>
+  	<context:component-scan base-package="com.penguinsrising.util"/>
+
+	<!-- Listeners -->	
+	<bean id="rssController" class="com.penguinsrising.ui.controller.RssController"/>			    
+	<bean id="rssItemService" class="com.penguinsrising.services.news.RssItemService"/>
+	<bean id="jsonMessageConverter" class="com.penguinsrising.services.amqp.Json_MessageConverter"/>
+ 
+ 	<!-- AMQP ============================================================================== -->
+	<!-- Connection and Template -->
+	<rabbit:connection-factory id="amqpConnectionFactory" host="127.0.0.1" />
+	<rabbit:admin connection-factory="amqpConnectionFactory" />
+	<rabbit:template  id="amqpTemplate" connection-factory="amqpConnectionFactory" />
+	<!-- .. Caching Connection
+	<bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+		<property name="host" value="localhost" />
+		<property name="username" value="guest" />
+		<property name="password" value="guest" />
+		<property name="virtualHost" value="/" />
+		<property name="port" value="5672" />
+	</bean>
+	-->	
+	<!-- Transactions -->
+<!-- 	<tx:annotation-driven transaction-manager="rabbitTxManager"/> -->
+<!-- 	<bean id="rabbitTxManager" class="org.springframework.amqp.rabbit.transaction.RabbitTransactionManager"> -->
+<!-- 		<property name="connectionFactory" ref="amqpConnectionFactory"/> -->
+<!-- 	</bean> -->
+	<!-- ListenerContainer : Driven by TaskExecutor -->	
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		 <property name="corePoolSize" value="10" />
+		 <property name="maxPoolSize" value="15" />
+		 <property name="queueCapacity" value="25" />
+	</bean>	
+	
+	
+	<!-- Mongo Config ==============================================================================-->
+	
+	<!-- Repo-Scan : Pick up Mongo Repos -->
+	<mongo:repositories base-package="com.penguinsrising.services" /> 
+	<mongo:mongo host="127.0.0.1" port="27017">
+		<mongo:options 
+			connections-per-host="100"
+			threads-allowed-to-block-for-connection-multiplier="10"
+			connect-timeout="30000"
+			max-wait-time="30000"
+			auto-connect-retry="true"
+			socket-keep-alive="true"
+			socket-timeout="0"
+			slave-ok="true"
+			write-number="1"
+			write-timeout="0"
+			write-fsync="true"/>
+	</mongo:mongo>
+	<bean id="mongoError" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongo" ref="mongo"/>
+		<constructor-arg name="databaseName" value="test"/>
+		<constructor-arg name="userCredentials" ref="userCredentials"/>
+	</bean>
+	<bean id="gridFSTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+	              <constructor-arg ref="dbFactory" />
+	              <constructor-arg ref="converter" />
+	      </bean>
+	      <mongo:mapping-converter id="converter" db-factory-ref="dbFactory" />
+	      <mongo:db-factory id="dbFactory" dbname="test" />
+	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
+		<constructor-arg name="username" value="vbms"/>
+		<constructor-arg name="password" value="vbms"/>
+	</bean>
+  
+  
+</beans>
+
+<!-- 	<bean id="WurflHolder" class="net.sourceforge.wurfl.core.GeneralWURFLEngine"> -->
+<!-- 	  <constructor-arg index="0" value="classpath:/wurfl/wurfl.zip" /> -->
+<!-- 	  <constructor-arg index="1" value="<< patch here >>"/> -->
+<!-- 	  <constructor-arg index="2" value="<< more patches here >>"/> -->
+<!-- 	</bean> -->
+

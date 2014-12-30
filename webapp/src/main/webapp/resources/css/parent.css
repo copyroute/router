@@ -1,0 +1,324 @@
+a:link {color: rgba(5,5,5,0.9);}
+a:hover {color: rgba(5,5,5,0.9);}
+a:active {color: rgba(5,5,5,0.9);}
+a:visited {color: rgba(50,50,50,0.9);}
+
+html { 
+	display: table; 
+	margin: auto; 
+	height: 100%; 
+}
+body { 
+    background: -webkit-linear-gradient(rgba(50,50,50,0.7) 7em, rgba(200,200,200,0.3) 10em, rgba(50,50,50,0.7) 3em); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(50,50,50,0.7) 7em, rgba(200,200,200,0.3) 10em, rgba(50,50,50,0.7) 3em); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(50,50,50,0.7) 7em, rgba(200,200,200,0.3) 10em, rgba(50,50,50,0.7) 3em); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(50,50,50,0.7) 7em, rgba(200,200,200,0.3) 10em, rgba(50,50,50,0.7) 3em); /* Standard syntax (must be last) */
+/* 	background: #eeeeee url(/resources/images/Old_Newspaper_Texture_by_powerpuffjazz.jpg) 50% top repeat-x;  */
+/* 	background: #eeeeee url(/resources/images/Maple_Tea_Texture_by_Shadsie.jpg) 10% top fixed;   */
+/* 	background-size: 100% auto  */	
+	display: table-cell; 
+	height: 100%; 
+	font-family: Verdana, Geneva, sans-serif; 
+	font-size:1.0em; 
+	line-height:1.0em;
+	vertical-align: top;
+	align:center; 
+ 	margin: 0; 
+	padding: 0;
+}
+
+h1 {
+	color:rgba(250,250,250,0.9); 
+	font-size:1.0em; 
+	line-height:1.0em;
+	margin:1px 1px 1px 1px;
+}
+h2 {			
+	font-size:0.75em; 
+	line-height:1.0em;
+}
+h3 {
+	font-size:1.0em; 
+	line-height:1.0em;
+}
+hr {
+	height:3px; 
+	color:rgba(42,42,42,0.3);
+}
+
+
+
+#bodyDiv {
+	width:100%; 
+	height:100%;
+	vertical-align: top;
+	align:center; 
+	font-size:1.0em;
+	line-height:1.0em;
+	box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.3);	
+	
+}
+
+#searchBox{
+	padding:0em;
+	width:12em;
+	float:right;
+}
+
+#searchDiv{
+}
+#searchPageSizeBox{
+	width:1em; 
+	display:none;
+}
+#searchButton{
+	width:5em;
+	color:rgba(250,250,250,0.9); 
+	background-color:rgba(50,50,50,0.7); 
+}
+
+#connectionStatus{	
+	background-color:rgba(150,250,150,0.0); 
+	color:rgba(250,250,250,0.9); 
+	font-family: Verdana, Geneva, sans-serif; 
+	font-size:0.9em;
+/* 	display: block;	 */
+	vertical-align: top;
+	align:center; 
+}
+#header{	
+	width:100%;
+	top:0; 
+	left:0; 
+	position:fixed;
+	background-color: rgba(5,5,5,0.7); 
+	font-size:1.0em; 
+	font-family: Verdana, Geneva, sans-serif;
+	line-height:1.0em;
+	vertical-align: top;
+	align:center; 
+}
+#logo{
+	width:3em; 
+	height:3em; 
+	vertical-align: top;
+	align:left; 
+}
+
+#footer{	
+	width:100%;
+	height:100px;
+	bottom:0; 
+	left:0; 
+	position:fixed;
+	background-color: rgba(5,5,5,0.7); 
+	font-size:0.75em; font-family: Verdana, Geneva, sans-serif;
+	line-height:0.75em;
+	vertical-align: top;
+	align:center; 
+}
+/* Google Ads */
+#googleAd{
+/* 	table-layout: fixed;  */
+	width:800px;
+	display:table-cell; 
+	vertical-align: top;
+	align:center; 
+}
+
+#bannerSpacer{
+	height:10em; 
+	vertical-align: top;
+	align:center; 
+}
+
+
+/* Categories */
+#categoryListPanel{
+	left:0; 
+	top:7em; 
+	position:fixed;
+	width:100%;
+	text-decoration:none;	
+	vertical-align: top;	
+	align: center;	
+}
+
+.scrollable-menu {
+    width: auto;
+    max-height: 20em;
+    overflow-x: hidden;
+}
+.dropdown-menu{
+	background-color:rgba(50,50,50,0.7);
+}
+
+ul#navlist{
+	width:100%;
+	list-style-type: none;
+	left:0em;
+	top:3em; 
+	position:fixed;
+}
+li#navItem{
+	
+}
+/* MenuBar */
+.categoryList{
+	color: rgba(250,150,75,0.9);
+	background-color:rgba(50,50,50,0.7);
+	box-shadow: inset 3px 3px 1px 1px rgba(200,200,200,0.7);
+	font:1.0em Verdana, Geneva, sans-serif;
+	cursor:pointer;
+	margin:1px 1px 1px 1px;
+	width:100px;
+	height:44px;
+	display: inline-block; 
+	vertical-align: top;	
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+.categoryList:hover {
+	box-shadow: inset 1px 1px 3px 3px rgba(20,20,20,0.5);
+}
+
+.category{
+	font:2.0em Verdana, Geneva, sans-serif;
+	color: rgba(250,250,250,0.9);
+	background-color:rgba(50,50,50,0.0);
+	cursor:pointer;
+	float: left;	
+}
+.category:hover {
+	color: rgba(250,200,100,0.9);
+}
+
+
+.toggle{
+	color: rgba(50,50,50,0.9);
+	background-color:rgba(50,150,50,0.3);
+	cursor:pointer;
+	float: left;
+}
+.toggle:hover {
+	background-color:rgba(50,150,50,0.5);
+}
+
+
+/* News Columns */
+.searchListType {
+	display: inline-block;
+}
+
+.categoryColumn{
+	display: table-cell; 	
+	overflow: hidden; 
+}
+
+.row-fluid{
+	background-color:rgba(150,150,150,0.5); 
+	box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.3);	
+	width:100%;
+}
+
+
+/* RSSItems */
+.rssItemType {
+	color:rgba(50,50,50,0.9); 
+	background-color:rgba(250,250,250,0.9); 
+	box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.3);	
+	font-family: Verdana, Geneva, sans-serif; 
+	font-size:1.0em;
+	line-height:1.25em;	
+	display: block;
+	margin:.5em .5em .5em .5em;
+	width:95%;
+	overflow: hidden; 
+	padding: 0.5em 0.5em 0.5em 0.5em;	
+}
+.rssItemTypeBreakingNews {
+	color:rgba(0,200,0,0.1);
+	display: hidden;
+}
+
+.rssItemHeader{
+	font-family: Verdana, Geneva, sans-serif; 
+	font-size:0.75em ;
+	line-height:1.0em ;
+}
+.rssItemTitle{
+	font-family: Verdana, Geneva, sans-serif; 
+	font-size:1.15em ;
+	line-height:1.25em ;
+}
+.rssItemDescription {
+	font:Verdana, Geneva, sans-serif;
+	font-size:0.75em ;
+	line-height:1.0em ;
+}	
+.rssItemDate{
+	font-family: Verdana, Geneva, sans-serif; 
+	font-size:0.5em;
+}
+
+
+@media (max-width: 1090px){
+	#connectionDiv			{visibility:hidden;}
+	/*#catagoryListPanel		{display:block;}*/
+	#footer					{display:block; }
+	#bannerDisplay			{margin: 0em auto 0;}
+}
+@media (max-width: 1090px){
+	#connectionDiv			{visibility:hidden;}
+	/*#catagoryListPanel		{display:none;}*/
+	#footer					{display:none; }
+	#bannerDisplay			{margin: 3em auto 0;}
+}
+
+
+
+
+/* Banner
+#bannerDisplay{	
+    margin: 10em auto 0;
+    width:97%;
+	vertical-align: top;
+	align:center; 
+}
+.banner{
+	color:rgba(50,50,50,0.9); 
+	width:100%;
+	height:30em; 
+	color:rgba(250,250,250,0.9); 
+	font-family: Verdana, Geneva, sans-serif;
+    overflow: hidden;
+	vertical-align: top;
+	align:center; 
+}		
+.bannerTitle {
+	width:97%; 
+	vertical-align: top;
+	align:center; 
+}
+.bannerHeader{
+	margin:5px 25px 25px 25px;
+	font-size:1.25em;
+	line-height:1.25em;
+	font-weight:bold; 
+	font-family: Verdana, Geneva, sans-serif;
+	color:rgba(50,50,50,0.9); 
+	background-color:rgba(50,50,50,0.1); 
+	box-shadow: 1px 7px 100px 7px rgba(0,0,0,0.7);
+
+}		
+.bannerDescription{
+	color:rgba(50,50,50,0.9); 
+	font-size:1.0em;
+	font-family: Verdana, Geneva, sans-serif;
+	overflow: hidden; 
+	vertical-align: top;
+	align:center; 
+}		
+ */
+

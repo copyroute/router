@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /css
+Disallow: /images
+Disallow: /jquery
+Disallow: /js
+Sitemap: http://penguins-rising.com/sitemap.xml

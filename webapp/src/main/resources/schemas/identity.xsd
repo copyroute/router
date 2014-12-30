@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" version="1.0" 
+		targetNamespace="http://penguinsrising.com/cdm/identity" 
+		xmlns="http://penguinsrising.com/cdm/identity" 
+		xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Profile -->
+	<xs:complexType name="profile">  
+		    <xs:sequence>
+				<xs:element name="first" type="xs:string"/>
+				<xs:element name="last" type="xs:string"/>
+				<xs:element name="ssn" type="xs:string"/>
+				<xs:element name="dob" type="xs:string"/>
+				<xs:element name="location" type="location"/>
+		    </xs:sequence>
+	</xs:complexType>	
+		
+	<!-- Location -->
+	<xs:complexType name="location">  
+		    <xs:sequence>
+				<xs:element name="address" type="xs:string"/>
+				<xs:element name="city" type="xs:string"/>
+				<xs:element name="state" type="xs:string"/>
+				<xs:element name="zip" type="xs:string"/>
+		    </xs:sequence>
+	</xs:complexType>		
+
+</xs:schema>

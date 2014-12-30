@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:beans="http://www.springframework.org/schema/beans"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:int="http://www.springframework.org/schema/integration"
+		xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:sws="http://www.springframework.org/schema/web-services"
+       	xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:tx="http://www.springframework.org/schema/tx" 		
+		xmlns:amqp="http://www.springframework.org/schema/integration/amqp"
+		xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+		xmlns:int-feed="http://www.springframework.org/schema/integration/feed"
+		xmlns:int-http="http://www.springframework.org/schema/integration/http"
+		xmlns:stream="http://www.springframework.org/schema/integration/stream"
+		xmlns:jaxws="http://cxf.apache.org/jaxws"
+		xmlns:cxf="http://camel.apache.org/schema/cxf" 
+
+		xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+		xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+
+ 		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 				http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/context 				http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/web-services 			http://www.springframework.org/schema/web-services/web-services-2.0.xsd
+      		http://www.springframework.org/schema/mvc 					http://www.springframework.org/schema/mvc/spring-mvc.xsd
+
+			http://www.springframework.org/schema/integration 			http://www.springframework.org/schema/integration/spring-integration.xsd
+
+			http://www.springframework.org/schema/integration/amqp 		http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+			http://www.springframework.org/schema/rabbit 				http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+			http://www.springframework.org/schema/amqp 					http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+
+			http://www.springframework.org/schema/integration/feed 		http://www.springframework.org/schema/integration/feed/spring-integration-feed.xsd
+			http://www.springframework.org/schema/integration/stream 	http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+			http://www.springframework.org/schema/integration/file 		http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+			http://www.springframework.org/schema/integration/http 		http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+
+			http://cxf.apache.org/core 									http://cxf.apache.org/schemas/core.xsd
+			http://cxf.apache.org/jaxws 								http://cxf.apache.org/schemas/jaxws.xsd
+			http://cxf.apache.org/transports/camel 						http://cxf.apache.org/transports/camel.xsd
+
+	        http://www.springframework.org/schema/util		http://www.springframework.org/schema/util/spring-util.xsd
+
+			http://www.springframework.org/schema/data/mongo			http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd
+
+">
+	<!-- Preamble Spring Stuff.. -->
+	<context:spring-configured/>
+	<context:annotation-config />
+	<context:property-placeholder location="classpath*:META-INF/spring/*.properties"/>
+	<int:message-history/>
+	<sws:annotation-driven/>
+	<mvc:annotation-driven /> 
+
+	<!-- Spring Component-scan and Auto-wire -->
+	<context:component-scan base-package="com.penguinsrising.ui"/>
+	<context:component-scan base-package="com.penguinsrising.ui.web"/>
+	<context:component-scan base-package="com.penguinsrising.ui.terminal"/>
+  	<context:component-scan base-package="com.penguinsrising.ui.rest" />
+	<context:component-scan base-package="com.penguinsrising.util"/>
+	<context:component-scan base-package="com.penguinsrising.listeners"/>
+	<context:component-scan base-package="com.penguinsrising.services.news"/>
+
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory   -->
+<!--     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">   -->
+<!--         <beans:property name="prefix" value="/pages/news/" />   -->
+<!--         <beans:property name="suffix" value=".jsp" />   -->
+<!--     </beans:bean>   -->
+      
+      
+<!--        <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />   -->
+<!-- 		<bean class="com.penguinsrising.ui.rest.RSS_RestController"> -->
+<!-- 		  <property name="methodNameResolver"> -->
+<!-- 		   <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver"> -->
+<!-- 		     <property name="mappings"> -->
+<!-- 					 <props> -->
+<!-- 					    <prop key="/news">news</prop> -->
+<!-- 					    <prop key="/media">media</prop> -->
+<!-- 					 </props> -->
+<!-- 		      </property> -->
+<!-- 		    </bean> -->
+<!-- 		   </property> -->
+<!-- 		 </bean> -->
+  
+<!-- 			<value>/WEB-INF/pages/</value> -->
+  
+<!-- 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+<!-- 		<property name="prefix"> -->
+<!-- 			<value>/</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="suffix"> -->
+<!-- 			<value>.jsp</value> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+  
+  
+<!-- ViewResolver Config ==============================================================================-->
+	<mvc:annotation-driven />
+<!-- 	<mvc:view-controller path="/" view-name="index"/> -->
+<!-- 	<mvc:view-controller path="/movie" view-name="list"/> -->
+
+	<!--To enable @RequestMapping process on type level and method level-->
+<!-- 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" /> -->
+<!-- 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> -->
+<!-- 	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"> -->
+<!-- 	    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/> -->
+<!-- 	    <property name="prefix" value="/WEB-INF/jsp/"/> -->
+<!-- 	    <property name="prefix" value="/*"/> -->
+<!-- 	    <property name="suffix" value=".jsp"/> -->
+<!-- 	</bean> -->
+	
+<!-- AMQP ============================================================================== -->
+	<!-- Connection and Template -->
+	<rabbit:connection-factory id="amqpConnectionFactory" host="127.0.0.1" />
+	<rabbit:admin connection-factory="amqpConnectionFactory" />
+	<rabbit:template  id="amqpTemplate" connection-factory="amqpConnectionFactory" />
+	<!-- .. Caching Connection
+	<bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+		<property name="host" value="localhost" />
+		<property name="username" value="guest" />
+		<property name="password" value="guest" />
+		<property name="virtualHost" value="/" />
+		<property name="port" value="5672" />
+	</bean>
+	-->	
+	<!-- Transactions -->
+	<tx:annotation-driven transaction-manager="rabbitTxManager"/>
+	<bean id="rabbitTxManager" class="org.springframework.amqp.rabbit.transaction.RabbitTransactionManager">
+		<property name="connectionFactory" ref="amqpConnectionFactory"/>
+	</bean>
+	<!-- ListenerContainer : Driven by TaskExecutor -->	
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		 <property name="corePoolSize" value="100" />
+		 <property name="maxPoolSize" value="150" />
+		 <property name="queueCapacity" value="3" />
+	</bean>	
+
+	
+	<!-- Routing -->	
+	<rabbit:topic-exchange name="penguins.exchange" auto-delete="false" durable="false">
+		<rabbit:bindings>	
+			<rabbit:binding queue="penguins.inputs.playlist" pattern="publishPlaylist"/>
+			<rabbit:binding queue="penguins.inputs.publish" pattern="publishRssItem"/>
+			<rabbit:binding queue="penguins.inputs.rssSearch" pattern="rssSearch"/>
+		</rabbit:bindings>
+	</rabbit:topic-exchange>	
+	<rabbit:queue name="penguins.inputs.playlist" auto-delete="false" durable="false"/>	
+	<rabbit:queue name="penguins.inputs.publish" auto-delete="false" durable="false"/>	
+	<rabbit:queue name="penguins.inputs.rssSearch" auto-delete="false" durable="false"/>	
+		
+		
+	<listener-container xmlns="http://www.springframework.org/schema/rabbit"
+		connection-factory="amqpConnectionFactory" task-executor="taskExecutor"
+		message-converter="jsonMessageConverter"acknowledge="auto" concurrency="15">
+		<rabbit:listener ref="rssController" method="handleSearch" queue-names="penguins.inputs.rssSearch" />	
+	</listener-container>
+
+	<!-- Listeners -->	
+	<bean id="rssController" class="com.penguinsrising.ui.web.RSS_Controller"/>			    
+	<bean id="rssItemService" class="com.penguinsrising.services.news.RssItemService"/>
+	<bean id="playListService" class="com.penguinsrising.services.news.PlayListService"/>
+	<bean id="jsonMessageConverter" class="com.penguinsrising.util.amqp.Json_MessageConverter"/>
+
+
+	<!-- RSS-Atom Poller ==============================================================================-->	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	  <property name="triggers">
+		<list>
+		  <ref bean="simpleTrigger"/>
+			<!-- ref bean="cronTrigger"/ -->
+			<!-- ref bean="anotherTrigger"/ -->
+		</list>
+	  </property>
+	</bean>
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="playListService"/>
+		<property name="targetMethod" value="updatePlayList"/>
+		<property name="concurrent" value="true"/>
+	</bean>
+	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="jobDetail"/>
+		<property name="startDelay" value="10000"/>
+		<property name="repeatInterval" value="30000"/>
+	</bean>
+
+
+
+
+<!-- Mongo Config ==============================================================================-->
+	
+	<!-- Repo-Scan : Pick up Mongo Repos -->
+	<mongo:repositories base-package="com.penguinsrising.services" /> 
+	<mongo:mongo host="127.0.0.1" port="27017">
+		<mongo:options 
+			connections-per-host="8"
+			threads-allowed-to-block-for-connection-multiplier="4"
+			connect-timeout="1000"
+			max-wait-time="1500"
+			auto-connect-retry="true"
+			socket-keep-alive="true"
+			socket-timeout="1500"
+			slave-ok="true"
+			write-number="1"
+			write-timeout="0"
+			write-fsync="true"/>
+	</mongo:mongo>
+	<bean id="mongoError" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongo" ref="mongo"/>
+		<constructor-arg name="databaseName" value="test"/>
+		<constructor-arg name="userCredentials" ref="userCredentials"/>
+	</bean>
+	<bean id="gridFSTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+	              <constructor-arg ref="dbFactory" />
+	              <constructor-arg ref="converter" />
+	      </bean>
+	      <mongo:mapping-converter id="converter" db-factory-ref="dbFactory" />
+	      <mongo:db-factory id="dbFactory" dbname="test" />
+	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
+		<constructor-arg name="username" value="vbms"/>
+		<constructor-arg name="password" value="vbms"/>
+	</bean>
+	
+	
+<!-- CLI Driver (STDIN/STDOUT) ==============================================================================	-->	
+	<!-- (limit one aka "singleton"-poller per-context )  -->
+		<stream:stdout-channel-adapter channel="terminalChannel" append-newline="true"/>
+		<int:channel id="terminalChannel">
+			<int:queue/>
+		</int:channel>
+		<int:service-activator 
+			input-channel="terminalChannel" 
+			ref="terminalListener" 
+			method="handleMessage"/>
+		<bean id="terminalListener" class="com.penguinsrising.ui.terminal.TerminalListener"/>		
+		<int:poller 
+			id="defaultPoller"
+			default="true"
+			fixed-rate="500" 
+			max-messages-per-poll="10"
+		/>
+	
+	   
+    
+<!-- File Uploader ==============================================================================-->
+
+	<!-- Commons Multipart Resolver Deprecated by Standard Servlet MultiPart Resolver -->
+	<bean id="multipartResolver" 
+		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</bean>
+    <!-- Depricated Spring Style
+		<bean id="multipartResolver"
+		    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		    <property name="maxUploadSize" value="100000"/>
+		</bean>
+	    <bean id="urlMapping" 
+	    	class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	        <property name="mappings">
+	            <props>
+	                <prop key="/upload.form">fileUploadController</prop>
+	            </props>
+	        </property>
+	    </bean>
+	    <bean id="fileUploadController" class="com.penguinsrising.ui.rest.FileUploadController">
+	    </bean>
+	 -->
+ 
+
+<!-- Security ==============================================================================-->
+	<sec:http auto-config='true' use-expressions="true">
+        <sec:intercept-url pattern="/**" access="permitAll"/>
+        <sec:intercept-url pattern="/web" access="permitAll"/>
+        <sec:intercept-url pattern="/index.jsp" access="hasAnyRole('admin', 'user')"/>
+    </sec:http>
+    <sec:authentication-manager>
+        <sec:authentication-provider>
+            <sec:user-service>
+                <sec:user name="jason" password="jason" authorities="admin, user" />
+                <sec:user name="alex" password="alex" authorities="user" />
+                <sec:user name="adam" password="adam" authorities="user" />
+                <sec:user name="mike" password="mike" authorities="user" />
+            </sec:user-service>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+
+	<!-- Security Scrap Config 
+ 	<http auto-config='true' use-expressions="true">
+        <sec:intercept-url pattern="/**" access="ROLE_ADMIN"/>
+        <sec:intercept-url pattern="/**" access="ROLE_USER"/>
+        <sec:intercept-url pattern="/**" access="permitAll"/>
+        <sec:intercept-url pattern="/**" access="denyAll" />
+        <sec:intercept-url pattern="/**" access="isAuthenticated()" />
+        <sec:form-login />
+        <sec:logout />
+		<intercept-url pattern="/index.jsp" access="permitAll" />
+		<intercept-url pattern="/secure/**" access="isAuthenticated()" />
+		<intercept-url pattern="/secure/extreme/**" access="hasRole('supervisor')" />
+		<intercept-url pattern="/listAccounts.html" access="isAuthenticated()" />
+		<intercept-url pattern="/post.html" access="hasAnyRole('supervisor','teller')" />
+		<intercept-url pattern="/**" access="denyAll" />
+  	</http>
+	-->
+
+</beans>
