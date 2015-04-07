@@ -1,4 +1,4 @@
-package com.copyroute.util.context;
+package com.copyroute.cdm.util.context;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
-import com.copyroute.services.global.Statics;
+import com.copyroute.cdm.global.Statics;
 
 // CORS, Cross-Origin Resource Sharing, defines a mechanism to enable client-side cross-origin requests.  
 // CORS are widely supported by modern browsers like FireFox, Chrome, Safari, and IE.

@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.copyroute.services.news.RssItemService;
 import com.copyroute.cdm.rss.RssItem;
-import com.copyroute.services.global.Statics;
+import com.copyroute.cdm.global.Statics;
 
 @Controller
 public class RssController 

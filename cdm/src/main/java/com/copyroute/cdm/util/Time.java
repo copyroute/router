@@ -1,4 +1,4 @@
-package com.copyroute.util;
+package com.copyroute.cdm.util;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -7,7 +7,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import com.copyroute.services.global.Statics;
+import com.copyroute.cdm.global.Statics;
 
 public class Time {
 

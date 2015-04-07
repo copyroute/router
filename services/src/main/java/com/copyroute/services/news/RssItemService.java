@@ -5,7 +5,7 @@ import com.copyroute.cdm.rss.RssItem;
 import com.copyroute.cdm.rss.RssItemList;
 import com.copyroute.services.global.Statics;
 import com.copyroute.services.mongo.RssItem_Repository;
-import com.copyroute.util.Time;
+import com.copyroute.cdm.util.Time;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 import org.springframework.beans.factory.annotation.Autowired;

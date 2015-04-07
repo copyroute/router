@@ -18,7 +18,8 @@ import com.copyroute.cdm.rss.RssItem;
 import com.copyroute.services.mongo.Category_Repository;
 import com.copyroute.services.mongo.Company_Repository;
 import com.copyroute.services.mongo.RssItem_Repository;
-import com.copyroute.util.Time;
+import com.copyroute.cdm.util.Time;
+import com.copyroute.cdm.global.Statics;
 
 @Component
 public class RssItemService //extends Amqp_Service
@@ -36,7 +37,7 @@ public class RssItemService //extends Amqp_Service
 	CompanyList companyList;
 	
 	@PostConstruct
-	public void init(){ com.copyroute.services.global.Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString()); }
+	public void init(){ Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString()); }
 
     // Find All : Sort By Property(ies)
     public List<RssItem> find(int pageNumber, int resultLimit, Direction direction, String... property){
@@ -112,7 +113,7 @@ public class RssItemService //extends Amqp_Service
 			if(categoryLists.size() > 0){
 				categoryList = categoryLists.get(0);
 			}
-			com.copyroute.services.global.Statics.Log("Found Categories : " + categoryList.getItems().size());
+			Statics.Log("Found Categories : " + categoryList.getItems().size());
 		}
 		return categoryList;
 	}
@@ -124,7 +125,7 @@ public class RssItemService //extends Amqp_Service
 			if(companyLists.size() > 0){
 				companyList = companyLists.get(0);
 			}
-			com.copyroute.services.global.Statics.Log("Found Companies : " + companyList.getItems().size());
+			Statics.Log("Found Companies : " + companyList.getItems().size());
 		}
 		return companyList;
 	}
@@ -133,7 +134,7 @@ public class RssItemService //extends Amqp_Service
 	public RssItem saveUnique(SyndEntryImpl syndFeed, DataSource dataSource)
 	{
 		// Check DB for duplicates
-		com.copyroute.services.global.Statics.Log("\nSearching: " + dataSource.getUri() + "\n");
+		Statics.Log("\nSearching: " + dataSource.getUri() + "\n");
 		List<RssItem> savedItems = findByTitle(syndFeed.getTitle(), 0, 1 );
 
 		if( savedItems.size() == 0)
@@ -142,15 +143,15 @@ public class RssItemService //extends Amqp_Service
 			RssItem rssItem = convertToCDM(syndFeed, dataSource );
 			
 			// Store Feed In DB
-			if( com.copyroute.services.global.Statics.saveMessagesEnabled ){
-				com.copyroute.services.global.Statics.Log(" ++++++++++++++++++++++++++++++++ ");
-				com.copyroute.services.global.Statics.Log("Saving : " + rssItem.getTitle());
+			if( Statics.saveMessagesEnabled ){
+				Statics.Log(" ++++++++++++++++++++++++++++++++ ");
+				Statics.Log("Saving : " + rssItem.getTitle());
 				rssItem.setTag("saved");
 
 				// Get returned copy from Mongo, which includes the Id field
 				rssItem = repo.save(rssItem);
-				com.copyroute.services.global.Statics.Log("Saved " + rssItem.getId());
-				com.copyroute.services.global.Statics.Log(" ++++++++++++++++++++++++++++++++ ");
+				Statics.Log("Saved " + rssItem.getId());
+				Statics.Log(" ++++++++++++++++++++++++++++++++ ");
 			}
 			else{
 				// Debug : push feeds w/o saving new
@@ -160,7 +161,7 @@ public class RssItemService //extends Amqp_Service
 		}
 		else if( savedItems.size() > 0)
 		{
-			com.copyroute.services.global.Statics.Log("Duplicate: " + savedItems.get(0).getTitle());
+			Statics.Log("Duplicate: " + savedItems.get(0).getTitle());
 			return savedItems.get(0);	
 		}
 
@@ -233,6 +234,6 @@ public class RssItemService //extends Amqp_Service
 //			OpenNLP.findTime(sentences);
 		} 
 		catch (Exception e) {
-            com.copyroute.services.global.Statics.Log(e.getMessage());}
+            Statics.Log(e.getMessage());}
 	}
 }

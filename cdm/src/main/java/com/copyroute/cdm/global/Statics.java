@@ -1,4 +1,4 @@
-package com.copyroute.global;
+package com.copyroute.cdm.global;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class Statics {
 	
 	// ================================================================
 	
-	private static final Logger logger = Logger.getLogger(com.copyroute.services.global.Statics.class);
+	private static final Logger logger = Logger.getLogger(Statics.class);
 	public static void Log(String message){
 		if(logger.isDebugEnabled()){
 			logger.debug(message);

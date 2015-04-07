@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.copyroute.cdm.rss.*;
-import com.copyroute.services.global.Statics;
-import com.copyroute.util.json.PojoMapper;
+import com.copyroute.cdm.global.Statics;
+import com.copyroute.cdm.util.json.PojoMapper;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

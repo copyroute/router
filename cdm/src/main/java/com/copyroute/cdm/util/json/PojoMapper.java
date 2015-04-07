@@ -1,4 +1,4 @@
-package com.copyroute.util.json;
+package com.copyroute.cdm.util.json;
 
 import java.io.FileReader;
 import java.io.FileWriter;

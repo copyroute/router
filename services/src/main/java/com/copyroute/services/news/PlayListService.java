@@ -23,7 +23,7 @@ import com.sun.syndication.fetcher.impl.DiskFeedInfoCache;
 import com.copyroute.services.mongo.PlayList_Repository;
 import com.copyroute.cdm.rss.*;
 //import com.copyroute.events.*;
-import com.copyroute.util.json.*;
+import com.copyroute.cdm.util.json.*;
 import com.copyroute.services.amqp.*;
 
 @Component

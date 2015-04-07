@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.copyroute.cdm.rss.PlayList;
-import com.copyroute.services.global.Statics;
+import com.copyroute.cdm.global.Statics;
 import com.copyroute.services.news.RssItemService;
 
 @Controller
