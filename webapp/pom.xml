@@ -1,11 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.penguinsrising</groupId>
-	<artifactId>news</artifactId>
+	<groupId>com.copyroute</groupId>
+	<artifactId>webapp</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>News Grinder</name>
+	<name>copyroute-webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -20,6 +22,13 @@
         <slf4j.version>1.6.1</slf4j.version>
 		<querydsl.version>2.9.0</querydsl.version>
 		</properties>
+
+
+    <parent>
+        <groupId>com.copyroute</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
     <repositories>
 		 <repository>
@@ -74,7 +83,18 @@
 <!--     		<scope>system</scope> -->
 <!-- 			<systemPath>${project.basedir}/src/main/resources/wurfl/wurfl-1.5.1.1.jar</systemPath> -->
 <!-- 		</dependency> -->
-  
+        <dependency>
+            <groupId>com.copyroute</groupId>
+            <artifactId>cdm</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.copyroute</groupId>
+            <artifactId>services</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
   		<dependency>
 		  <groupId>org.apache.directory.client.ldap</groupId>
 		  <artifactId>ldap-client-api</artifactId>
@@ -365,37 +385,37 @@
 
             <!-- Run JAXB against XSD schemas
 				Add a number of additional interfaces making life easier -->	
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-			    <version>0.8.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<schemaDirectory>src/main/resources/schemas</schemaDirectory>
-							<generateDirectory>src/main/generated</generateDirectory>
-							<removeOldOutput>true</removeOldOutput>
-							<args>
-								<arg>-XtoString</arg>
-								<arg>-Xequals</arg>
-								<arg>-XhashCode</arg>
-								<arg>-Xcopyable</arg>
-								<arg>-Xmergeable</arg>
-							</args>
-							<plugins>
-								<plugin>
-									<groupId>org.jvnet.jaxb2_commons</groupId>
-									<artifactId>jaxb2-basics</artifactId>
-									<version>0.6.3</version>
-								</plugin>
-							</plugins>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.jvnet.jaxb2.maven2</groupId>-->
+				<!--<artifactId>maven-jaxb2-plugin</artifactId>-->
+			    <!--<version>0.8.1</version>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<goals>-->
+							<!--<goal>generate</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<schemaDirectory>src/main/resources/schemas</schemaDirectory>-->
+							<!--<generateDirectory>src/main/generated</generateDirectory>-->
+							<!--<removeOldOutput>true</removeOldOutput>-->
+							<!--<args>-->
+								<!--<arg>-XtoString</arg>-->
+								<!--<arg>-Xequals</arg>-->
+								<!--<arg>-XhashCode</arg>-->
+								<!--<arg>-Xcopyable</arg>-->
+								<!--<arg>-Xmergeable</arg>-->
+							<!--</args>-->
+							<!--<plugins>-->
+								<!--<plugin>-->
+									<!--<groupId>org.jvnet.jaxb2_commons</groupId>-->
+									<!--<artifactId>jaxb2-basics</artifactId>-->
+									<!--<version>0.6.3</version>-->
+								<!--</plugin>-->
+							<!--</plugins>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+				<!--</executions>-->
+			<!--</plugin>-->
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -412,6 +432,20 @@
 			</plugin>
 
 		</plugins>
-	</build>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+    </build>
 
 </project>

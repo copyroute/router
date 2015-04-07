@@ -14,23 +14,23 @@
 
 	<!-- Spring : Scan for Components -->
 <!-- 	<context:spring-configured/> -->
-<!-- 	<context:component-scan base-package="com.penguinsrising.services.workflow.engine"/> -->
-<!-- 	<context:component-scan base-package="com.penguinsrising.services"/> -->
+<!-- 	<context:component-scan base-package="com.copyroute.services.workflow.engine"/> -->
+<!-- 	<context:component-scan base-package="com.copyroute.services"/> -->
 
 
 	<!-- Activiti Config :  =============================================================-->
 	 
 	<!-- VBMS Master Process -->
-<!-- 	<bean id="authorization" class="com.penguinsrising.services.Authorization" /> -->
-<!-- 	<bean id="award" class="com.penguinsrising.services.Award" />   -->
-<!-- 	<bean id="development" class="com.penguinsrising.services.Development" />   -->
-<!-- 	<bean id="intake" class="com.penguinsrising.services.Intake" />   -->
-<!-- 	<bean id="rating" class="com.penguinsrising.services.Rating" />   -->
+<!-- 	<bean id="authorization" class="com.copyroute.services.Authorization" /> -->
+<!-- 	<bean id="award" class="com.copyroute.services.Award" />   -->
+<!-- 	<bean id="development" class="com.copyroute.services.Development" />   -->
+<!-- 	<bean id="intake" class="com.copyroute.services.Intake" />   -->
+<!-- 	<bean id="rating" class="com.copyroute.services.Rating" />   -->
 
 	<!-- Intake Sub Process -->
-<!-- 	<bean id="triageDocuments" class="com.penguinsrising.services.intake.TriageDocuments" /> -->
-<!-- 	<bean id="establishEndProduct" class="com.penguinsrising.services.intake.EstablishEndProduct" /> -->
-<!-- 	<bean id="setupContentions" class="com.penguinsrising.services.intake.SetupContentions" /> -->
+<!-- 	<bean id="triageDocuments" class="com.copyroute.services.intake.TriageDocuments" /> -->
+<!-- 	<bean id="establishEndProduct" class="com.copyroute.services.intake.EstablishEndProduct" /> -->
+<!-- 	<bean id="setupContentions" class="com.copyroute.services.intake.SetupContentions" /> -->
 
 	<!-- Beans must be added here to allow the bpmn-environment to see java -->
 	<!-- Custom LDAP Configuration adds interceptors here as well -->
@@ -55,10 +55,10 @@
 <!-- 	   	</property> -->
 		<property name="customSessionFactories">
 			<list>
-			<bean class="com.penguinsrising.services.ldap.LDAPUserManagerFactory">
+			<bean class="com.copyroute.services.ldap.LDAPUserManagerFactory">
 				<constructor-arg ref="ldapConnectionParams" />
 			</bean>
-			<bean class="com.penguinsrising.services.ldap.LDAPGroupManagerFactory">
+			<bean class="com.copyroute.services.ldap.LDAPGroupManagerFactory">
 				<constructor-arg ref="ldapConnectionParams" />
 			</bean>
 			</list>
@@ -80,7 +80,7 @@
 <!-- 	 <bean id="formService" factory-bean="processEngine" factory-method="getFormService" /> -->
 	
 	<!-- LDAP Access -->
-	 <bean id="ldapConnectionParams" class="com.penguinsrising.services.ldap.LDAPConnectionParams">
+	 <bean id="ldapConnectionParams" class="com.copyroute.services.ldap.LDAPConnectionParams">
 		<property name="ldapServer" value="penguins-rising.com" />
 		<property name="ldapPort" value="10389" />
 		<property name="ldapUser" value="uid=admin,ou=system" />

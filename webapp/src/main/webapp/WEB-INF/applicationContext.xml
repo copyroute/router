@@ -45,18 +45,21 @@
 
 ">
 	<mvc:annotation-driven />
- 	<context:component-scan base-package="com.penguinsrising.ui.controller" />  
-	<context:component-scan base-package="com.penguinsrising.services"/>
-  	<context:component-scan base-package="com.penguinsrising.util"/>
+
+    <context:property-placeholder location="router.properties"/>
+
+ 	<context:component-scan base-package="com.copyroute.ui.controller" />
+	<context:component-scan base-package="com.copyroute.services"/>
+  	<context:component-scan base-package="com.copyroute.util"/>
 
 	<!-- Listeners -->	
-	<bean id="rssController" class="com.penguinsrising.ui.controller.RssController"/>			    
-	<bean id="rssItemService" class="com.penguinsrising.services.news.RssItemService"/>
-	<bean id="jsonMessageConverter" class="com.penguinsrising.services.amqp.Json_MessageConverter"/>
+	<bean id="rssController" class="com.copyroute.ui.controller.RssController"/>
+	<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>
+	<bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/>
  
  	<!-- AMQP ============================================================================== -->
 	<!-- Connection and Template -->
-	<rabbit:connection-factory id="amqpConnectionFactory" host="127.0.0.1" />
+	<rabbit:connection-factory id="amqpConnectionFactory" host="${amqp.host}" />
 	<rabbit:admin connection-factory="amqpConnectionFactory" />
 	<rabbit:template  id="amqpTemplate" connection-factory="amqpConnectionFactory" />
 	<!-- .. Caching Connection
@@ -84,8 +87,8 @@
 	<!-- Mongo Config ==============================================================================-->
 	
 	<!-- Repo-Scan : Pick up Mongo Repos -->
-	<mongo:repositories base-package="com.penguinsrising.services" /> 
-	<mongo:mongo host="127.0.0.1" port="27017">
+	<mongo:repositories base-package="com.copyroute.services" />
+	<mongo:mongo host="${mongo.host}" port="27017">
 		<mongo:options 
 			connections-per-host="100"
 			threads-allowed-to-block-for-connection-multiplier="10"
@@ -113,8 +116,8 @@
 	      <mongo:mapping-converter id="converter" db-factory-ref="dbFactory" />
 	      <mongo:db-factory id="dbFactory" dbname="test" />
 	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
-		<constructor-arg name="username" value="vbms"/>
-		<constructor-arg name="password" value="vbms"/>
+		<constructor-arg name="username" value="${mongo.user}"/>
+		<constructor-arg name="password" value="${mongo.pass}"/>
 	</bean>
   
   

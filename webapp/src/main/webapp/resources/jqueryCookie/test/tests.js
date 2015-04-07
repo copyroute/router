@@ -170,7 +170,7 @@ test('String primitive', function () {
 
 test('String object', function () {
 	expect(1);
-	$.cookie('c', new String('v'));
+	$.cookie('c', String('v'));
 	strictEqual($.cookie('c'), 'v', 'should write value');
 });
 

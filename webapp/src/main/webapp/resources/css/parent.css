@@ -29,9 +29,10 @@ body {
 
 h1 {
 	color:rgba(250,250,250,0.9); 
-	font-size:1.0em; 
-	line-height:1.0em;
-	margin:1px 1px 1px 1px;
+	font-size:1.5em; 
+	line-height:1.5em;
+	margin:3px 3px 1px 1px;
+	box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.3);	
 }
 h2 {			
 	font-size:0.75em; 
@@ -61,37 +62,36 @@ hr {
 
 #searchBox{
 	padding:0em;
-	width:12em;
-	float:right;
+	width:10em;
 }
 
-#searchDiv{
-}
 #searchPageSizeBox{
 	width:1em; 
 	display:none;
 }
 #searchButton{
-	width:5em;
+	width:3em;
 	color:rgba(250,250,250,0.9); 
-	background-color:rgba(50,50,50,0.7); 
+	background-color:rgba(150,150,150,0.7); 
 }
 
 #connectionStatus{	
-	background-color:rgba(150,250,150,0.0); 
 	color:rgba(250,250,250,0.9); 
 	font-family: Verdana, Geneva, sans-serif; 
 	font-size:0.9em;
-/* 	display: block;	 */
 	vertical-align: top;
 	align:center; 
 }
+#connImage{
+	width:1em;
+	height:1em;
+}
 #header{	
-	width:100%;
 	top:0; 
 	left:0; 
+	right:0;
 	position:fixed;
-	background-color: rgba(5,5,5,0.7); 
+	background-color: rgba(50,50,50,0.9); 
 	font-size:1.0em; 
 	font-family: Verdana, Geneva, sans-serif;
 	line-height:1.0em;
@@ -106,11 +106,11 @@ hr {
 }
 
 #footer{	
-	width:100%;
-	height:100px;
 	bottom:0; 
 	left:0; 
+	right:0; 
 	position:fixed;
+	height:5em;
 	background-color: rgba(5,5,5,0.7); 
 	font-size:0.75em; font-family: Verdana, Geneva, sans-serif;
 	line-height:0.75em;
@@ -127,21 +127,9 @@ hr {
 }
 
 #bannerSpacer{
-	height:10em; 
+	height:5em; 
 	vertical-align: top;
 	align:center; 
-}
-
-
-/* Categories */
-#categoryListPanel{
-	left:0; 
-	top:7em; 
-	position:fixed;
-	width:100%;
-	text-decoration:none;	
-	vertical-align: top;	
-	align: center;	
 }
 
 .scrollable-menu {
@@ -153,34 +141,40 @@ hr {
 	background-color:rgba(50,50,50,0.7);
 }
 
-ul#navlist{
-	width:100%;
-	list-style-type: none;
-	left:0em;
-	top:3em; 
+
+/* Categories
+#categoryListPanel{
+	left:0; 
+	top:0em; 
 	position:fixed;
 }
-li#navItem{
-	
+ */
+.categoryListPanel{
+	background-color:rgba(25,25,25,0.5);
+	text-decoration:none;	
+	vertical-align: top;	
+	align: center;	
+	width:100%;
 }
+	
+ 
 /* MenuBar */
-.categoryList{
-	color: rgba(250,150,75,0.9);
-	background-color:rgba(50,50,50,0.7);
-	box-shadow: inset 3px 3px 1px 1px rgba(200,200,200,0.7);
+.categoryItem{
+	color: rgba(225,175,100,0.95);
+	background-color:rgba(25,25,25,0.5);
+	box-shadow: inset 1px 1px 0px 0px rgba(200,200,200,0.7);
 	font:1.0em Verdana, Geneva, sans-serif;
 	cursor:pointer;
-	margin:1px 1px 1px 1px;
-	width:100px;
-	height:44px;
+	width:5em;
+	height:40px;
 	display: inline-block; 
-	vertical-align: top;	
-	margin-left:auto;
-	margin-right:auto;
 	text-align:center;
+	padding: 0.5em 0.5em 0.5em 0.5em;	
+	
 }
-.categoryList:hover {
-	box-shadow: inset 1px 1px 3px 3px rgba(20,20,20,0.5);
+
+.categoryItem:hover {
+	box-shadow: inset 0px 0px 1px 1px rgba(20,20,20,0.5);
 }
 
 .category{
@@ -195,17 +189,6 @@ li#navItem{
 }
 
 
-.toggle{
-	color: rgba(50,50,50,0.9);
-	background-color:rgba(50,150,50,0.3);
-	cursor:pointer;
-	float: left;
-}
-.toggle:hover {
-	background-color:rgba(50,150,50,0.5);
-}
-
-
 /* News Columns */
 .searchListType {
 	display: inline-block;
@@ -217,8 +200,8 @@ li#navItem{
 }
 
 .row-fluid{
-	background-color:rgba(150,150,150,0.5); 
-	box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.3);	
+	background-color:rgba(100,100,100,0.5); 
+	box-shadow: 1px 1px 0px 0px rgba(0,0,0,0.3);	
 	width:100%;
 }
 
@@ -263,18 +246,30 @@ li#navItem{
 }
 
 
-@media (max-width: 1090px){
-	#connectionDiv			{visibility:hidden;}
-	/*#catagoryListPanel		{display:block;}*/
+/* Large desktop */
+@media (min-width: 1200px) {
+	#connectionDiv			{display:block;}
 	#footer					{display:block; }
-	#bannerDisplay			{margin: 0em auto 0;}
 }
-@media (max-width: 1090px){
-	#connectionDiv			{visibility:hidden;}
-	/*#catagoryListPanel		{display:none;}*/
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+	#connectionDiv			{display:none;}
 	#footer					{display:none; }
-	#bannerDisplay			{margin: 3em auto 0;}
 }
+ 
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+	#connectionDiv			{display:none;}
+	#footer					{display:none; }
+}
+ 
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+	#connectionDiv			{display:none;}
+	#footer					{display:none; }
+}
+
 
 
 

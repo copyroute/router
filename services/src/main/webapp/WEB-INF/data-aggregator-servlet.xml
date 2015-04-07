@@ -32,17 +32,16 @@
 ">
 	<context:annotation-config />	
 	<mvc:annotation-driven />
-  	<context:component-scan base-package="com.penguinsrising.services.news"/>
+  	<context:component-scan base-package="com.copyroute.services.news"/>
   
   
   		<!-- RSS-Atom Poller ==============================================================================-->	
 	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="playListService"/>
-<!-- 		<property name="targetObject" ref="feedReader"/> -->
-		
 		<property name="targetMethod" value="updatePlayList"/>
-		<property name="concurrent" value="true"/>
+		<property name="concurrent" value="false"/>
 	</bean>
+	
 	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
 		<property name="jobDetail" ref="jobDetail"/>
 		<property name="startDelay" value="10000"/>

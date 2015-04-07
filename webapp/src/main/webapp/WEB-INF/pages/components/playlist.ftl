@@ -20,9 +20,9 @@
 // 			});
 
 
-		$(window).load( function() {
-			$('#playList').slideDown(333);			
-		});
+//		$(window).load( function() {
+//			$('#playList').slideDown(333);
+//		});
 	});
 </script>
 

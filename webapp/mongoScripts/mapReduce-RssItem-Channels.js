@@ -9,4 +9,4 @@ db.rssItem.mapReduce(
 		return sum;
 	},
 	{ out: "map_reduce_rssItem_channel" }
-)
+);

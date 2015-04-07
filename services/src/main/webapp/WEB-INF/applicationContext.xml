@@ -46,19 +46,19 @@
 ">
 
 <!-- 	<mvc:annotation-driven />  -->
-	<context:component-scan base-package="com.penguinsrising.services"/>
-  	<context:component-scan base-package="com.penguinsrising.util"/>
+	<context:component-scan base-package="com.copyroute.services"/>
+  	<context:component-scan base-package="com.copyroute.util"/>
 
 	<!-- Listeners -->	
-	<bean id="playListService" class="com.penguinsrising.services.news.PlayListService"/>
-	<bean id="rssItemService" class="com.penguinsrising.services.news.RssItemService"/>
-	<bean id="csvLoaderService" class="com.penguinsrising.services.news.CsvLoaderService"/>
-	<bean id="jsonMessageConverter" class="com.penguinsrising.services.amqp.Json_MessageConverter"/>
+	<bean id="playListService" class="com.copyroute.services.news.PlayListService"/>
+	<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>
+	<bean id="csvLoaderService" class="com.copyroute.services.news.CsvLoaderService"/>
+<!-- 	<bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/> -->
 	
  
  	<!-- AMQP ============================================================================== -->
 	<!-- Connection and Template -->
-	<rabbit:connection-factory id="amqpConnectionFactory" host="127.0.0.1" />
+	<rabbit:connection-factory id="amqpConnectionFactory" host="${amqp.host}" />
 	<rabbit:admin connection-factory="amqpConnectionFactory" />
 	<rabbit:template  id="amqpTemplate" connection-factory="amqpConnectionFactory" />
 	<!-- .. Caching Connection
@@ -100,19 +100,19 @@
 	</rabbit:queue>	
 		
 		
-	<listener-container xmlns="http://www.springframework.org/schema/rabbit"
-		connection-factory="amqpConnectionFactory" task-executor="taskExecutor"
-		message-converter="jsonMessageConverter" acknowledge="auto" concurrency="15">
+	<!--<listener-container xmlns="http://www.springframework.org/schema/rabbit"-->
+		<!--connection-factory="amqpConnectionFactory" task-executor="taskExecutor"-->
+		<!--message-converter="jsonMessageConverter" acknowledge="auto" concurrency="15">-->
 <!-- 		<rabbit:listener ref="rssMessageController" method="handleSearch" queue-names="penguins.inputs.rssSearch" />	 -->
 <!-- 		<listener ref="chat_MessageHandler" method="handleHistory" queue-names="engility.inputs.history" /> -->
-	</listener-container>
-	<beans:bean id="chat_MessageHandler" class="com.penguinsrising.ui.controller.RssListener"/>
+	<!--</listener-container>-->
+	<!--<beans:bean id="chat_MessageHandler" class="com.copyroute.ui.controller.RssListener"/>-->
 
 	
 	<!-- Mongo Config ==============================================================================-->
 	
 	<!-- Repo-Scan : Pick up Mongo Repos -->
-	<mongo:repositories base-package="com.penguinsrising.services" /> 
+	<mongo:repositories base-package="com.copyroute.services" /> 
 	<mongo:mongo host="127.0.0.1" port="27017">
 		<mongo:options 
 			connections-per-host="1000"

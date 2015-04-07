@@ -17,7 +17,7 @@
 ">
 <!-- 	<context:annotation-config />	 -->
 	<mvc:annotation-driven />
-   	<context:component-scan base-package="com.penguinsrising.ui.controller" />  
+   	<context:component-scan base-package="com.copyroute.ui.controller" />
   
 	<!-- Map "/resources/**" urls to "src/main/webapp/resources" -->
 	<!-- Cache for one day -->
@@ -50,17 +50,17 @@
 		  </bean>
  
 		  <!-- RSS View -->
-		  <bean class="com.penguinsrising.ui.controller.CustomRssViewer" />
+		  <bean class="com.copyroute.ui.controller.CustomRssViewer" />
  
 		  <!-- JAXB XML View -->
 		  <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
 			<constructor-arg>
 				<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        			<property name="contextPath" value="com.penguinsrising.cdm.rss"/>
+        			<property name="contextPath" value="com.copyroute.cdm.rss"/>
         			<property name="schema" value="classpath:schemas/eventservices.xsd"/>
 <!-- 				   <property name="classesToBeBound"> -->
 <!-- 					<list> -->
-<!-- 					   <value>com.penguinsrising.model.SampleContent</value> -->
+<!-- 					   <value>com.copyroutel.SampleContent</value> -->
 <!-- 					</list> -->
 <!-- 				   </property> -->
 				</bean>

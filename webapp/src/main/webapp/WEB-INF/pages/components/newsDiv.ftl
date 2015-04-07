@@ -1,7 +1,7 @@
 <#import "/spring.ftl" as spring />
 
 <!-- RSSItems -->
-<div id="rssItem-${rssItem.id}" class="rssItemType" >			
+<div id="rssItem-${rssItem.id}" class="rssItemType well" >			
 	<div id="rssItemHeader" class="rssItemHeader">
 
 		<table id="rssHeaderTable" width="100%">

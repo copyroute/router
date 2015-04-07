@@ -1,32 +1,35 @@
 <#import "/spring.ftl" as spring />
 
-	<div id="header" class="row-fluid" >
+
+<div class="container-fluid">
+<div id="header" class="navbar navbar-default navbar-inverse navbar-fixed-top row-fluid" role="navigation">
 	
-		<div id="logoDiv" class="span1">
+		<div id="logoDiv" class="navbar-brand span1 col-xs-1">
 			<a href="/" id="frontpage">
 				<img id="logo" src="/resources/images/copyroute-logo.png" alt="CopyRoute Logo">
 			</a>
 		</div>
-		<div id="connectionDiv" class="span2">
+
+		<div id="connectionDiv" class="span1 col-xs-1 ">
 			<a href="/" id="frontpage">
-				 <h1> 
-				 	CopyRoute.com
-				 </h1>
-				<div id="connectionStatus" class="connectionStatus "></div>
+				 <h1> CopyRoute</h1>
 			</a>
 		</div>
+		<div id="connectionDiv" class="span1 col-xs-1 text-right pull-right">
+			<div id="connectionStatus" class="connectionStatus "></div>
+		</div>
+		<div id="searchDiv" class="span4 col-xs-4 text-right pull-right">
 
-		<div id="spacerDiv" class="span5">
-		</div>
+			<!-- Use Google's  "Did You Mean" feature to implement Auto-complete -->
+			<!-- Ref : http://ahoj.io/how-to-steal-google-s-did-you-mean-feature -->
+			<!-- EG : http://suggestqueries.google.com/complete/search?output=firefox&client=firefox&hl=en-US&q=green%20bay -->
+			<input  id="searchBox" type="text" value="${term!''}" class="typeahead ui-corner-all form-control" placeholder="Search"/>	
+			<a 	href="#" id="searchButton" class="ui-button ui-corner-all " ><span class="icon-search"></span></a>	
+		</div>		
+        
+
 		
-		<div id="searchDiv" class="span2">
-			<input  id="searchBox" type="textbox" value="${term!''}" class="ui-corner-all " />	
-		</div>
-		<div id="searchButtonDiv" class="span1">
-			<a 	href="#" id="searchButton" class="ui-button ui-corner-all" >
-			  		Search
-			 </a>	
-		</div>
-	</div>	
 	
+</div>		
+</div>
 	

@@ -54,13 +54,13 @@
 	<mvc:annotation-driven /> 
 
 	<!-- Spring Component-scan and Auto-wire -->
-	<context:component-scan base-package="com.penguinsrising.ui"/>
-	<context:component-scan base-package="com.penguinsrising.ui.web"/>
-	<context:component-scan base-package="com.penguinsrising.ui.terminal"/>
-  	<context:component-scan base-package="com.penguinsrising.ui.rest" />
-	<context:component-scan base-package="com.penguinsrising.util"/>
-	<context:component-scan base-package="com.penguinsrising.listeners"/>
-	<context:component-scan base-package="com.penguinsrising.services.news"/>
+	<context:component-scan base-package="com.copyroute.ui"/>
+	<context:component-scan base-package="com.copyroute.ui.web"/>
+	<context:component-scan base-package="com.copyroute.ui.terminal"/>
+  	<context:component-scan base-package="com.copyroute.ui.rest" />
+	<context:component-scan base-package="com.copyroute.util"/>
+	<context:component-scan base-package="com.copyroute.listeners"/>
+	<context:component-scan base-package="com.copyroute.services.news"/>
 
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory   -->
@@ -71,7 +71,7 @@
       
       
 <!--        <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />   -->
-<!-- 		<bean class="com.penguinsrising.ui.rest.RSS_RestController"> -->
+<!-- 		<bean class="com.copyroute.ui.rest.RSS_RestController"> -->
 <!-- 		  <property name="methodNameResolver"> -->
 <!-- 		   <bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver"> -->
 <!-- 		     <property name="mappings"> -->
@@ -158,10 +158,10 @@
 	</listener-container>
 
 	<!-- Listeners -->	
-	<bean id="rssController" class="com.penguinsrising.ui.web.RSS_Controller"/>			    
-	<bean id="rssItemService" class="com.penguinsrising.services.news.RssItemService"/>
-	<bean id="playListService" class="com.penguinsrising.services.news.PlayListService"/>
-	<bean id="jsonMessageConverter" class="com.penguinsrising.util.amqp.Json_MessageConverter"/>
+	<bean id="rssController" class="com.copyroute.ui.web.RSS_Controller"/>
+	<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>
+	<bean id="playListService" class="com.copyroute.services.news.PlayListService"/>
+	<bean id="jsonMessageConverter" class="com.copyroute.util.amqp.Json_MessageConverter"/>
 
 
 	<!-- RSS-Atom Poller ==============================================================================-->	
@@ -191,7 +191,7 @@
 <!-- Mongo Config ==============================================================================-->
 	
 	<!-- Repo-Scan : Pick up Mongo Repos -->
-	<mongo:repositories base-package="com.penguinsrising.services" /> 
+	<mongo:repositories base-package="com.copyroute.services" />
 	<mongo:mongo host="127.0.0.1" port="27017">
 		<mongo:options 
 			connections-per-host="8"
@@ -235,7 +235,7 @@
 			input-channel="terminalChannel" 
 			ref="terminalListener" 
 			method="handleMessage"/>
-		<bean id="terminalListener" class="com.penguinsrising.ui.terminal.TerminalListener"/>		
+		<bean id="terminalListener" class="com.copyroute.ui.terminal.TerminalListener"/>
 		<int:poller 
 			id="defaultPoller"
 			default="true"
@@ -264,7 +264,7 @@
 	            </props>
 	        </property>
 	    </bean>
-	    <bean id="fileUploadController" class="com.penguinsrising.ui.rest.FileUploadController">
+	    <bean id="fileUploadController" class="com.copyroute.ui.rest.FileUploadController">
 	    </bean>
 	 -->
  
