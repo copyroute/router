@@ -49,13 +49,13 @@
     <context:property-placeholder location="router.properties"/>
 
  	<context:component-scan base-package="com.copyroute.ui.controller" />
-	<context:component-scan base-package="com.copyroute.services"/>
-  	<context:component-scan base-package="com.copyroute.util"/>
+	<context:component-scan base-package="com.copyroute.webservices"/>
+  	<context:component-scan base-package="com.copyroute.cdm.util"/>
 
 	<!-- Listeners -->	
 	<bean id="rssController" class="com.copyroute.ui.controller.RssController"/>
-	<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>
-	<bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/>
+	<bean id="rssItemService" class="com.copyroute.webservices.news.RssItemService"/>
+	<bean id="jsonMessageConverter" class="com.copyroute.webservices.amqp.Json_MessageConverter"/>
  
  	<!-- AMQP ============================================================================== -->
 	<!-- Connection and Template -->
@@ -87,7 +87,7 @@
 	<!-- Mongo Config ==============================================================================-->
 	
 	<!-- Repo-Scan : Pick up Mongo Repos -->
-	<mongo:repositories base-package="com.copyroute.services" />
+	<mongo:repositories base-package="com.copyroute.webservices.mongo" />
 	<mongo:mongo host="${mongo.host}" port="27017">
 		<mongo:options 
 			connections-per-host="100"

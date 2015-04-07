@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.copyroute.cdm.global.Statics;
-import com.copyroute.services.mongo.PlayList_Repository;
+import com.copyroute.webservices.mongo.PlayList_Repository;
 import com.copyroute.cdm.rss.PlayList;
 
 @Controller

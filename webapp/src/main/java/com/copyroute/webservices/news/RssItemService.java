@@ -1,4 +1,4 @@
-package com.copyroute.services.news;
+package com.copyroute.webservices.news;
 
 import javax.annotation.PostConstruct;
 
@@ -15,9 +15,9 @@ import com.copyroute.cdm.rss.CategoryList;
 import com.copyroute.cdm.rss.CompanyList;
 import com.copyroute.cdm.rss.DataSource;
 import com.copyroute.cdm.rss.RssItem;
-import com.copyroute.services.mongo.Category_Repository;
-import com.copyroute.services.mongo.Company_Repository;
-import com.copyroute.services.mongo.RssItem_Repository;
+import com.copyroute.webservices.mongo.Category_Repository;
+import com.copyroute.webservices.mongo.Company_Repository;
+import com.copyroute.webservices.mongo.RssItem_Repository;
 import com.copyroute.cdm.util.Time;
 import com.copyroute.cdm.global.Statics;
 

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.copyroute.services.news.RssItemService;
+import com.copyroute.webservices.news.RssItemService;
 import com.copyroute.cdm.rss.RssItem;
 import com.copyroute.cdm.global.Statics;
 

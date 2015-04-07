@@ -1,4 +1,4 @@
-package com.copyroute.services.amqp;
+package com.copyroute.webservices.amqp;
 
 
 import org.springframework.amqp.support.converter.JsonMessageConverter;

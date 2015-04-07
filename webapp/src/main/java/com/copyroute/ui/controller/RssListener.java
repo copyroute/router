@@ -12,8 +12,8 @@
 //
 //import com.copyroute.cdm.rss.RssItem;
 //import com.copyroute.services.global.Statics;
-//import com.copyroute.services.amqp.Amqp_Service;
-//import com.copyroute.services.news.RssItemService;
+//import Amqp_Service;
+//import RssItemService;
 //
 //public class RssListener extends Amqp_Service
 //{

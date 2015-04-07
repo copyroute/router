@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.copyroute.cdm.rss.CategoryList;
 import com.copyroute.cdm.rss.CompanyList;
 import com.copyroute.cdm.global.Statics;
-import com.copyroute.services.news.RssItemService;
+import com.copyroute.webservices.news.RssItemService;
 
 
 @Controller

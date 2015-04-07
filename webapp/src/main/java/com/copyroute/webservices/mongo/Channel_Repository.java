@@ -1,4 +1,4 @@
-package com.copyroute.services.mongo;
+package com.copyroute.webservices.mongo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

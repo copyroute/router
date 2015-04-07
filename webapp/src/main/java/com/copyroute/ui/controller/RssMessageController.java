@@ -15,7 +15,7 @@ package com.copyroute.ui.controller;
 //import com.copyroute.cdm.rss.RssItem;
 //import com.copyroute.cdm.rss.RssSearchRequest;
 //import com.copyroute.services.global.Statics;
-//import com.copyroute.services.amqp.Amqp_Service;
+//import Amqp_Service;
 //import com.copyroute.util.json.PojoMapper;
 //
 ////@Component

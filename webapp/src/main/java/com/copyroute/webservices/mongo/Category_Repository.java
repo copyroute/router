@@ -1,11 +1,10 @@
-package com.copyroute.services.mongo;
+package com.copyroute.webservices.mongo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import com.copyroute.cdm.rss.CategoryList;
 
-import com.copyroute.cdm.rss.PlayList;
-
-public interface PlayList_Repository
-	extends MongoRepository<PlayList, String>//, QueryDslPredicateExecutor<FeedListType>
+public interface Category_Repository 
+	extends MongoRepository<CategoryList, String>//, QueryDslPredicateExecutor<FeedListType>
 {
 
 	//public DataListType getDataList(String name) {
@@ -16,4 +15,5 @@ public interface PlayList_Repository
 	//}
 
 }
+	
 	
