@@ -118,6 +118,16 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="rssItemArchive">
+		<xs:complexContent>
+			<xs:extension base="rssItem">
+				<xs:sequence>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
 	<!-- Input: Search Request -->		
 	<xs:complexType name="rssSearchRequest">
 		<xs:complexContent>
