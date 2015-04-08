@@ -238,11 +238,11 @@
 			<version>0.6.3</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-maven-plugin</artifactId>
-			<version>${jetty.version}</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.eclipse.jetty</groupId>-->
+			<!--<artifactId>jetty-maven-plugin</artifactId>-->
+			<!--<version>${jetty.version}</version>-->
+		<!--</dependency>-->
 
 		<dependency>
 			<groupId>log4j</groupId>
