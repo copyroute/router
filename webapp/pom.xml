@@ -14,14 +14,13 @@
         <jetty.version>9.2.0.M1</jetty.version>
         <spring.version>4.0.1.RELEASE</spring.version>
         <spring.security.version>3.2.0.RELEASE</spring.security.version>
-        
         <spring.integration.version>4.0.1.RELEASE</spring.integration.version>
         <spring.ws.version>2.1.2.RELEASE</spring.ws.version>
       	<xbean-version>3.7</xbean-version>
         <aspectj.version>1.6.11</aspectj.version>
         <slf4j.version>1.6.1</slf4j.version>
 		<querydsl.version>2.9.0</querydsl.version>
-		</properties>
+    </properties>
 
 
     <parent>
@@ -76,24 +75,11 @@
 	
 	<dependencies>
 	
-<!-- 	<dependency> -->
-<!--       		<groupId>net.sourceforge.wurfl</groupId>   -->
-<!--        		<artifactId>wurfl</artifactId>   -->
-<!--        		<version>1.5.1.1</version>  -->
-<!--     		<scope>system</scope> -->
-<!-- 			<systemPath>${project.basedir}/src/main/resources/wurfl/wurfl-1.5.1.1.jar</systemPath> -->
-<!-- 		</dependency> -->
         <dependency>
 			<groupId>com.copyroute</groupId>
 			<artifactId>cdm</artifactId>
 			<version>${project.version}</version>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>com.copyroute</groupId>-->
-            <!--<artifactId>services</artifactId>-->
-			<!--<version>${project.version}</version>-->
-        <!--</dependency>-->
 
   		<dependency>
 		  <groupId>org.apache.directory.client.ldap</groupId>
@@ -177,44 +163,9 @@
 		<!-- Required when the "stomp-broker-relay" profile is enabled -->
 		<dependency>
 			<groupId>org.projectreactor</groupId>
-			<!--<artifactId>reactor-tcp</artifactId>-->
-			<!--<version>1.0.1.RELEASE</version>-->
 			<artifactId>reactor-net</artifactId>
-			<!--<version>1.1.0.RELEASE</version>-->
 			<version>1.1.2.RELEASE</version>
 		</dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>javax.websocket</groupId>-->
-            <!--<artifactId>javax.websocket-api</artifactId>-->
-            <!--<version>1.0</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.eclipse.jetty.websocket</groupId>-->
-            <!--<artifactId>websocket-client</artifactId>-->
-            <!--<version>9.2.1.v20140609</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.eclipse.jetty.websocket</groupId>-->
-            <!--<artifactId>websocket-server</artifactId>-->
-            <!--<version>9.2.1.v20140609</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.eclipse.jetty</groupId>-->
-            <!--<artifactId>jetty-webapp</artifactId>-->
-            <!--<version>9.2.1.v20140609</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.eclipse.jetty</groupId>-->
-            <!--<artifactId>jetty-client</artifactId>-->
-            <!--<version>9.2.1.v20140609</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -365,13 +316,14 @@
 			<version>0.6.3</version>
 		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>org.eclipse.jetty</groupId>-->
-			<!--<artifactId>jetty-maven-plugin</artifactId>-->
-			<!--<version>${jetty.version}</version>-->
-		<!--</dependency>-->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
 
-		<dependency>
+
+        <dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
@@ -382,40 +334,6 @@
 	<build>
 		<finalName>news</finalName>
 		<plugins>
-
-            <!-- Run JAXB against XSD schemas
-				Add a number of additional interfaces making life easier -->	
-			<!--<plugin>-->
-				<!--<groupId>org.jvnet.jaxb2.maven2</groupId>-->
-				<!--<artifactId>maven-jaxb2-plugin</artifactId>-->
-			    <!--<version>0.8.1</version>-->
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<goals>-->
-							<!--<goal>generate</goal>-->
-						<!--</goals>-->
-						<!--<configuration>-->
-							<!--<schemaDirectory>src/main/resources/schemas</schemaDirectory>-->
-							<!--<generateDirectory>src/main/generated</generateDirectory>-->
-							<!--<removeOldOutput>true</removeOldOutput>-->
-							<!--<args>-->
-								<!--<arg>-XtoString</arg>-->
-								<!--<arg>-Xequals</arg>-->
-								<!--<arg>-XhashCode</arg>-->
-								<!--<arg>-Xcopyable</arg>-->
-								<!--<arg>-Xmergeable</arg>-->
-							<!--</args>-->
-							<!--<plugins>-->
-								<!--<plugin>-->
-									<!--<groupId>org.jvnet.jaxb2_commons</groupId>-->
-									<!--<artifactId>jaxb2-basics</artifactId>-->
-									<!--<version>0.6.3</version>-->
-								<!--</plugin>-->
-							<!--</plugins>-->
-						<!--</configuration>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			<!--</plugin>-->
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

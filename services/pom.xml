@@ -138,7 +138,13 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.2.1</version>
 		</dependency>
-            
+
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+
         <!-- ======================================================  -->
 		<!-- Spring Integration-->
 		<dependency>
