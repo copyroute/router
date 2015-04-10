@@ -331,6 +331,7 @@
 
 	</dependencies>
 
+
 	<build>
 		<finalName>news</finalName>
 		<plugins>
