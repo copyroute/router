@@ -27,8 +27,6 @@ public interface RssItemArchive_Repository
 	Page<RssItemArchive> findDistinctByCategoryIgnoreCaseLikeOrderByDateDesc(String category, Pageable pageable);
 
 	Page<RssItemArchive> findDistinctByCompanyAndChannelIgnoreCaseOrderByDateDesc(String company, String channel, Pageable pageable);
-
-
-	 Page<RssItemArchive> findAllOrderByDateMonth( Pageable pageable);
+	Page<RssItemArchive> findAllOrderByDateMonth( Pageable pageable);
 
 }

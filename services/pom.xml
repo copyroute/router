@@ -269,7 +269,22 @@
             <version>1.5.9</version>
         </dependency>
 
-        <!-- ======================================================  -->
+
+		<!-- ======================================================  -->
+		<!-- QueryDSL -->
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-mongodb</artifactId>
+			<version>${querydsl.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+		<!-- ======================================================  -->
 		<!-- Activiti -->
 <!--   		<dependency> -->
 <!-- 		  <groupId>org.apache.directory.client.ldap</groupId> -->
@@ -374,6 +389,23 @@
 									<version>0.6.3</version>
 								</plugin>
 							</plugins>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>maven-apt-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>src/main/generated</outputDirectory>
+							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
 						</configuration>
 					</execution>
 				</executions>
