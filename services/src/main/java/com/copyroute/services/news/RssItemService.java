@@ -24,9 +24,31 @@ public class    RssItemService //extends Amqp_Service
 {	
 	@Autowired RssItem_Repository repo;
 	public RssItem_Repository getRepo() {return repo;}
-	
+
 	@PostConstruct
 	public void init(){ Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString()); }
+
+
+	public void queryDSL(){
+
+//		JPAQuery mQuery = new JPAQuery (em);
+//		QManifestEntity qManifestEntity = QManifestEntity.manifestEntity;
+//		List<ManifestEntity> mEntity = mQuery.from(qManifestEntity).list(qManifestEntity);
+//
+//		JPAQuery roQuery = new JPAQuery (em);
+//		QRegionalOfficeEntity qRegionalOfficeEntity = QRegionalOfficeEntity.regionalOfficeEntity;
+//		RegionalOfficeEntity roEntity = roQuery.from(qRegionalOfficeEntity)
+//				.where(qRegionalOfficeEntity.stationnumber.equalsIgnoreCase(stationNumber))
+//				.uniqueResult(qRegionalOfficeEntity);
+//
+//		JPAQuery intakeQuery = new JPAQuery (em);
+//		QIntakeSiteEntity qIntakeSiteEntity = QIntakeSiteEntity.intakeSiteEntity;
+//		IntakeSiteEntity intakeEntity = intakeQuery.from(qIntakeSiteEntity)
+//				.where(qIntakeSiteEntity.intakeSiteId.eq(intakeSiteId))
+//				.uniqueResult(qIntakeSiteEntity);
+
+	}
+
 
     // Find All : Sort By Property(ies)
     public List<RssItem> find(int pageNumber, int resultLimit, Direction direction, String... property){
