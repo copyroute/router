@@ -51,6 +51,7 @@ public class    RssItemService //extends Amqp_Service
 			XMLGregorianCalendar xmlDate = Time.convertXMLGregorianCalendar(date);
 
 
+
 			List<RssItem> rssItems = repo.findByDate(xmlDate);
 			Statics.Log(rssItems.toString());
 
