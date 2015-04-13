@@ -6,11 +6,16 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.copyroute.cdm.rss.RssItem;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Date;
+import java.util.List;
+
 
 public interface RssItem_Repository 
 	extends MongoRepository<RssItem, String>
 {
-	
+	List<RssItem> findByDate(XMLGregorianCalendar id);
+
 	Page<RssItem> findDistinctByIdIgnoreCaseOrderByDateDesc(String id, Pageable pageable);
 
 	Page<RssItem> findByTitle(String title, Pageable pageable);

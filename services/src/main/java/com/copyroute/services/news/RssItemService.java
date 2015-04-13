@@ -4,6 +4,7 @@ import com.copyroute.cdm.rss.DataSource;
 import com.copyroute.cdm.rss.RssItem;
 import com.copyroute.cdm.rss.RssItemList;
 import com.copyroute.services.global.Statics;
+import com.copyroute.services.mongo.RssItemArchive_Repository;
 import com.copyroute.services.mongo.RssItem_Repository;
 import com.copyroute.cdm.util.Time;
 import com.sun.syndication.feed.synd.SyndContentImpl;
@@ -14,7 +15,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //import com.copyroute.services.tika.TikaParser;
@@ -25,9 +29,33 @@ public class    RssItemService //extends Amqp_Service
 	@Autowired RssItem_Repository repo;
 	public RssItem_Repository getRepo() {return repo;}
 
-	@PostConstruct
-	public void init(){ Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString()); }
+	@Autowired RssItemArchive_Repository archRepo;
+	public RssItemArchive_Repository getArchRepo() {return archRepo;}
 
+	@PostConstruct
+	public void init(){
+		Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString());
+		archieveFeeds();
+	}
+
+
+	public void archieveFeeds(){
+		try {
+//			SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+//			String dateInString = "31-08-1982 10:20:56";
+
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+			String dateInString = "2013";
+			Date date = sdf.parse(dateInString);
+			XMLGregorianCalendar xmlDate = Time.convertXMLGregorianCalendar(date);
+
+
+			List<RssItem> rssItems = repo.findByDate(xmlDate);
+			Statics.Log(rssItems.toString());
+
+		}catch (Exception ex ){Statics.Log("Error in date string");}
+	}
 
 	public void queryDSL(){
 

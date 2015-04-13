@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.copyroute.cdm.rss.RssItemArchive;
 
 
+
 public interface RssItemArchive_Repository
 	extends MongoRepository<RssItemArchive, String>
 {
