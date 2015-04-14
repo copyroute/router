@@ -1,10 +1,9 @@
 package com.copyroute.services.news;
 
-import com.copyroute.cdm.rss.DataSource;
-import com.copyroute.cdm.rss.RssItem;
-import com.copyroute.cdm.rss.RssItemList;
+import com.copyroute.cdm.rss.*;
 import com.copyroute.services.global.Statics;
-import com.copyroute.services.mongo.RssItemArchive_Repository;
+import com.copyroute.services.mongo.Category_Repository;
+import com.copyroute.services.mongo.Company_Repository;
 import com.copyroute.services.mongo.RssItem_Repository;
 import com.copyroute.cdm.util.Time;
 import com.sun.syndication.feed.synd.SyndContentImpl;
@@ -27,82 +26,62 @@ import java.util.List;
 public class    RssItemService //extends Amqp_Service
 {	
 	@Autowired RssItem_Repository repo;
-	public RssItem_Repository getRepo() {return repo;}
+	public RssItem_Repository getItemRepo() {return repo;}
 
-	@Autowired RssItemArchive_Repository archRepo;
-	public RssItemArchive_Repository getArchRepo() {return archRepo;}
+//    @Autowired
+//    RssItemArchive2015_Repository repo2015;
+//    public RssItemArchive2015_Repository getRepo2015() {return repo2015;}
+//
+//    @Autowired
+//    RssItemArchive2014_Repository repo2014;
+//	public RssItemArchive2014_Repository getRepo2014() {return repo2014;}
+//
+//    @Autowired
+//    RssItemArchive2013_Repository repo2013;
+//    public RssItemArchive2013_Repository get2013() {return repo2013;}
 
-	@PostConstruct
+    @Autowired  private Category_Repository categoryRepo;
+	public Category_Repository getCategoryRepo() {return categoryRepo;}
+
+	@Autowired  private Company_Repository companyRepo;
+	public Company_Repository getCompanyRepo() {return companyRepo;}
+
+	CategoryList categoryList;
+	CompanyList companyList;
+
+
+
+    @PostConstruct
 	public void init(){
 		Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString());
-		archieveFeeds();
 	}
 
 
-	public void archieveFeeds(){
-		try {
-//			SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-//			String dateInString = "31-08-1982 10:20:56";
-
-
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-			String dateInString = "2013";
-			Date date = sdf.parse(dateInString);
-			XMLGregorianCalendar xmlDate = Time.convertXMLGregorianCalendar(date);
-
-
-
-			List<RssItem> rssItems = repo.findByDate(xmlDate);
-			Statics.Log(rssItems.toString());
-
-		}catch (Exception ex ){Statics.Log("Error in date string");}
+    // Find All : Sort By DateMonth
+    public List<RssItem> find(int pageNumber, int resultLimit){
+		PageRequest request = new PageRequest(pageNumber, resultLimit, Direction.DESC, "date");
+		return repo.findAll(request).getContent();
 	}
-
-	public void queryDSL(){
-
-//		JPAQuery mQuery = new JPAQuery (em);
-//		QManifestEntity qManifestEntity = QManifestEntity.manifestEntity;
-//		List<ManifestEntity> mEntity = mQuery.from(qManifestEntity).list(qManifestEntity);
-//
-//		JPAQuery roQuery = new JPAQuery (em);
-//		QRegionalOfficeEntity qRegionalOfficeEntity = QRegionalOfficeEntity.regionalOfficeEntity;
-//		RegionalOfficeEntity roEntity = roQuery.from(qRegionalOfficeEntity)
-//				.where(qRegionalOfficeEntity.stationnumber.equalsIgnoreCase(stationNumber))
-//				.uniqueResult(qRegionalOfficeEntity);
-//
-//		JPAQuery intakeQuery = new JPAQuery (em);
-//		QIntakeSiteEntity qIntakeSiteEntity = QIntakeSiteEntity.intakeSiteEntity;
-//		IntakeSiteEntity intakeEntity = intakeQuery.from(qIntakeSiteEntity)
-//				.where(qIntakeSiteEntity.intakeSiteId.eq(intakeSiteId))
-//				.uniqueResult(qIntakeSiteEntity);
-
-	}
-
 
     // Find All : Sort By Property(ies)
     public List<RssItem> find(int pageNumber, int resultLimit, Direction direction, String... property){
     	// Eg : Page<Person> result = repository.findAll(new PageRequest(1, 2, Direction.ASC, "lastname", "firstname"));
-		PageRequest request = new PageRequest(pageNumber, resultLimit, direction, property); 
+		PageRequest request = new PageRequest(pageNumber, resultLimit, direction, property);
 		return repo.findAll(request).getContent();
 	}
 
-	// Find By Title
+    public List<RssItem> findAllOrderByDate(int pageNumber, int resultLimit){
+        PageRequest request = new PageRequest(pageNumber, resultLimit);
+        return repo.findAllOrderByDate(request).getContent();
+    }
+
+    // Find By Title
     public List<RssItem> findById(String id ){		
     	List<RssItem> rssItemList = new ArrayList<RssItem>();
 		rssItemList.add(repo.findOne(id));
     	return rssItemList;
     }
 
-    // Find By Title
-    public List<RssItem> findByTitle(String term, int pageNumber, int resultLimit){
-		PageRequest request = new PageRequest(pageNumber, resultLimit); 
-    	return repo.findDistinctByTitleIgnoreCaseLikeOrderByDateDesc(term, request).getContent();
-    }
-	// Find By Feed
-    public List<RssItem> findByFeed(String feed, int pageNumber, int resultLimit){
-		PageRequest request = new PageRequest(pageNumber, resultLimit); 
-    	return repo.findByFeedOrderByDateDesc(feed, request).getContent();
-    }
 	// Find By Description
     public List<RssItem> findByDescription(String term, int pageNumber, int resultLimit){
 		PageRequest request = new PageRequest(pageNumber, resultLimit); 
@@ -127,39 +106,103 @@ public class    RssItemService //extends Amqp_Service
     	return repo.findDistinctByCompanyAndChannelIgnoreCaseOrderByDateDesc(company, channel, request).getContent();
 	}
 
-    public RssItemList getRssItemId(String id){
-		RssItemList rssItemList = new RssItemList();		
-		rssItemList.setCategory(id);
-		rssItemList.getItems().addAll( findById(id) );
-		Statics.Log("Found News : " + rssItemList.getItems().size());
-		return rssItemList;
+    // Find By Title
+    public List<RssItem> findByTitle(String term, int pageNumber, int resultLimit){
+		PageRequest request = new PageRequest(pageNumber, resultLimit);
+    	return repo.findDistinctByTitleIgnoreCaseLikeOrderByDateDesc(term, request).getContent();
+    }
+
+    public List<RssItem> getRssItemId(String id){
+		return findById(id);
 	}
-    public RssItemList getRssItemCategoryList(String category, int start, int size){
-		RssItemList rssItemList = new RssItemList();		
-		rssItemList.setCategory(category);
-		rssItemList.getItems().addAll( 
-			findCategory(category, start, size, Direction.DESC, "id") 
-		);
-		//Statics.Log("Found News : " + rssItemList.getItems().size());
-		return rssItemList;
+    public List<RssItem> getRssItemCategoryList(String category, int start, int size){
+		return findCategory(category, start, size, Direction.DESC, "id") ;
 	}
-    public RssItemList getRssItemCompanyList(String company, int start, int size){
-		RssItemList rssItemList = new RssItemList();		
-		rssItemList.setCategory(company);
-		rssItemList.getItems().addAll( findCompany(company, start, size, Direction.DESC, "id") );
-		Statics.Log("Found News : " + rssItemList.getItems().size());
-		return rssItemList;
+    public List<RssItem> getRssItemCompanyList(String company, int start, int size){
+		return findCompany(company, start, size, Direction.DESC, "id") ;
 	}
-    public RssItemList getRssItemCompanyAndChannelList(String company, String channel, int start, int size){
-		RssItemList rssItemList = new RssItemList();		
-		rssItemList.setCategory(company);
-		rssItemList.getItems().addAll( findCompanyAndChannel(company, channel, start, size) );
-		Statics.Log("Found News : " + rssItemList.getItems().size());
-		return rssItemList;
+    public List<RssItem> getRssItemCompanyAndChannelList(String company, String channel, int start, int size){
+		return findCompanyAndChannel(company, channel, start, size) ;
 	}
 
 
-	// Save Unique Messages
+//    public RssItemList getRssItemId(String id){
+//		RssItemList rssItemList = new RssItemList();
+//		rssItemList.setCategory(id);
+//		rssItemList.getItems().addAll( findById(id) );
+//		Statics.Log("Found News : " + rssItemList.getItems().size());
+//		return rssItemList;
+//	}
+//    public RssItemList getRssItemCategoryList(String category, int start, int size){
+//		RssItemList rssItemList = new RssItemList();
+//		rssItemList.setCategory(category);
+//		rssItemList.getItems().addAll(
+//			findCategory(category, start, size, Direction.DESC, "id")
+//		);
+//		//Statics.Log("Found News : " + rssItemList.getItems().size());
+//		return rssItemList;
+//	}
+//    public RssItemList getRssItemCompanyList(String company, int start, int size){
+//		RssItemList rssItemList = new RssItemList();
+//		rssItemList.setCategory(company);
+//		rssItemList.getItems().addAll( findCompany(company, start, size, Direction.DESC, "id") );
+//		Statics.Log("Found News : " + rssItemList.getItems().size());
+//		return rssItemList;
+//	}
+//    public RssItemList getRssItemCompanyAndChannelList(String company, String channel, int start, int size){
+//		RssItemList rssItemList = new RssItemList();
+//		rssItemList.setCategory(company);
+//		rssItemList.getItems().addAll( findCompanyAndChannel(company, channel, start, size) );
+//		Statics.Log("Found News : " + rssItemList.getItems().size());
+//		return rssItemList;
+//	}
+
+    // List of Categories
+	public CategoryList getCategoryList(){
+		if(categoryList == null){
+			List<CategoryList> categoryLists = getCategoryRepo().findAll();
+			if(categoryLists.size() > 0){
+				categoryList = categoryLists.get(0);
+			}
+			Statics.Log("Found Categories : " + categoryList.getItems().size());
+		}
+		return categoryList;
+	}
+
+	// List of Companies
+	public CompanyList getCompanyList(){
+		if(companyList == null){
+			List<CompanyList> companyLists = getCompanyRepo().findAll();
+			if(companyLists.size() > 0){
+				companyList = companyLists.get(0);
+			}
+			Statics.Log("Found Companies : " + companyList.getItems().size());
+		}
+		return companyList;
+	}
+
+
+    public void queryDSL(){
+
+//		JPAQuery mQuery = new JPAQuery (em);
+//		QManifestEntity qManifestEntity = QManifestEntity.manifestEntity;
+//		List<ManifestEntity> mEntity = mQuery.from(qManifestEntity).list(qManifestEntity);
+//
+//		JPAQuery roQuery = new JPAQuery (em);
+//		QRegionalOfficeEntity qRegionalOfficeEntity = QRegionalOfficeEntity.regionalOfficeEntity;
+//		RegionalOfficeEntity roEntity = roQuery.from(qRegionalOfficeEntity)
+//				.where(qRegionalOfficeEntity.stationnumber.equalsIgnoreCase(stationNumber))
+//				.uniqueResult(qRegionalOfficeEntity);
+//
+//		JPAQuery intakeQuery = new JPAQuery (em);
+//		QIntakeSiteEntity qIntakeSiteEntity = QIntakeSiteEntity.intakeSiteEntity;
+//		IntakeSiteEntity intakeEntity = intakeQuery.from(qIntakeSiteEntity)
+//				.where(qIntakeSiteEntity.intakeSiteId.eq(intakeSiteId))
+//				.uniqueResult(qIntakeSiteEntity);
+
+    }
+
+    // Save Unique Messages
 	public RssItem saveUnique(SyndEntry syndFeed, DataSource dataSource)
 	{
 		// Check DB for duplicates
@@ -264,3 +307,17 @@ public class    RssItemService //extends Amqp_Service
 		catch (Exception e) {Statics.Log(e.getMessage());}
 	}
 }
+
+
+
+
+//    // Find By Title
+//    public List<RssItem> findByTitle(String term, int pageNumber, int resultLimit){
+//		PageRequest request = new PageRequest(pageNumber, resultLimit);
+//    	return repo.findDistinctByTitleIgnoreCaseLikeOrderByDateDesc(term, request).getContent();
+//    }
+//	// Find By Feed
+//    public List<RssItem> findByFeed(String feed, int pageNumber, int resultLimit){
+//		PageRequest request = new PageRequest(pageNumber, resultLimit);
+//    	return repo.findByFeedOrderByDateDesc(feed, request).getContent();
+//    }

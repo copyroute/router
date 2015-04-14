@@ -35,20 +35,23 @@
   	<context:component-scan base-package="com.copyroute.services.news"/>
   
   
-  		<!-- RSS-Atom Poller ==============================================================================-->	
+    <!-- RSS-Atom Poller ==============================================================================-->
 	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="playListService"/>
 		<property name="targetMethod" value="updatePlayList"/>
 		<property name="concurrent" value="false"/>
 	</bean>
-	
+
+
+    <!-- Update Once an hour = 3600000 -->
 	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
 		<property name="jobDetail" ref="jobDetail"/>
 		<property name="startDelay" value="10000"/>
-		<!-- Update Once an hour = 3600000 -->
 		<property name="repeatInterval" value="3600000"/>
 	</bean>
-	<!-- 	    run every morning at 6 AM -->
+
+
+<!-- 	    run every morning at 6 AM -->
 <!-- 	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> -->
 <!-- 	    <property name="jobDetail" ref="exampleJob" /> -->
 <!-- 	    <property name="cronExpression" value="0 0 6 * * ?" /> -->

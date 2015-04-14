@@ -21,7 +21,9 @@ import com.copyroute.services.amqp.Amqp_Service;
 import com.copyroute.services.mongo.Category_Repository;
 import com.copyroute.services.mongo.Channel_Repository;
 import com.copyroute.services.mongo.Company_Repository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CsvLoaderService extends Amqp_Service{
 
 	@Autowired  private Category_Repository categoryRepo;											

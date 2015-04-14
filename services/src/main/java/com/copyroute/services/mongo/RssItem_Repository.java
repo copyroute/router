@@ -35,7 +35,7 @@ public interface RssItem_Repository
 	Page<RssItem> findDistinctByCompanyAndChannelIgnoreCaseOrderByDateDesc(String company, String channel, Pageable pageable);
 	
 	  
-	 Page<RssItem> findAllOrderByDateMonth( Pageable pageable);
+	 Page<RssItem> findAllOrderByDate( Pageable pageable);
 	   
 	// Page<RssItem> findOrderByDateAsc(String feed, Pageable pageable);
 	// Page<RssItem> findOneActiveOldest(Pageable pageable);

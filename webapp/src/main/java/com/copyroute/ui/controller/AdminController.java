@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.copyroute.cdm.rss.PlayList;
 import com.copyroute.cdm.global.Statics;
-import com.copyroute.webservices.news.RssItemService;
+import com.copyroute.services.news.RssItemService;
 
 @Controller
 public class AdminController {

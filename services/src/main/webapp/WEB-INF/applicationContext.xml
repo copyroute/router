@@ -47,7 +47,6 @@
 
 <!-- 	<mvc:annotation-driven />  -->
 	<context:component-scan base-package="com.copyroute.services"/>
-  	<context:component-scan base-package="com.copyroute.util"/>
 
 	<!-- Listeners -->	
 	<bean id="playListService" class="com.copyroute.services.news.PlayListService"/>
@@ -127,19 +126,23 @@
 			write-timeout="0"
 			write-fsync="true"/>
 	</mongo:mongo>
-	<bean id="mongoError" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <bean id="mongoError" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
-	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongo" ref="mongo"/>
 		<constructor-arg name="databaseName" value="test"/>
 		<constructor-arg name="userCredentials" ref="userCredentials"/>
 	</bean>
+
 	<bean id="gridFSTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
-	              <constructor-arg ref="dbFactory" />
-	              <constructor-arg ref="converter" />
-	      </bean>
-	      <mongo:mapping-converter id="converter" db-factory-ref="dbFactory" />
-	      <mongo:db-factory id="dbFactory" dbname="test" />
+        <constructor-arg ref="dbFactory" />
+        <constructor-arg ref="converter" />
+    </bean>
+
+
+    <mongo:mapping-converter id="converter" db-factory-ref="dbFactory" />
+    <mongo:db-factory id="dbFactory" dbname="test" />
+
 	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
 		<constructor-arg name="username" value="vbms"/>
 		<constructor-arg name="password" value="vbms"/>

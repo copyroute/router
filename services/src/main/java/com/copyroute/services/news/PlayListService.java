@@ -1,16 +1,22 @@
 
 package com.copyroute.services.news;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.IOException;
 import java.net.URL;
 
 
+import com.copyroute.cdm.util.Time;
 import com.copyroute.services.global.Statics;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.Index;
+import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.stereotype.Component;
 
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -25,6 +31,9 @@ import com.copyroute.cdm.rss.*;
 //import com.copyroute.events.*;
 import com.copyroute.cdm.util.json.*;
 import com.copyroute.services.amqp.*;
+
+import javax.annotation.PostConstruct;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 @Component
 public class PlayListService extends Amqp_Service
@@ -43,8 +52,66 @@ public class PlayListService extends Amqp_Service
 	
 	public PlayList playList;
 	FeedFetcher fetcher;
-	
-	// Initialize NewsFeed PlayList
+
+
+    @PostConstruct
+    public void init(){
+        Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString());
+//        archieveFeeds();
+    }
+
+    public void archieveFeeds(){
+
+        int pageNumber = 0;
+        int pageSize = 50;
+        long totalArticles = rssItemService.getItemRepo().count();
+
+        // Ensure Indexing
+        //mongoTemplate.indexOps("rssItem").ensureIndex(new Index().on("date", Order.ASCENDING));
+
+        // Drop Collections
+        mongoTemplate.dropCollection("rssItem2015");
+        mongoTemplate.dropCollection("rssItem2014");
+        mongoTemplate.dropCollection("rssItem2013");
+        mongoTemplate.dropCollection("rssItem2012");
+
+        // Paging data from DB Collection..
+        while(pageNumber * pageSize < totalArticles ) {
+
+            // Find All : Sort By DateMonth
+            Statics.Log("\n\n");
+            Statics.Log("========================");
+            Statics.Log("Percent: " + ((pageNumber * pageSize )/totalArticles * 100) + " %");
+            Statics.Log("Search : " + (pageNumber * pageSize ));
+            Statics.Log("Total  : " + totalArticles);
+            Statics.Log("========================");
+
+            // Retrieve the next Page of RssItems
+            try{
+                PageRequest request = new PageRequest(pageNumber, pageSize);
+                List<RssItem> rssItems = rssItemService.getItemRepo().findAll(request).getContent();
+
+                // For each RssItem, Save to new Collection by year
+                for (RssItem rssItem : rssItems) {
+                    try{
+                        int rssYear = rssItem.getDate().getYear();
+                        String collectionName = "rssItem" + rssYear;
+                        Statics.Log("Migrate : " + rssYear + " : " + rssItem.getTitle());
+
+                        mongoTemplate.save(rssItem, collectionName);
+                    }
+                    catch(Exception ex){Statics.Log("Error : Can't process rssItem" + ex.getMessage());}
+                }
+                pageNumber++;
+            }
+            catch(Exception ex){Statics.Log("Error : Can't load page from db " + ex.getMessage());}
+        }
+    }
+
+
+
+
+    // Initialize NewsFeed PlayList
 	private void initPlayList( )
 	{	
 		// Create Disk-Caching FeedFetcher
@@ -70,10 +137,12 @@ public class PlayListService extends Amqp_Service
 
 		// Map Reduce
 //		mapReduceCategories();
-	}
 
-	
-	/// ====================================================================== 
+    }
+
+
+
+    /// ======================================================================
 	/// Main Update function : "Quartz-Timer Poller"
 	/// Called by Spring "applicationContext-RSS.xml" 
 	/// ====================================================================== 
@@ -90,13 +159,12 @@ public class PlayListService extends Amqp_Service
 			initPlayList( );
 
 		// Process RSS Updates
-		Statics.Log("Playlist Count : " + playList.getDataSources().size());
-		Statics.Log("Begin Update ================================================= ");
-//		Statics.Log("Updating === Playlist : " + playList.getName() + " === DataSources: " + playList.getDataSources().size()  );
+        Statics.Log(" Begin Update ============================================================== ");
+        Statics.Log(" RSS-Consumer : Pull RSS Messages from their respective servers, & store in DB");
+		Statics.Log(" Playlist Count : " + playList.getDataSources().size());
 		for(int counter=0; counter< playList.getDataSources().size(); counter++)
 		{	
-			// RSS-Consumer : Pull RSS Messages from their respective servers
-			try{	
+			try{
 				DataSource dataSource = playList.getDataSources().get(counter);
 				Statics.Log("Updating : " + dataSource.getUri());
 				SyndFeed feed = fetcher.retrieveFeed(new URL(dataSource.getUri()));
@@ -112,7 +180,8 @@ public class PlayListService extends Amqp_Service
 					RssItem rssItem = rssItemService.saveUnique( entry , dataSource );
 					
 					// Publish
-					if(rssItem != null){
+					if(rssItem != null)
+                    {
 		
 						// PublishRssItem("amq.topic", rssItem.getCategory(), rssItem);
 						// -- OLD : PublishRssItem("amq.topic", "publishRssItem", rssItem);
