@@ -66,7 +66,7 @@ public class PlayListService extends Amqp_Service
         int pageSize = 50;
         long totalArticles = rssItemService.getItemRepo().count();
 
-        // Ensure Indexing
+        // Ensure Indexing ( .. if not previously indexed !!)
         //mongoTemplate.indexOps("rssItem").ensureIndex(new Index().on("date", Order.ASCENDING));
 
         // Drop Collections
@@ -179,26 +179,30 @@ public class PlayListService extends Amqp_Service
 					SyndEntry entry = (SyndEntry)entries.next(); 
 					RssItem rssItem = rssItemService.saveUnique( entry , dataSource );
 					
-					// Publish
-					if(rssItem != null)
-                    {
-		
-						// PublishRssItem("amq.topic", rssItem.getCategory(), rssItem);
-						// -- OLD : PublishRssItem("amq.topic", "publishRssItem", rssItem);
-//						Log("Saved Unique : \n" + rssItem.getTitle() + " \n " + rssItem.getFeed()  );				
-		
-						// Publish Banner each time
-//							PublishBanner("amq.topic", "publishBanner", rssItem);
-		
-						// Send Esper Update
-//							this.sendEsperEvent(rssItem);
-					}	
 				}
 			}
 			catch(Exception ex){ Log("==> Whoops!! Dead Link" + ex.getMessage() ); }				
-		} 
+		}
 		Statics.Log("End Update =================================================\n ");
 	}
+
+
+    public void PublishSave( RssItem rssItem )
+    {
+        // Publish
+        if(rssItem != null)
+        {
+            PublishRssItem("amq.topic", rssItem.getCategory(), rssItem);
+            Log("Saved Unique : \n" + rssItem.getTitle() + " \n " + rssItem.getFeed()  );
+
+            // Publish Banner each time
+            PublishBanner("amq.topic", "publishBanner", rssItem);
+
+            // Send Esper Update
+            this.sendEsperEvent(rssItem);
+        }
+
+    }
 
 	
 	public void PublishBanner(String exchange, String routingKey, RssItem rssItem)
