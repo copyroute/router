@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+
+       xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 				http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context 				http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/rabbit 				http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+			http://www.springframework.org/schema/amqp 					http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+">
+
+    <!-- AMQP ============================================================================== -->
+    <!-- Connection and Template -->
+    <rabbit:connection-factory id="amqpConnectionFactory" host="${amqp.host}" />
+    <rabbit:admin connection-factory="amqpConnectionFactory" />
+    <rabbit:template  id="amqpTemplate" connection-factory="amqpConnectionFactory" />
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="10" />
+        <property name="maxPoolSize" value="15" />
+        <property name="queueCapacity" value="25" />
+    </bean>
+
+    <!-- Routing -->
+    <rabbit:topic-exchange name="penguins.exchange" auto-delete="false" durable="false">
+        <rabbit:bindings>
+            <!-- 			<rabbit:binding queue="penguins.inputs.rssSearch" pattern="rssSearch"/> -->
+            <!-- 			<rabbit:binding queue="penguins.inputs.playlist" pattern="publishPlaylist"/> -->
+            <rabbit:binding queue="penguins.inputs.publish" pattern="publishRssItem"/>
+            <rabbit:binding queue="penguins.inputs.banner" pattern="publishBanner"/>
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+
+    <rabbit:queue name="penguins.inputs.publish" auto-delete="false" durable="false"/>
+    <rabbit:queue name="penguins.inputs.banner" auto-delete="false" durable="false">
+        <rabbit:queue-arguments value-type="java.lang.Long">
+            <entry key="x-message-ttl" value="30000"/>
+        </rabbit:queue-arguments>
+    </rabbit:queue>
+
+    <!-- Listeners-->
+    <!--<listener-container xmlns="http://www.springframework.org/schema/rabbit"-->
+    <!--connection-factory="amqpConnectionFactory" task-executor="taskExecutor"-->
+    <!--message-converter="jsonMessageConverter" acknowledge="auto" concurrency="15">-->
+    <!-- 		<rabbit:listener ref="rssMessageController" method="handleSearch" queue-names="penguins.inputs.rssSearch" />	 -->
+    <!-- 		<listener ref="chat_MessageHandler" method="handleHistory" queue-names="engility.inputs.history" /> -->
+    <!--</listener-container>-->
+    <!--<beans:bean id="chat_MessageHandler" class="com.copyroute.ui.controller.RssListener"/>-->
+
+    <!-- Caching Connection-->
+    <!--<bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">-->
+        <!--<property name="host" value="localhost" />-->
+        <!--<property name="username" value="guest" />-->
+        <!--<property name="password" value="guest" />-->
+        <!--<property name="virtualHost" value="/" />-->
+        <!--<property name="port" value="5672" />-->
+    <!--</bean>-->
+
+    <!-- Transactions -->
+    <!-- 	<tx:annotation-driven transaction-manager="rabbitTxManager"/> -->
+    <!-- 	<bean id="rabbitTxManager" class="org.springframework.amqp.rabbit.transaction.RabbitTransactionManager"> -->
+    <!-- 		<property name="connectionFactory" ref="amqpConnectionFactory"/> -->
+    <!-- 	</bean> -->
+    <!-- ListenerContainer : Driven by TaskExecutor -->
+
+
+</beans>

@@ -8,7 +8,7 @@ import java.net.URL;
 
 
 import com.copyroute.cdm.util.Time;
-import com.copyroute.services.global.Statics;
+import com.copyroute.cdm.global.Statics;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,8 +76,8 @@ public class PlayListService extends Amqp_Service
         mongoTemplate.dropCollection("rssItem2012");
 
         // Paging data from DB Collection..
-        while(pageNumber * pageSize < totalArticles ) {
-
+        while(pageNumber * pageSize < totalArticles )
+        {
             // Find All : Sort By DateMonth
             Statics.Log("\n\n");
             Statics.Log("========================");

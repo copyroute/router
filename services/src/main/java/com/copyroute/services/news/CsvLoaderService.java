@@ -16,7 +16,7 @@ import com.copyroute.cdm.rss.ChannelList;
 import com.copyroute.cdm.rss.CompanyList;
 import com.copyroute.cdm.rss.DataSource;
 import com.copyroute.cdm.rss.PlayList;
-import com.copyroute.services.global.Statics;
+import com.copyroute.cdm.global.Statics;
 import com.copyroute.services.amqp.Amqp_Service;
 import com.copyroute.services.mongo.Category_Repository;
 import com.copyroute.services.mongo.Channel_Repository;
@@ -26,22 +26,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class CsvLoaderService extends Amqp_Service{
 
-	@Autowired  private Category_Repository categoryRepo;											
-	public Category_Repository getCategoryRepo() {return categoryRepo;}			
-	
-	@Autowired  private Company_Repository companyRepo;											
-	public Company_Repository getCompanyRepo() {return companyRepo;}			
+	@Autowired  private Category_Repository categoryRepo;
+	public Category_Repository getCategoryRepo() {return categoryRepo;}
 
-	@Autowired  private Channel_Repository channelRepo;											
-	public Channel_Repository getChannelRepo() {return channelRepo;}	
-	
-	
+	@Autowired  private Company_Repository companyRepo;
+	public Company_Repository getCompanyRepo() {return companyRepo;}
+
+	@Autowired  private Channel_Repository channelRepo;
+	public Channel_Repository getChannelRepo() {return channelRepo;}
+
+
 	// Load CSV file, and split on : Catagory, Company, Description, URI
 	public PlayList LoadRssFeedsFromCSV(String feedListName, String filename){
 		PlayList userFeedList = new PlayList();
         userFeedList.setName(feedListName);
 
-		List<DataSource> dsList = new ArrayList() ;		
+		List<DataSource> dsList = new ArrayList() ;
 		try {
 		    InputStream inputStream = null;
 		    try {
@@ -58,21 +58,21 @@ public class CsvLoaderService extends Amqp_Service{
 			    }
 			    scanner.close();
 			    inputStream.close();
-		    } 
-		    finally {if (inputStream != null) {inputStream.close();}}			
-		} catch (IOException e) {Log(e.getMessage());}	
+		    }
+		    finally {if (inputStream != null) {inputStream.close();}}
+		} catch (IOException e) {Log(e.getMessage());}
 
 		return userFeedList;
 
 	}
-	
+
 	//  Catagory, Company, Description, URI
 	public DataSource createDataSource(String category, String company, String title, String uri, String... tags){
 		DataSource dataSource = new DataSource();
 		dataSource.setCategory(category.trim());
 		dataSource.setCompany(company.trim());
 		dataSource.setChannel(title.trim());
-		dataSource.setUri(uri.trim());        
+		dataSource.setUri(uri.trim());
 		Statics.Log(" === Creating DataSource : " + dataSource.getUri());
         return dataSource;
 	}
@@ -95,7 +95,7 @@ public class CsvLoaderService extends Amqp_Service{
 		categoryRepo.save(categoryList);
 		return categoryList;
 	}
-	
+
 	public CompanyList createUniqueCompanyList(PlayList playlist)
 	{
 		Statics.Log(" === Creating CompanyList === ");
@@ -113,7 +113,7 @@ public class CsvLoaderService extends Amqp_Service{
 		companyRepo.save(companyList);
 		return companyList;
 	}
-	
+
 	public ChannelList createUniqueChannelList(PlayList playlist)
 	{
 		Statics.Log(" === Creating ChannelList === ");
@@ -141,7 +141,7 @@ public class CsvLoaderService extends Amqp_Service{
 		}
 		return categoryList;
 	}
-	
+
 	public CompanyList getCompanyList(){
 		List<CompanyList> companyLists = getCompanyRepo().findAll();
 		CompanyList companyList = new CompanyList();

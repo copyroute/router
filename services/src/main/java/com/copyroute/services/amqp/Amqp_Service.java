@@ -9,7 +9,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.copyroute.cdm.rss.*;
-import com.copyroute.services.global.Statics;
+import com.copyroute.cdm.global.Statics;
 
 //@Named
 //@Singleton

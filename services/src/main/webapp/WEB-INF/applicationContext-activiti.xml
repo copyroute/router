@@ -1,112 +1,112 @@
-<beans xmlns="http://www.springframework.org/schema/beans" 
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:int="http://www.springframework.org/schema/integration"
-   	   xmlns:stream="http://www.springframework.org/schema/integration/stream"
-       xsi:schemaLocation="
-       		http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-            http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
-       		http://www.springframework.org/schema/integration 			http://www.springframework.org/schema/integration/spring-integration.xsd
-			http://www.springframework.org/schema/integration/stream 	http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
-            ">	
+<!--<beans xmlns="http://www.springframework.org/schema/beans" -->
+       <!--xmlns:context="http://www.springframework.org/schema/context"-->
+       <!--xmlns:tx="http://www.springframework.org/schema/tx"-->
+       <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+	   <!--xmlns:int="http://www.springframework.org/schema/integration"-->
+   	   <!--xmlns:stream="http://www.springframework.org/schema/integration/stream"-->
+       <!--xsi:schemaLocation="-->
+       		<!--http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd-->
+            <!--http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd-->
+            <!--http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx-3.1.xsd-->
+       		<!--http://www.springframework.org/schema/integration 			http://www.springframework.org/schema/integration/spring-integration.xsd-->
+			<!--http://www.springframework.org/schema/integration/stream 	http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd-->
+            <!--">	-->
 
-	<!-- Spring : Scan for Components -->
-<!-- 	<context:spring-configured/> -->
-<!-- 	<context:component-scan base-package="com.copyroute.services.workflow.engine"/> -->
-<!-- 	<context:component-scan base-package="com.copyroute.services"/> -->
+	<!--&lt;!&ndash; Spring : Scan for Components &ndash;&gt;-->
+<!--&lt;!&ndash; 	<context:spring-configured/> &ndash;&gt;-->
+<!--&lt;!&ndash; 	<context:component-scan base-package="com.copyroute.services.workflow.engine"/> &ndash;&gt;-->
+<!--&lt;!&ndash; 	<context:component-scan base-package="com.copyroute.services"/> &ndash;&gt;-->
 
 
-	<!-- Activiti Config :  =============================================================-->
-	 
-	<!-- VBMS Master Process -->
-<!-- 	<bean id="authorization" class="com.copyroute.services.Authorization" /> -->
-<!-- 	<bean id="award" class="com.copyroute.services.Award" />   -->
-<!-- 	<bean id="development" class="com.copyroute.services.Development" />   -->
-<!-- 	<bean id="intake" class="com.copyroute.services.Intake" />   -->
-<!-- 	<bean id="rating" class="com.copyroute.services.Rating" />   -->
+	<!--&lt;!&ndash; Activiti Config :  =============================================================&ndash;&gt;-->
+	 <!---->
+	<!--&lt;!&ndash; VBMS Master Process &ndash;&gt;-->
+<!--&lt;!&ndash; 	<bean id="authorization" class="com.copyroute.services.Authorization" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 	<bean id="award" class="com.copyroute.services.Award" />   &ndash;&gt;-->
+<!--&lt;!&ndash; 	<bean id="development" class="com.copyroute.services.Development" />   &ndash;&gt;-->
+<!--&lt;!&ndash; 	<bean id="intake" class="com.copyroute.services.Intake" />   &ndash;&gt;-->
+<!--&lt;!&ndash; 	<bean id="rating" class="com.copyroute.services.Rating" />   &ndash;&gt;-->
 
-	<!-- Intake Sub Process -->
-<!-- 	<bean id="triageDocuments" class="com.copyroute.services.intake.TriageDocuments" /> -->
-<!-- 	<bean id="establishEndProduct" class="com.copyroute.services.intake.EstablishEndProduct" /> -->
-<!-- 	<bean id="setupContentions" class="com.copyroute.services.intake.SetupContentions" /> -->
+	<!--&lt;!&ndash; Intake Sub Process &ndash;&gt;-->
+<!--&lt;!&ndash; 	<bean id="triageDocuments" class="com.copyroute.services.intake.TriageDocuments" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 	<bean id="establishEndProduct" class="com.copyroute.services.intake.EstablishEndProduct" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 	<bean id="setupContentions" class="com.copyroute.services.intake.SetupContentions" /> &ndash;&gt;-->
 
-	<!-- Beans must be added here to allow the bpmn-environment to see java -->
-	<!-- Custom LDAP Configuration adds interceptors here as well -->
-	<bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
-		<property name="dataSource" ref="dataSource" />
-	   	<property name="transactionManager" ref="transactionManager" />
-	   	<property name="databaseSchemaUpdate" value="true" />
-	   	<property name="jobExecutorActivate" value="false" />
-	   	<property name="deploymentResources" value="classpath*:/bpmn2/*.bpmn"/>
-<!-- 	   	<property name="beans"> -->
-<!-- 		    <map> -->
-<!-- 		       <entry key="authorization" value-ref="authorization" /> -->
-<!-- 		       <entry key="award" value-ref="award" /> -->
-<!-- 		       <entry key="development" value-ref="development" /> -->
-<!-- 		       <entry key="intake" value-ref="intake" /> -->
-<!-- 		       <entry key="rating" value-ref="rating" /> -->
+	<!--&lt;!&ndash; Beans must be added here to allow the bpmn-environment to see java &ndash;&gt;-->
+	<!--&lt;!&ndash; Custom LDAP Configuration adds interceptors here as well &ndash;&gt;-->
+	<!--<bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">-->
+		<!--<property name="dataSource" ref="dataSource" />-->
+	   	<!--<property name="transactionManager" ref="transactionManager" />-->
+	   	<!--<property name="databaseSchemaUpdate" value="true" />-->
+	   	<!--<property name="jobExecutorActivate" value="false" />-->
+	   	<!--<property name="deploymentResources" value="classpath*:/bpmn2/*.bpmn"/>-->
+<!--&lt;!&ndash; 	   	<property name="beans"> &ndash;&gt;-->
+<!--&lt;!&ndash; 		    <map> &ndash;&gt;-->
+<!--&lt;!&ndash; 		       <entry key="authorization" value-ref="authorization" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 		       <entry key="award" value-ref="award" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 		       <entry key="development" value-ref="development" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 		       <entry key="intake" value-ref="intake" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 		       <entry key="rating" value-ref="rating" /> &ndash;&gt;-->
 
-<!-- 		       <entry key="triageDocuments" value-ref="triageDocuments" /> -->
-<!-- 		       <entry key="establishEndProduct" value-ref="establishEndProduct" /> -->
-<!-- 		       <entry key="setupContentions" value-ref="setupContentions" /> -->
-<!-- 		    </map> -->
-<!-- 	   	</property> -->
-		<property name="customSessionFactories">
-			<list>
-			<bean class="com.copyroute.services.ldap.LDAPUserManagerFactory">
-				<constructor-arg ref="ldapConnectionParams" />
-			</bean>
-			<bean class="com.copyroute.services.ldap.LDAPGroupManagerFactory">
-				<constructor-arg ref="ldapConnectionParams" />
-			</bean>
-			</list>
-		</property>  
-	 </bean>
-	 
-	 
-	<!-- Activiti Process Engine and Services -->
-	<!-- (these don't inject well; maybe the load order??? -->
-	 <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
-	   <property name="processEngineConfiguration" ref="processEngineConfiguration" />
-	 </bean>
-<!-- 	 <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" /> -->
-<!-- 	 <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" /> -->
-<!-- 	 <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" /> -->
-<!-- 	 <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" /> -->
-<!-- 	 <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" /> -->
-<!-- 	 <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService" /> -->
-<!-- 	 <bean id="formService" factory-bean="processEngine" factory-method="getFormService" /> -->
-	
-	<!-- LDAP Access -->
-	 <bean id="ldapConnectionParams" class="com.copyroute.services.ldap.LDAPConnectionParams">
-		<property name="ldapServer" value="penguins-rising.com" />
-		<property name="ldapPort" value="10389" />
-		<property name="ldapUser" value="uid=admin,ou=system" />
-		<property name="ldapPassword" value="07722374470" />
-	 </bean>
-	 
-	 <!--  Activiti - Persistance DB -->
-	 <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-	   <property name="driverClass" value="org.h2.Driver" />
-	   <property name="url" value="jdbc:h2:mem:activiti;DB_CLOSE_DELAY=1000" />
-	   <property name="username" value="sa" />
-	   <property name="password" value="" />
-	 </bean>
-	
-	 <!-- bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-	   <property name="driverClass" value="oracle.jdbc.OracleDriver" />
-	   <property name="url" value="jdbc:oracle:thin:@localhost:1521:activiti" />
-	   <property name="username" value="system" />
-	   <property name="password" value="welcome1" />
-	 </bean -->
-	 
-	<!-- Transaction Annotations -->
-	 <tx:annotation-driven transaction-manager="transactionManager"/>
-	 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-	   <property name="dataSource" ref="dataSource" />
-	 </bean>
-	
+<!--&lt;!&ndash; 		       <entry key="triageDocuments" value-ref="triageDocuments" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 		       <entry key="establishEndProduct" value-ref="establishEndProduct" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 		       <entry key="setupContentions" value-ref="setupContentions" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 		    </map> &ndash;&gt;-->
+<!--&lt;!&ndash; 	   	</property> &ndash;&gt;-->
+		<!--<property name="customSessionFactories">-->
+			<!--<list>-->
+			<!--<bean class="com.copyroute.services.ldap.LDAPUserManagerFactory">-->
+				<!--<constructor-arg ref="ldapConnectionParams" />-->
+			<!--</bean>-->
+			<!--<bean class="com.copyroute.services.ldap.LDAPGroupManagerFactory">-->
+				<!--<constructor-arg ref="ldapConnectionParams" />-->
+			<!--</bean>-->
+			<!--</list>-->
+		<!--</property>  -->
+	 <!--</bean>-->
+	 <!---->
+	 <!---->
+	<!--&lt;!&ndash; Activiti Process Engine and Services &ndash;&gt;-->
+	<!--&lt;!&ndash; (these don't inject well; maybe the load order??? &ndash;&gt;-->
+	 <!--<bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">-->
+	   <!--<property name="processEngineConfiguration" ref="processEngineConfiguration" />-->
+	 <!--</bean>-->
+<!--&lt;!&ndash; 	 <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 	 <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 	 <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 	 <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 	 <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 	 <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService" /> &ndash;&gt;-->
+<!--&lt;!&ndash; 	 <bean id="formService" factory-bean="processEngine" factory-method="getFormService" /> &ndash;&gt;-->
+	<!---->
+	<!--&lt;!&ndash; LDAP Access &ndash;&gt;-->
+	 <!--<bean id="ldapConnectionParams" class="com.copyroute.services.ldap.LDAPConnectionParams">-->
+		<!--<property name="ldapServer" value="penguins-rising.com" />-->
+		<!--<property name="ldapPort" value="10389" />-->
+		<!--<property name="ldapUser" value="uid=admin,ou=system" />-->
+		<!--<property name="ldapPassword" value="07722374470" />-->
+	 <!--</bean>-->
+	 <!---->
+	 <!--&lt;!&ndash;  Activiti - Persistance DB &ndash;&gt;-->
+	 <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">-->
+	   <!--<property name="driverClass" value="org.h2.Driver" />-->
+	   <!--<property name="url" value="jdbc:h2:mem:activiti;DB_CLOSE_DELAY=1000" />-->
+	   <!--<property name="username" value="sa" />-->
+	   <!--<property name="password" value="" />-->
+	 <!--</bean>-->
+	<!---->
+	 <!--&lt;!&ndash; bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">-->
+	   <!--<property name="driverClass" value="oracle.jdbc.OracleDriver" />-->
+	   <!--<property name="url" value="jdbc:oracle:thin:@localhost:1521:activiti" />-->
+	   <!--<property name="username" value="system" />-->
+	   <!--<property name="password" value="welcome1" />-->
+	 <!--</bean &ndash;&gt;-->
+	 <!---->
+	<!--&lt;!&ndash; Transaction Annotations &ndash;&gt;-->
+	 <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+	 <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+	   <!--<property name="dataSource" ref="dataSource" />-->
+	 <!--</bean>-->
+	<!---->
 
-</beans>
+<!--</beans>-->

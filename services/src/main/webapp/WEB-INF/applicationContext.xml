@@ -45,108 +45,108 @@
 
 ">
 
-<!-- 	<mvc:annotation-driven />  -->
-	<context:component-scan base-package="com.copyroute.services"/>
+<!--&lt;!&ndash; 	<mvc:annotation-driven />  &ndash;&gt;-->
+	<!--<context:component-scan base-package="com.copyroute.services"/>-->
 
-	<!-- Listeners -->	
-	<bean id="playListService" class="com.copyroute.services.news.PlayListService"/>
-	<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>
-	<bean id="csvLoaderService" class="com.copyroute.services.news.CsvLoaderService"/>
-<!-- 	<bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/> -->
+	<!--&lt;!&ndash; Listeners &ndash;&gt;	-->
+	<!--<bean id="playListService" class="com.copyroute.services.news.PlayListService"/>-->
+	<!--<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>-->
+	<!--<bean id="csvLoaderService" class="com.copyroute.services.news.CsvLoaderService"/>-->
+<!--&lt;!&ndash; 	<bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/> &ndash;&gt;-->
 	
  
- 	<!-- AMQP ============================================================================== -->
-	<!-- Connection and Template -->
-	<rabbit:connection-factory id="amqpConnectionFactory" host="${amqp.host}" />
-	<rabbit:admin connection-factory="amqpConnectionFactory" />
-	<rabbit:template  id="amqpTemplate" connection-factory="amqpConnectionFactory" />
-	<!-- .. Caching Connection
-	<bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
-		<property name="host" value="localhost" />
-		<property name="username" value="guest" />
-		<property name="password" value="guest" />
-		<property name="virtualHost" value="/" />
-		<property name="port" value="5672" />
-	</bean>
-	-->	
-	<!-- Transactions -->
-<!-- 	<tx:annotation-driven transaction-manager="rabbitTxManager"/> -->
-<!-- 	<bean id="rabbitTxManager" class="org.springframework.amqp.rabbit.transaction.RabbitTransactionManager"> -->
-<!-- 		<property name="connectionFactory" ref="amqpConnectionFactory"/> -->
-<!-- 	</bean> -->
-	<!-- ListenerContainer : Driven by TaskExecutor -->	
-	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		 <property name="corePoolSize" value="10" />
-		 <property name="maxPoolSize" value="15" />
-		 <property name="queueCapacity" value="25" />
-	</bean>	
+ 	<!--&lt;!&ndash; AMQP ============================================================================== &ndash;&gt;-->
+	<!--&lt;!&ndash; Connection and Template &ndash;&gt;-->
+	<!--<rabbit:connection-factory id="amqpConnectionFactory" host="${amqp.host}" />-->
+	<!--<rabbit:admin connection-factory="amqpConnectionFactory" />-->
+	<!--<rabbit:template  id="amqpTemplate" connection-factory="amqpConnectionFactory" />-->
+	<!--&lt;!&ndash; .. Caching Connection-->
+	<!--<bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">-->
+		<!--<property name="host" value="localhost" />-->
+		<!--<property name="username" value="guest" />-->
+		<!--<property name="password" value="guest" />-->
+		<!--<property name="virtualHost" value="/" />-->
+		<!--<property name="port" value="5672" />-->
+	<!--</bean>-->
+	<!--&ndash;&gt;	-->
+	<!--&lt;!&ndash; Transactions &ndash;&gt;-->
+<!--&lt;!&ndash; 	<tx:annotation-driven transaction-manager="rabbitTxManager"/> &ndash;&gt;-->
+<!--&lt;!&ndash; 	<bean id="rabbitTxManager" class="org.springframework.amqp.rabbit.transaction.RabbitTransactionManager"> &ndash;&gt;-->
+<!--&lt;!&ndash; 		<property name="connectionFactory" ref="amqpConnectionFactory"/> &ndash;&gt;-->
+<!--&lt;!&ndash; 	</bean> &ndash;&gt;-->
+	<!--&lt;!&ndash; ListenerContainer : Driven by TaskExecutor &ndash;&gt;	-->
+	<!--<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">-->
+		 <!--<property name="corePoolSize" value="10" />-->
+		 <!--<property name="maxPoolSize" value="15" />-->
+		 <!--<property name="queueCapacity" value="25" />-->
+	<!--</bean>	-->
 
-	<!-- Routing -->	
-	<rabbit:topic-exchange name="penguins.exchange" auto-delete="false" durable="false">
-		<rabbit:bindings>	
-<!-- 			<rabbit:binding queue="penguins.inputs.rssSearch" pattern="rssSearch"/> -->
-<!-- 			<rabbit:binding queue="penguins.inputs.playlist" pattern="publishPlaylist"/> -->
-			<rabbit:binding queue="penguins.inputs.publish" pattern="publishRssItem"/>
-			<rabbit:binding queue="penguins.inputs.banner" pattern="publishBanner"/>
-		</rabbit:bindings>
-	</rabbit:topic-exchange>	
+	<!--&lt;!&ndash; Routing &ndash;&gt;	-->
+	<!--<rabbit:topic-exchange name="penguins.exchange" auto-delete="false" durable="false">-->
+		<!--<rabbit:bindings>	-->
+<!--&lt;!&ndash; 			<rabbit:binding queue="penguins.inputs.rssSearch" pattern="rssSearch"/> &ndash;&gt;-->
+<!--&lt;!&ndash; 			<rabbit:binding queue="penguins.inputs.playlist" pattern="publishPlaylist"/> &ndash;&gt;-->
+			<!--<rabbit:binding queue="penguins.inputs.publish" pattern="publishRssItem"/>-->
+			<!--<rabbit:binding queue="penguins.inputs.banner" pattern="publishBanner"/>-->
+		<!--</rabbit:bindings>-->
+	<!--</rabbit:topic-exchange>	-->
 
-	<rabbit:queue name="penguins.inputs.publish" auto-delete="false" durable="false"/>	
-	<rabbit:queue name="penguins.inputs.banner" auto-delete="false" durable="false">
-	    <rabbit:queue-arguments value-type="java.lang.Long">
-        	<entry key="x-message-ttl" value="30000"/>
-    	</rabbit:queue-arguments>
-	</rabbit:queue>	
-		
-		
-	<!--<listener-container xmlns="http://www.springframework.org/schema/rabbit"-->
-		<!--connection-factory="amqpConnectionFactory" task-executor="taskExecutor"-->
-		<!--message-converter="jsonMessageConverter" acknowledge="auto" concurrency="15">-->
-<!-- 		<rabbit:listener ref="rssMessageController" method="handleSearch" queue-names="penguins.inputs.rssSearch" />	 -->
-<!-- 		<listener ref="chat_MessageHandler" method="handleHistory" queue-names="engility.inputs.history" /> -->
-	<!--</listener-container>-->
-	<!--<beans:bean id="chat_MessageHandler" class="com.copyroute.ui.controller.RssListener"/>-->
+	<!--<rabbit:queue name="penguins.inputs.publish" auto-delete="false" durable="false"/>	-->
+	<!--<rabbit:queue name="penguins.inputs.banner" auto-delete="false" durable="false">-->
+	    <!--<rabbit:queue-arguments value-type="java.lang.Long">-->
+        	<!--<entry key="x-message-ttl" value="30000"/>-->
+    	<!--</rabbit:queue-arguments>-->
+	<!--</rabbit:queue>	-->
+		<!---->
+		<!---->
+	<!--&lt;!&ndash;<listener-container xmlns="http://www.springframework.org/schema/rabbit"&ndash;&gt;-->
+		<!--&lt;!&ndash;connection-factory="amqpConnectionFactory" task-executor="taskExecutor"&ndash;&gt;-->
+		<!--&lt;!&ndash;message-converter="jsonMessageConverter" acknowledge="auto" concurrency="15">&ndash;&gt;-->
+<!--&lt;!&ndash; 		<rabbit:listener ref="rssMessageController" method="handleSearch" queue-names="penguins.inputs.rssSearch" />	 &ndash;&gt;-->
+<!--&lt;!&ndash; 		<listener ref="chat_MessageHandler" method="handleHistory" queue-names="engility.inputs.history" /> &ndash;&gt;-->
+	<!--&lt;!&ndash;</listener-container>&ndash;&gt;-->
+	<!--&lt;!&ndash;<beans:bean id="chat_MessageHandler" class="com.copyroute.ui.controller.RssListener"/>&ndash;&gt;-->
 
-	
-	<!-- Mongo Config ==============================================================================-->
-	
-	<!-- Repo-Scan : Pick up Mongo Repos -->
-	<mongo:repositories base-package="com.copyroute.services" /> 
-	<mongo:mongo host="127.0.0.1" port="27017">
-		<mongo:options 
-			connections-per-host="1000"
-			threads-allowed-to-block-for-connection-multiplier="10"
-			connect-timeout="60000"
-			max-wait-time="60000"
-			auto-connect-retry="true"
-			socket-keep-alive="true"
-			socket-timeout="0"
-			slave-ok="true"
-			write-number="1"
-			write-timeout="0"
-			write-fsync="true"/>
-	</mongo:mongo>
-    <bean id="mongoError" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+	<!---->
+	<!--&lt;!&ndash; Mongo Config ==============================================================================&ndash;&gt;-->
+	<!---->
+	<!--&lt;!&ndash; Repo-Scan : Pick up Mongo Repos &ndash;&gt;-->
+	<!--<mongo:repositories base-package="com.copyroute.services" /> -->
+	<!--<mongo:mongo host="127.0.0.1" port="27017">-->
+		<!--<mongo:options -->
+			<!--connections-per-host="1000"-->
+			<!--threads-allowed-to-block-for-connection-multiplier="10"-->
+			<!--connect-timeout="60000"-->
+			<!--max-wait-time="60000"-->
+			<!--auto-connect-retry="true"-->
+			<!--socket-keep-alive="true"-->
+			<!--socket-timeout="0"-->
+			<!--slave-ok="true"-->
+			<!--write-number="1"-->
+			<!--write-timeout="0"-->
+			<!--write-fsync="true"/>-->
+	<!--</mongo:mongo>-->
+    <!--<bean id="mongoError" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>-->
 
-    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg name="mongo" ref="mongo"/>
-		<constructor-arg name="databaseName" value="test"/>
-		<constructor-arg name="userCredentials" ref="userCredentials"/>
-	</bean>
+    <!--<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">-->
+		<!--<constructor-arg name="mongo" ref="mongo"/>-->
+		<!--<constructor-arg name="databaseName" value="test"/>-->
+		<!--<constructor-arg name="userCredentials" ref="userCredentials"/>-->
+	<!--</bean>-->
 
-	<bean id="gridFSTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
-        <constructor-arg ref="dbFactory" />
-        <constructor-arg ref="converter" />
-    </bean>
+	<!--<bean id="gridFSTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">-->
+        <!--<constructor-arg ref="dbFactory" />-->
+        <!--<constructor-arg ref="converter" />-->
+    <!--</bean>-->
 
 
-    <mongo:mapping-converter id="converter" db-factory-ref="dbFactory" />
-    <mongo:db-factory id="dbFactory" dbname="test" />
+    <!--<mongo:mapping-converter id="converter" db-factory-ref="dbFactory" />-->
+    <!--<mongo:db-factory id="dbFactory" dbname="test" />-->
 
-	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
-		<constructor-arg name="username" value="vbms"/>
-		<constructor-arg name="password" value="vbms"/>
-	</bean>
-  
-  
+	<!--<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">-->
+		<!--<constructor-arg name="username" value="vbms"/>-->
+		<!--<constructor-arg name="password" value="vbms"/>-->
+	<!--</bean>-->
+  <!---->
+  <!---->
 </beans>

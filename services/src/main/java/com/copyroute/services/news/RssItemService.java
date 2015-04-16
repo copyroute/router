@@ -1,7 +1,7 @@
 package com.copyroute.services.news;
 
 import com.copyroute.cdm.rss.*;
-import com.copyroute.services.global.Statics;
+import com.copyroute.cdm.global.Statics;
 import com.copyroute.services.mongo.Category_Repository;
 import com.copyroute.services.mongo.Company_Repository;
 import com.copyroute.services.mongo.RssItem_Repository;
@@ -27,18 +27,6 @@ public class    RssItemService //extends Amqp_Service
 {	
 	@Autowired RssItem_Repository repo;
 	public RssItem_Repository getItemRepo() {return repo;}
-
-//    @Autowired
-//    RssItemArchive2015_Repository repo2015;
-//    public RssItemArchive2015_Repository getRepo2015() {return repo2015;}
-//
-//    @Autowired
-//    RssItemArchive2014_Repository repo2014;
-//	public RssItemArchive2014_Repository getRepo2014() {return repo2014;}
-//
-//    @Autowired
-//    RssItemArchive2013_Repository repo2013;
-//    public RssItemArchive2013_Repository get2013() {return repo2013;}
 
     @Autowired  private Category_Repository categoryRepo;
 	public Category_Repository getCategoryRepo() {return categoryRepo;}

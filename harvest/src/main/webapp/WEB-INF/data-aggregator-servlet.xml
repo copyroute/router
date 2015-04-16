@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:beans="http://www.springframework.org/schema/beans"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:sws="http://www.springframework.org/schema/web-services"
+       	xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:tx="http://www.springframework.org/schema/tx" 		
+		xmlns:amqp="http://www.springframework.org/schema/integration/amqp"
+		xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+		xmlns:int="http://www.springframework.org/schema/integration"
+		xmlns:int-feed="http://www.springframework.org/schema/integration/feed"
+		xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+		xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+
+ 		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 				http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context 				http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/web-services 			http://www.springframework.org/schema/web-services/web-services.xsd
+      		http://www.springframework.org/schema/mvc 					http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	        http://www.springframework.org/schema/util					http://www.springframework.org/schema/util/spring-util.xsd
+
+			http://www.springframework.org/schema/integration 			http://www.springframework.org/schema/integration/spring-integration.xsd
+			http://www.springframework.org/schema/integration/feed 		http://www.springframework.org/schema/integration/feed/spring-integration-feed.xsd
+			http://www.springframework.org/schema/integration/amqp 		http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+			http://www.springframework.org/schema/rabbit 				http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+			http://www.springframework.org/schema/amqp 					http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+
+			http://www.springframework.org/schema/data/mongo			http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd
+
+">
+	<context:annotation-config />	
+	<mvc:annotation-driven />
+
+  	<context:component-scan base-package="com.copyroute.services.news"/>
+    <context:component-scan base-package="com.copyroute.harvest.news"/>
+
+  
+    <!-- RSS-Atom Poller ==============================================================================-->
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="playListService"/>
+		<property name="targetMethod" value="updatePlayList"/>
+		<property name="concurrent" value="false"/>
+	</bean>
+
+
+    <!-- Update Once an hour = 3600000 -->
+	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail"/>
+		<property name="startDelay" value="10000"/>
+		<property name="repeatInterval" value="3600000"/>
+	</bean>
+
+
+<!-- 	    run every morning at 6 AM -->
+<!-- 	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> -->
+<!-- 	    <property name="jobDetail" ref="exampleJob" /> -->
+<!-- 	    <property name="cronExpression" value="0 0 6 * * ?" /> -->
+<!-- 	</bean> -->
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	  <property name="triggers">
+		<list>
+		  <ref bean="simpleTrigger"/>
+<!-- 			ref bean="cronTrigger"/ -->
+<!-- 			ref bean="anotherTrigger"/ -->
+		</list>
+	  </property>
+	</bean>
+	
+	
+
+  
+  
+</beans>

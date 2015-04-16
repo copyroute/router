@@ -13,6 +13,7 @@
     <modules>
         <module>cdm</module>
         <module>services</module>
+        <module>harvest</module>
         <module>webapp</module>
     </modules>
 

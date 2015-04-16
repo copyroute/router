@@ -48,15 +48,14 @@
 
     <context:property-placeholder location="router.properties"/>
 
- 	<context:component-scan base-package="com.copyroute.ui.controller" />
+    <context:component-scan base-package="com.copyroute.cdm.util"/>
     <context:component-scan base-package="com.copyroute.services"/>
-	<context:component-scan base-package="com.copyroute.webservices"/>
-  	<context:component-scan base-package="com.copyroute.cdm.util"/>
+    <context:component-scan base-package="com.copyroute.ui.controller" />
 
 	<!-- Listeners -->	
-	<bean id="rssController" class="com.copyroute.ui.controller.RssController"/>
-	<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>
-	<bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/>
+	<!--<bean id="rssController" class="com.copyroute.ui.controller.RssController"/>-->
+	<!--<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>-->
+	<!--<bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/>-->
  
  	<!-- AMQP ============================================================================== -->
 	<!-- Connection and Template -->

@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 
 import org.springframework.stereotype.Component;
 
-import com.copyroute.services.global.Statics;
+import com.copyroute.cdm.global.Statics;
 
 import opennlp.tools.chunker.ChunkerME;
 import opennlp.tools.cmdline.PerformanceMonitor;
