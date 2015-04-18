@@ -1,9 +1,37 @@
-<jxb:bindings version="1.0"
-xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
-xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings
+        version="2.1"
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:annox="http://annox.dev.java.net"
+        jaxb:extensionBindingPrefixes="annox">
 
-	<jxb:globalBindings>
-		<jxb:serializable/>
-	</jxb:globalBindings>
+    <jaxb:bindings schemaLocation="eventservices.xsd" node="/xs:schema">
 
-</jxb:bindings>
+        <!--<jaxb:bindings node="xs:complexType[@name='Item']/xs:sequence/xs:element[@name='shipTo']">-->
+            <!--<annox:annotate target="field">-->
+                <!--<annox:annotate-->
+                        <!--annox:class="com.google.code.morphia.annotations.Embedded" value="shipTo" />-->
+            <!--</annox:annotate>-->
+        <!--</jaxb:bindings>-->
+
+        <!--<jaxb:bindings node="xs:complexType[@name='PurchaseOrderType']/xs:sequence/xs:element[@name='billTo']">-->
+            <!--<annox:annotate target="field">-->
+                <!--<annox:annotate-->
+                        <!--annox:class="com.google.code.morphia.annotations.Embedded" value="billTo" />-->
+            <!--</annox:annotate>-->
+        <!--</jaxb:bindings>-->
+
+        <!--<jaxb:bindings node="xs:complexType[@name='item']">-->
+            <!--<annox:annotate>-->
+                <!--<annox:annotate-->
+                        <!--annox:class="org.springframework.data.mongodb.core.mapping.Document" value="item"/>-->
+            <!--</annox:annotate>-->
+        <!--</jaxb:bindings>-->
+
+        <!--<jaxb:schemaBindings>-->
+            <!--<jaxb:package name="jaxbmorphia.model"/>-->
+        <!--</jaxb:schemaBindings>-->
+    </jaxb:bindings>
+
+</jaxb:bindings>

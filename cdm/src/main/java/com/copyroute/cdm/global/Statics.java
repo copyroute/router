@@ -7,7 +7,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class Statics {
 
-	
+
+    // Loggging
+    public static boolean loggingOn = true;
+
 	// PlayList Behaviors
 	public static boolean reloadPlayListDB = true;
 	
@@ -19,8 +22,6 @@ public class Statics {
 	// Formatting
 	public static boolean JsonPrettyPrint = true;
 
-	// Loggging
-	public static boolean loggingOn = false;
 
 	// Default DataList
 	public static String dataListName = "ABC";	// "myFeedList";

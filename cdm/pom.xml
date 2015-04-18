@@ -18,7 +18,7 @@
 
     <properties>
         <spring.version>4.0.1.RELEASE</spring.version>
-
+        <querydsl.version>3.6.3</querydsl.version>
     </properties>
 
     <dependencies>
@@ -67,6 +67,38 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-mongodb</artifactId>
+            <version>${querydsl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+        <!-- ======================================================  -->
+        <!-- MongoDB-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>1.6.1.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-asm</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>1.5.9</version>
+        </dependency>
+
+
 
     </dependencies>
 
@@ -101,7 +133,7 @@
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>0.8.1</version>
+                <version>0.12.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -112,6 +144,8 @@
                             <generateDirectory>src/main/generated</generateDirectory>
                             <removeOldOutput>true</removeOldOutput>
                             <args>
+                                <arg>-extension</arg>
+                                <arg>-Xannotate</arg>
                                 <arg>-XtoString</arg>
                                 <arg>-Xequals</arg>
                                 <arg>-XhashCode</arg>
@@ -124,11 +158,33 @@
                                     <artifactId>jaxb2-basics</artifactId>
                                     <version>0.6.3</version>
                                 </plugin>
+                                <plugin>
+                                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                                    <artifactId>jaxb2-basics-annotate</artifactId>
+                                    <version>0.6.3</version>
+                                </plugin>
                             </plugins>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>com.mysema.maven</groupId>-->
+                <!--<artifactId>maven-apt-plugin</artifactId>-->
+                <!--<version>1.0</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>process</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<outputDirectory>src/main/generated</outputDirectory>-->
+                            <!--<processor>com.mysema.query.mongodb.morphia.MorphiaAnnotationProcessor</processor>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
