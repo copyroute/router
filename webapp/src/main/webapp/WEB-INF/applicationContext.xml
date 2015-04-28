@@ -2,21 +2,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xmlns:beans="http://www.springframework.org/schema/beans"
-		xmlns:context="http://www.springframework.org/schema/context"
-		xmlns:int="http://www.springframework.org/schema/integration"
-		xmlns:util="http://www.springframework.org/schema/util"
-        xmlns:sws="http://www.springframework.org/schema/web-services"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:context="http://www.springframework.org/schema/context"
        	xmlns:mvc="http://www.springframework.org/schema/mvc"
-		xmlns:tx="http://www.springframework.org/schema/tx" 		
 		xmlns:amqp="http://www.springframework.org/schema/integration/amqp"
 		xmlns:rabbit="http://www.springframework.org/schema/rabbit"
 		xmlns:int-feed="http://www.springframework.org/schema/integration/feed"
 		xmlns:int-http="http://www.springframework.org/schema/integration/http"
 		xmlns:stream="http://www.springframework.org/schema/integration/stream"
-		xmlns:jaxws="http://cxf.apache.org/jaxws"
-		xmlns:cxf="http://camel.apache.org/schema/cxf" 
-
-		xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+        xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
 		xmlns:mongo="http://www.springframework.org/schema/data/mongo"
 
  		xsi:schemaLocation="
@@ -42,17 +37,21 @@
 			http://www.springframework.org/schema/integration/http 		http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
 
 			http://www.springframework.org/schema/data/mongo			http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd
-
+            http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 ">
-	<mvc:annotation-driven />
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <mvc:annotation-driven />
 
     <context:property-placeholder location="router.properties"/>
 
     <context:component-scan base-package="com.copyroute.cdm.util"/>
     <context:component-scan base-package="com.copyroute.services"/>
+    <!--<context:component-scan base-package="com.copyroute.endpoints"/>-->
     <context:component-scan base-package="com.copyroute.ui.controller" />
 
-	<!-- Listeners -->	
+
+
+	<!-- Listeners -->
 	<!--<bean id="rssController" class="com.copyroute.ui.controller.RssController"/>-->
 	<!--<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>-->
 	<!--<bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/>-->

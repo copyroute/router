@@ -64,7 +64,8 @@ public class SitemapController {
 		} catch (IOException e) {Statics.Log(e.getMessage());}	
 		return fileText;
     }
-	
+
+    // Give whoever's asking (aka- google:), the current timestamp as our latest update time
     @RequestMapping(value = "/sitemap.xml", method = RequestMethod.GET)
     @ResponseBody
     public Urlset getSiteMap(HttpServletRequest request) {

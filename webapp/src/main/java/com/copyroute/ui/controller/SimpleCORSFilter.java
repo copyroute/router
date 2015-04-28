@@ -38,11 +38,7 @@ public class SimpleCORSFilter implements Filter {
 	public void init(){ 
 		Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString()); 
 	}
-
-	public void init(FilterConfig filterConfig) {
-		
-	}
-
+	public void init(FilterConfig filterConfig) {Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString()); }
 	public void destroy() {}
 
 }

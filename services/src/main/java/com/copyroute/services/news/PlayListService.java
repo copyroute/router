@@ -187,77 +187,77 @@ public class PlayListService extends Amqp_Service
 	}
 
 
-    public void PublishSave( RssItem rssItem )
-    {
-        // Publish
-        if(rssItem != null)
-        {
-            PublishRssItem("amq.topic", rssItem.getCategory(), rssItem);
-            Log("Saved Unique : \n" + rssItem.getTitle() + " \n " + rssItem.getFeed()  );
-
-            // Publish Banner each time
-            PublishBanner("amq.topic", "publishBanner", rssItem);
-
-            // Send Esper Update
-            this.sendEsperEvent(rssItem);
-        }
-
-    }
-
-	
-	public void PublishBanner(String exchange, String routingKey, RssItem rssItem)
-	{
-		if(rssItem.getCategory() == null){
-			Statics.Log("\n\nNull Data : =================== >>> " + rssItem.getFeed() + "\n\n");
-			return;
-		}
-		try {
-			this.sendMessage(this.exchange, "publishBanner", PojoMapper.toJson(rssItem, true));
-		} 
-		catch (JsonMappingException e) {e.printStackTrace();} 
-		catch (JsonGenerationException e) {e.printStackTrace();} 
-		catch (IOException e) {e.printStackTrace();}	
-	}
-	
-	public void PublishRssItem(String exchange, String routingKey, RssItem rssItem)
-	{
-		try {
-			this.sendMessage(this.exchange, "publishRssItem", PojoMapper.toJson(rssItem, true));
-		} 
-		catch (JsonMappingException e) {e.printStackTrace();} 
-		catch (JsonGenerationException e) {e.printStackTrace();} 
-		catch (IOException e) {e.printStackTrace();}	
-	}
-		
-	// Publish Esper Event
-	public void sendEsperEvent(RssItem rssItem){
-//		EsperListener.sendEvent(rssItem);		
-	}
-	
-	public void mapReduceCategories(){
-//		Statics.Log(" === Running Map Reduce === ");
-//		MapReduceResults<ValueObject> results = 
-//				mongoTemplate.mapReduce(
-//						"rssItem", 
-//						"classpath:/resources/js/mapReduce/map.js", 
-//						"classpath:/resources/js/mapReduce/reduce.js", 
-//						options().outputCollection("aaa_example_out"),
-//						ValueObject.class);
-//		
-//		for (ValueObject valueObject : results) {
-//		  Statics.Log(valueObject.toString());
+//    public void PublishSave( RssItem rssItem )
+//    {
+//        // Publish
+//        if(rssItem != null)
+//        {
+//            PublishRssItem("amq.topic", rssItem.getCategory(), rssItem);
+//            Log("Saved Unique : \n" + rssItem.getTitle() + " \n " + rssItem.getFeed()  );
+//
+//            // Publish Banner each time
+//            PublishBanner("amq.topic", "publishBanner", rssItem);
+//
+//            // Send Esper Update
+//            this.sendEsperEvent(rssItem);
+//        }
+//
+//    }
+//
+//
+//	public void PublishBanner(String exchange, String routingKey, RssItem rssItem)
+//	{
+//		if(rssItem.getCategory() == null){
+//			Statics.Log("\n\nNull Data : =================== >>> " + rssItem.getFeed() + "\n\n");
+//			return;
 //		}
-	}
+//		try {
+//			this.sendMessage(this.exchange, "publishBanner", PojoMapper.toJson(rssItem, true));
+//		}
+//		catch (JsonMappingException e) {e.printStackTrace();}
+//		catch (JsonGenerationException e) {e.printStackTrace();}
+//		catch (IOException e) {e.printStackTrace();}
+//	}
+//
+//	public void PublishRssItem(String exchange, String routingKey, RssItem rssItem)
+//	{
+//		try {
+//			this.sendMessage(this.exchange, "publishRssItem", PojoMapper.toJson(rssItem, true));
+//		}
+//		catch (JsonMappingException e) {e.printStackTrace();}
+//		catch (JsonGenerationException e) {e.printStackTrace();}
+//		catch (IOException e) {e.printStackTrace();}
+//	}
+		
+//	// Publish Esper Event
+//	public void sendEsperEvent(RssItem rssItem){
+////		EsperListener.sendEvent(rssItem);
+//	}
+
+//	public void mapReduceCategories(){
+////		Statics.Log(" === Running Map Reduce === ");
+////		MapReduceResults<ValueObject> results =
+////				mongoTemplate.mapReduce(
+////						"rssItem",
+////						"classpath:/resources/js/mapReduce/map.js",
+////						"classpath:/resources/js/mapReduce/reduce.js",
+////						options().outputCollection("aaa_example_out"),
+////						ValueObject.class);
+////
+////		for (ValueObject valueObject : results) {
+////		  Statics.Log(valueObject.toString());
+////		}
+//	}
 	
-	public void aggregate(){
-//		Aggregation agg = new Aggregation(
-//			    pipelineOP1(),
-//			    pipelineOP2(),
-//			    pipelineOPn()
-//			);
-//		AggregationResults<OutputType> results = mongoTemplate.aggregate(agg, "rssItem", OutputType.class);
-//		List<OutputType> mappedResult = results.getMappedResults()
-	}
+//	public void aggregate(){
+////		Aggregation agg = new Aggregation(
+////			    pipelineOP1(),
+////			    pipelineOP2(),
+////			    pipelineOPn()
+////			);
+////		AggregationResults<OutputType> results = mongoTemplate.aggregate(agg, "rssItem", OutputType.class);
+////		List<OutputType> mappedResult = results.getMappedResults()
+//	}
 	
 
 	

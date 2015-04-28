@@ -45,16 +45,54 @@ public class    RssItemService //extends Amqp_Service
 	CategoryList categoryList;
 	CompanyList companyList;
 
+    CollectionName currentCollection = CollectionName.rssItem2015;
+
     public enum CollectionName {
         rssItem2015,
         rssItem2014,
-        rssItem2013
+        rssItem2013,
+        COMPLETE;
+
+        public CollectionName nextCollection(){
+            // Increment collectionName until exhausted..
+            if(this.ordinal() +1 < CollectionName.values().length) {
+                return CollectionName.values()[this.ordinal() + 1];
+            }
+            else
+                return this;
+        }
+
+        public CollectionName prevCollection(){
+            // Decrement collectionName until exhausted..
+            if(this.ordinal() -1 >= 0 ) {
+                return CollectionName.values()[this.ordinal() - 1];
+            }
+            else
+                return this;
+        }
     }
 
     @PostConstruct
 	public void init(){
 		Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString());
 	}
+
+    private PageRequest updatePageRequest(Query query, PageRequest pageRequest, CollectionName collectionName)
+    {
+        double pageCount = 0;
+        while(collectionName != collectionName.prevCollection() ) {
+            long collectionCount = mongoTemplate.count(query, collectionName.toString());
+            pageCount += Math.ceil(collectionCount / pageRequest.getPageSize());
+            collectionName = collectionName.prevCollection();
+        }
+
+        for (int i = 0; i < pageCount; i++) {
+            if (pageRequest.hasPrevious()) {
+                pageRequest.previous();
+            }
+        }
+        return pageRequest;
+    }
 
     private List<RssItem> find(PageRequest pageRequest, Query query, Class clazz)
     {
@@ -68,21 +106,24 @@ public class    RssItemService //extends Amqp_Service
             Query queryCopy = query;
             queryCopy.with(pageRequest);
 
-            // Save results
+            // Search results
             resultList.addAll( mongoTemplate.find( queryCopy, RssItem.class, collectionName.toString() ) );
 
-            // Modify PageRequest before next loop
-            // Rewind PageCount by the number of pages in the previous collection
-            if(resultList.size() < pageRequest.getPageSize()) {
-                long collectionCount = mongoTemplate.count(query, collectionName.toString());
-                long pageCount = collectionCount / pageRequest.getPageSize();
-                for (int i = 0; i < pageCount; i++)
-                    if (pageRequest.hasPrevious())
-                        pageRequest.previous();
+            // If we run out of entries in this Collection
+            if(resultList.size() < pageRequest.getPageSize())
+            {
+                // Rewind the PageRequest:PageCount by subtracting the number of pages in previous collections
+                pageRequest = updatePageRequest(query, pageRequest, collectionName);
 
-                // Increment collectionName
-                collectionName = CollectionName.values()[collectionName.ordinal() + 1];
+                // Switch to new Collection
+                collectionName = collectionName.nextCollection();
+
+                // If no more collections, break loop.. we done son!!
+                if(collectionName == CollectionName.COMPLETE)
+                    break;
+
             }
+
         }
         return resultList;
     }
@@ -93,15 +134,10 @@ public class    RssItemService //extends Amqp_Service
         Query query = new Query();
         return find(request, query, RssItem.class);
 
-        //query.with(request);
-        //List<RssItem> userTest5 = mongoTemplate.find(query, RssItem.class, "rssItem2015");
-        //return userTest5;
         //query.addCriteria(Criteria.where("age").gte(30));
         //query.with(new Sort(Sort.Direction.DESC, "date"));
         //query.skip(pageNumber * resultLimit);
         //query.limit(resultLimit);
-        //mongoTemplate.findAll(RssItem.class, "rssItem2015");
-        //return repo.findAll(request).getContent();
 	}
 
     // Find All : Sort By Property(ies)
@@ -110,11 +146,6 @@ public class    RssItemService //extends Amqp_Service
 		PageRequest request = new PageRequest(pageNumber, resultLimit, direction, property);
         Query query = new Query();
         return find(request, query, RssItem.class);
-
-//        query.with(request);
-//        List<RssItem> userTest5 = mongoTemplate.find(query, RssItem.class, "rssItem2015");
-//        return userTest5;
-//		return repo.findAll(request).getContent();
 	}
 
 
@@ -130,11 +161,9 @@ public class    RssItemService //extends Amqp_Service
 		PageRequest request = new PageRequest(pageNumber, resultLimit, direction, property);
         Query query = new Query();
         query.addCriteria(Criteria.where("category").is(category));
-//        query.with(request);
         query.with(new Sort(Sort.Direction.DESC, "date"));
-//        return mongoTemplate.find(query, RssItem.class, "rssItem2015");
-//    	return repo.findDistinctByCategoryIgnoreCaseLikeOrderByDateDesc(category, request).getContent();
         return find(request, query, RssItem.class);
+//    	return repo.findDistinctByCategoryIgnoreCaseLikeOrderByDateDesc(category, request).getContent();
 	}
 
     // Find By Company
@@ -142,10 +171,9 @@ public class    RssItemService //extends Amqp_Service
         PageRequest request = new PageRequest(pageNumber, resultLimit, direction, property);
         Query query = new Query();
         query.addCriteria(Criteria.where("company").is(company));
-        query.with(request);
         query.with(new Sort(Sort.Direction.DESC, "date"));
         return mongoTemplate.find(query, RssItem.class, "rssItem2015");
-//        return repo.findDistinctByCompanyIgnoreCaseLikeOrderByDateDesc(company, request).getContent();
+//      return repo.findDistinctByCompanyIgnoreCaseLikeOrderByDateDesc(company, request).getContent();
     }
 
     // Find By Company And Channel
@@ -154,7 +182,6 @@ public class    RssItemService //extends Amqp_Service
         Query query = new Query();
         query.addCriteria(Criteria.where("company").is(company));
         query.addCriteria(Criteria.where("channel").is(channel));
-        query.with(request);
         query.with(new Sort(Sort.Direction.DESC, "date"));
         return mongoTemplate.find(query, RssItem.class, "rssItem2015");
 //    	return repo.findDistinctByCompanyAndChannelIgnoreCaseOrderByDateDesc(company, channel, request).getContent();
@@ -166,22 +193,25 @@ public class    RssItemService //extends Amqp_Service
         Query query = new Query();
         Criteria criteria = new Criteria();
         query.addCriteria(Criteria.where("title").regex(term));
-        query.with(request);
         query.with(new Sort(Sort.Direction.DESC, "date"));
         return mongoTemplate.find(query, RssItem.class, "rssItem2015");
 //    	return repo.findDistinctByTitleIgnoreCaseLikeOrderByDateDesc(term, request).getContent();
     }
 
-    public List<RssItem> getRssItemId(String id){
-		return findById(id);
+    public List<RssItem> getRssItemId(String id)
+    {
+        return findById(id);
 	}
-    public List<RssItem> getRssItemCategoryList(String category, int start, int size){
+    public List<RssItem> getRssItemCategoryList(String category, int start, int size)
+    {
 		return findCategory(category, start, size, Direction.DESC, "id") ;
 	}
-    public List<RssItem> getRssItemCompanyList(String company, int start, int size){
+    public List<RssItem> getRssItemCompanyList(String company, int start, int size)
+    {
 		return findCompany(company, start, size, Direction.DESC, "id") ;
 	}
-    public List<RssItem> getRssItemCompanyAndChannelList(String company, String channel, int start, int size){
+    public List<RssItem> getRssItemCompanyAndChannelList(String company, String channel, int start, int size)
+    {
 		return findCompanyAndChannel(company, channel, start, size) ;
 	}
 
@@ -211,60 +241,26 @@ public class    RssItemService //extends Amqp_Service
 	}
 
 
-    public void queryDSL(){
-
-//		JPAQuery mQuery = new JPAQuery (em);
-//		QManifestEntity qManifestEntity = QManifestEntity.manifestEntity;
-//		List<ManifestEntity> mEntity = mQuery.from(qManifestEntity).list(qManifestEntity);
-//
-//		JPAQuery roQuery = new JPAQuery (em);
-//		QRegionalOfficeEntity qRegionalOfficeEntity = QRegionalOfficeEntity.regionalOfficeEntity;
-//		RegionalOfficeEntity roEntity = roQuery.from(qRegionalOfficeEntity)
-//				.where(qRegionalOfficeEntity.stationnumber.equalsIgnoreCase(stationNumber))
-//				.uniqueResult(qRegionalOfficeEntity);
-//
-//		JPAQuery intakeQuery = new JPAQuery (em);
-//		QIntakeSiteEntity qIntakeSiteEntity = QIntakeSiteEntity.intakeSiteEntity;
-//		IntakeSiteEntity intakeEntity = intakeQuery.from(qIntakeSiteEntity)
-//				.where(qIntakeSiteEntity.intakeSiteId.eq(intakeSiteId))
-//				.uniqueResult(qIntakeSiteEntity);
-
-    }
-
     // Save Unique Messages
 	public RssItem saveUnique(SyndEntry syndFeed, DataSource dataSource)
 	{
-		// Check DB for duplicates
-//		Statics.Log("\nSearching: " + dataSource.getUri() + "\n" );
-//		List<RssItem> savedItems = findByTitle(syndFeed.getTitle(), 0, 1 );
+        // Store Feed In DB
+        if( Statics.saveMessagesEnabled ){
 
-//		if( savedItems.size() == 0)
-//		{
-			// Convert to RSS Item
-			
-			// Store Feed In DB
-			if( Statics.saveMessagesEnabled ){
+            try{
+                RssItem rssItem = convertToCDM(syndFeed, dataSource );
+                rssItem.setTag("saved");
 
-				try{
-					Statics.Log(" ++++++++++++++++++++++++++++++++ ");
-					RssItem rssItem = convertToCDM(syndFeed, dataSource );
-					Statics.Log("Saving : " + rssItem.getTitle() );
-					rssItem.setTag("saved");
+                Statics.Log(" ++++++++++++++++++++++++++++++++ ");
+                Statics.Log("Saving : " + rssItem.getTitle() );
+                mongoTemplate.save(rssItem, currentCollection.toString());
 
-					// Get returned copy from Mongo, which includes the Id field
-					rssItem = repo.save(rssItem);
-					Statics.Log("Saved " + rssItem.getFeed() );
-					Statics.Log(" ++++++++++++++++++++++++++++++++ ");
-					return rssItem;
-				}
-				catch(Exception ex){Statics.Log("Duplicate Message");}
+                Statics.Log("Saved " + currentCollection.toString() );
+                Statics.Log(" ++++++++++++++++++++++++++++++++ ");
+                return rssItem;
             }
-//		}
-//		else if( savedItems.size() > 0)
-//		{
-//			Statics.Log("Duplicate: " + savedItems.get(0).getTitle() ); 
-//			return savedItems.get(0);	
-//		}
+            catch(Exception ex){Statics.Log("Duplicate Message");}
+        }
 		return null;
 	}
 
@@ -312,8 +308,29 @@ public class    RssItemService //extends Amqp_Service
 //		else {return "news";}			
 		return "";
 	}
-	
-	private void naturalLanguageProcessing(String text) {
+
+    public void queryDSL(){
+
+//		JPAQuery mQuery = new JPAQuery (em);
+//		QManifestEntity qManifestEntity = QManifestEntity.manifestEntity;
+//		List<ManifestEntity> mEntity = mQuery.from(qManifestEntity).list(qManifestEntity);
+//
+//		JPAQuery roQuery = new JPAQuery (em);
+//		QRegionalOfficeEntity qRegionalOfficeEntity = QRegionalOfficeEntity.regionalOfficeEntity;
+//		RegionalOfficeEntity roEntity = roQuery.from(qRegionalOfficeEntity)
+//				.where(qRegionalOfficeEntity.stationnumber.equalsIgnoreCase(stationNumber))
+//				.uniqueResult(qRegionalOfficeEntity);
+//
+//		JPAQuery intakeQuery = new JPAQuery (em);
+//		QIntakeSiteEntity qIntakeSiteEntity = QIntakeSiteEntity.intakeSiteEntity;
+//		IntakeSiteEntity intakeEntity = intakeQuery.from(qIntakeSiteEntity)
+//				.where(qIntakeSiteEntity.intakeSiteId.eq(intakeSiteId))
+//				.uniqueResult(qIntakeSiteEntity);
+
+    }
+
+
+    private void naturalLanguageProcessing(String text) {
 		try {
 			// TikaParser.parseText(description );	
 
