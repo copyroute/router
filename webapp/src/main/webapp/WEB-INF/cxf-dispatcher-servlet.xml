@@ -1,20 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-       xmlns:cxf="http://cxf.apache.org/core"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-                        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-                        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-                        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+<beans
 
-    <jaxrs:server address="/" basePackages="com.copyroute.endpoints"/>
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+        xmlns:jaxws="http://cxf.apache.org/jaxws"
+        xmlns:cxf="http://cxf.apache.org/core"
+        xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+            http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+            http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+            ">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <cxf:bus>
+        <cxf:inInterceptors>
+            <ref bean="loggingInInterceptor" />
+        </cxf:inInterceptors>
+        <cxf:outInterceptors>
+            <ref bean="logOutInterceptor" />
+        </cxf:outInterceptors>
+    </cxf:bus>
+    <bean class="org.apache.cxf.interceptor.LoggingInInterceptor" id="loggingInInterceptor" />
+    <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" id="logOutInterceptor" />
+
+    <jaxrs:server id="base" address="/">
+        <jaxrs:serviceBeans>
+            <ref bean="playListCXFService" />
+            <ref bean="rssItemCXFService" />
+        </jaxrs:serviceBeans>
+    </jaxrs:server>
+
+    <!--<jaxws:endpoint id="helloWorld" implementor="demo.spring.service.HelloWorldImpl" address="/HelloWorld"/>-->
+
+    <bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/>
+
+    <!--<bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">-->
+        <!--&lt;!&ndash;<property name="namespaceMap" ref="jsonNamespaceMap"/>&ndash;&gt;-->
+    <!--</bean>-->
+
+    <!--Generic Include-->
+    <!--<jaxrs:server address="/" basePackages="com.copyroute.endpoints"/>-->
+    <bean id="playListCXFService" class="com.copyroute.endpoints.PlaylistEndpoint" />
+    <bean id="rssItemCXFService" class="com.copyroute.endpoints.RssItemEndpoint" />
+
+
+    <!--<util:map id="jsonNamespaceMap" map-class="java.util.Hashtable">-->
+        <!--<entry key="http://www.copyroute.com/books" value="b"/>-->
+    <!--</util:map>-->
 
     <!--<context:component-scan base-package="com.copyroute.endpoints" />-->
 
-    <!--<bean id="jsonMessageConverter" class="com.copyroute.services.amqp.Json_MessageConverter"/>-->
 
     <!--<jaxrs:server id="PlaylistEndpoint" address="/">-->
         <!--<jaxrs:serviceBeans>-->

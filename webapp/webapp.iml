@@ -1350,6 +1350,8 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="cdm" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.7.1" level="project" />
     <orderEntry type="library" name="Maven: com.mysema.querydsl:querydsl-mongodb:3.6.3" level="project" />
     <orderEntry type="library" name="Maven: com.mysema.querydsl:querydsl-core:3.6.3" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
@@ -1399,12 +1401,8 @@
     <orderEntry type="library" name="Maven: org.apache.mina:mina-core:2.0.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:4.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.19" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.5.2" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.5.2" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.5.2" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.5.2" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jettison:jettison:1.3.7" level="project" />
+    <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.rome:rome:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: jdom:jdom:1.0" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.rome:rome-fetcher:1.0.0" level="project" />
@@ -1418,6 +1416,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.2.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.2.1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.projectreactor:reactor-net:1.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.19.Final" level="project" />
     <orderEntry type="library" name="Maven: org.projectreactor:reactor-core:1.1.2.RELEASE" level="project" />

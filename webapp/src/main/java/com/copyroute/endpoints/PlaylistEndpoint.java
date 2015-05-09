@@ -6,16 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
 /**
  * Created by flatline on 4/23/15.
  */
 
-@Path("/playlistservice/")
+@Path("/playlist/")
+@Consumes("application/json")
+@Produces("application/json")
 public class PlaylistEndpoint {
 
     long currentId = 123;
@@ -37,14 +36,19 @@ public class PlaylistEndpoint {
     }
 
     @GET
-    @Path("/customers/{id}/")
+    @Path("/")
+    @Produces( "application/json" )
+    public String index() {
+        System.out.println("Index");
+        return "Index";
+    }
+
+    @GET
+    @Path("/{id}/")
     @Produces( "application/json" )
     public PlayList getPlaylist(@PathParam("id") String id) {
-        System.out.println("PlaylistId is: " + id);
-//        long idNumber = Long.parseLong(id);
         PlayList c = playlists.get(id);
-        System.out.println("Playlist : " + playlists.size());
-        System.out.println("Playlist : " + c.getName());
+        System.out.println("Playlist : " + id + playlists.size() + c.getName());
         return c;
     }
 

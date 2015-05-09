@@ -30,9 +30,11 @@
 			<xs:element name="name" type="xs:string"/>
 	  		<xs:element name="dataSources" type="dataSource" minOccurs="0" maxOccurs="unbounded"/>  
 	    </xs:sequence>
-	</xs:complexType>		
+	</xs:complexType>
+    <xs:element name="playListRoot" type="playList"/>
 
-	<!-- Category List -->		
+
+    <!-- Category List -->
  	<xs:complexType name="categoryList">  
 	    <xs:sequence>
          	<xs:element name="_id" type="xs:string" minOccurs="1"/>
@@ -86,17 +88,18 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="rssItemList">
-		<xs:sequence>
-			<xs:element name="_id" type="xs:string" minOccurs="1"/>
-			<xs:element name="pageTitle" type="xs:string" minOccurs="1"/>
-			<xs:element name="searchType" type="xs:string" minOccurs="1"/>
-			<xs:element name="category" type="xs:string" minOccurs="1"/>
-			<xs:element name="items" type="rssItem" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
-	</xs:complexType>
-
-	<!-- Output: RSS Result -->		
+    <xs:element name="rssItemList" >
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="_id" type="xs:string" minOccurs="1"/>
+                <xs:element name="pageTitle" type="xs:string" minOccurs="1"/>
+                <xs:element name="searchType" type="xs:string" minOccurs="1"/>
+                <xs:element name="category" type="xs:string" minOccurs="1"/>
+                <xs:element name="items" type="rssItem" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	<!-- Output: RSS Result -->
 	<xs:complexType name="rssItem">
 		<xs:complexContent>
 		    <xs:extension base="item">
