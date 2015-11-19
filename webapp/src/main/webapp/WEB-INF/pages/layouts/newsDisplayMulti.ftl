@@ -5,19 +5,19 @@
 			<div id="resizer-${Category}" class="categoryColumn span12">
 				<div id="accordion-${Category}">
 
-				    <div class="row-fluid well">
+				    <div class="row-fluid ">
 				    
 				        <div class="span12">
 							<a TARGET="_self" href="${ContextPath}/${SearchType}/${Category}"> 
 								<div class="category" id="category-${Category}">
-									${Category} : ${term!''}
+									${Category} | ${term!''}
 								</div>
 							</a>
 						</div>	
 					
 					</div>
 						
-				    <div class="row-fluid well">
+				    <div class="row-fluid ">
 				        <div class="span12">
 							<#include "/components/pagination.ftl" /> 	
 						</div>	

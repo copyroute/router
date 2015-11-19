@@ -12,17 +12,18 @@
 	
 <div id="bodyDiv" class="row-fluid pull-center" >	
 	<div class="container-fluid">
-	
-		<!-- Category Display -->
-		<div class="span1 col-xs-1">
-			<#include "/components/categoryDisplay.ftl" /> 	
-		</div>
-	
-		<!-- News Display -->
-		<div class="span11  col-xs-11">
+
+        <!-- Category Display -->
+        <div class="span2 col-xs-2">
+            <#include "/components/categoryDisplay.ftl" />
+        </div>
+
+        <!-- News Display -->
+		<div class="span10  col-xs-10">
 			<#include "/layouts/newsDisplayMulti.ftl" /> 		
 		</div>
-	</div>
+
+    </div>
 		
 	<!-- Footer -->
 	<#include "/components/footer.ftl" /> 			

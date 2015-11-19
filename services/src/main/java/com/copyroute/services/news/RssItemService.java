@@ -8,6 +8,7 @@ import com.copyroute.services.mongo.RssItem_Repository;
 import com.copyroute.cdm.util.Time;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndEntryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,327 +19,135 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.text.SimpleDateFormat;
+import javax.jws.WebService;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 //import com.copyroute.services.tika.TikaParser;
 
+@WebService(name = "RssItemService", targetNamespace = "http://copyroute.com/services/")
+@Path("/rssItemService")
 @Component
-public class    RssItemService //extends Amqp_Service
+public class RssItemService
 {
-    @Autowired  private MongoTemplate mongoTemplate;
-    public MongoTemplate getMongoTemplate() {return mongoTemplate;}
+    @Autowired  protected MongoTemplate mongoTemplate;
+    @Autowired  private PlayListService playListService;
 
-
-    @Autowired RssItem_Repository repo;
-	public RssItem_Repository getItemRepo() {return repo;}
-
-    @Autowired  private Category_Repository categoryRepo;
-	public Category_Repository getCategoryRepo() {return categoryRepo;}
-
-	@Autowired  private Company_Repository companyRepo;
-	public Company_Repository getCompanyRepo() {return companyRepo;}
-
-	CategoryList categoryList;
-	CompanyList companyList;
-
-    CollectionName currentCollection = CollectionName.rssItem2015;
-
-    public enum CollectionName {
-        rssItem2015,
-        rssItem2014,
-        rssItem2013,
-        COMPLETE;
-
-        public CollectionName nextCollection(){
-            // Increment collectionName until exhausted..
-            if(this.ordinal() +1 < CollectionName.values().length) {
-                return CollectionName.values()[this.ordinal() + 1];
-            }
-            else
-                return this;
-        }
-
-        public CollectionName prevCollection(){
-            // Decrement collectionName until exhausted..
-            if(this.ordinal() -1 >= 0 ) {
-                return CollectionName.values()[this.ordinal() - 1];
-            }
-            else
-                return this;
-        }
-    }
 
     @PostConstruct
-	public void init(){
-		Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString());
-	}
+    public void init(){
+        Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString());
 
-    private PageRequest updatePageRequest(Query query, PageRequest pageRequest, CollectionName collectionName)
-    {
-        double pageCount = 0;
-        while(collectionName != collectionName.prevCollection() ) {
-            long collectionCount = mongoTemplate.count(query, collectionName.toString());
-            pageCount += Math.ceil(collectionCount / pageRequest.getPageSize());
-            collectionName = collectionName.prevCollection();
-        }
-
-        for (int i = 0; i < pageCount; i++) {
-            if (pageRequest.hasPrevious()) {
-                pageRequest.previous();
-            }
-        }
-        return pageRequest;
     }
 
-    private List<RssItem> find(PageRequest pageRequest, Query query, Class clazz)
-    {
-        CollectionName collectionName = CollectionName.rssItem2015;
-        List<RssItem> resultList = new ArrayList<RssItem>();
+    @GET
+    @Path("/find")
+    //@Path("/find/{start}/{size}")
+    public List<RssItem> find(
+            @QueryParam("start") int start,
+            @QueryParam("size") int size
+    ) {
+        return findCriteria(start, size, "","");
+    }
+
+    @GET
+    @Path("/findById")
+    public List<RssItem> findById(
+            @QueryParam("id") String id
+    ){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(id));
+        List<RssItem> rssItems = mongoTemplate.find(query, RssItem.class, playListService.getCollectionName());
+
+        List<RssItem> rssItemList = new ArrayList<RssItem>();
+        rssItemList.addAll(rssItems);
+        return rssItemList;
+    }
+
+    // Find By Title
+    @GET
+    @Path("/findByTitle")
+    public List<RssItem> findByTitle(
+            @QueryParam("term") String searchTerm,
+            @QueryParam("start") int start,
+            @QueryParam("size") int size
+    ){
+        PageRequest request = new PageRequest(start, size);
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        query.addCriteria(Criteria.where("title").regex(searchTerm));
+        query.with(new Sort(Sort.Direction.DESC, "date"));
+        return mongoTemplate.find(query, RssItem.class, playListService.getCollectionName());
+    }
+
+    @GET
+    @Path("/findCriteria")
+    //@Path("/find/{start}/{size}")
+    public List<RssItem> findCriteria(
+            @QueryParam("start") int start,
+            @QueryParam("size") int size,
+            @QueryParam("criteria") String criteria,
+            @QueryParam("criteriaValue") String criteriaValue
+    ){
+        if(size < 1) size=25;
+        int currentRssItemIndex = start * size;
+
+        // Collection names start with 1---
+        int currentCollectionIndex =
+                (int) (playListService.getLastCollectionIndex()
+                    - Math.floor(  currentRssItemIndex/ AbstractService.MAX_COLLECTION_SIZE )
+                    + 1000 );
+
+        String currentCollectionPrefix = "rssItem";
+        String collectionName =  currentCollectionPrefix + currentCollectionIndex;
+
+        PageRequest request = new PageRequest(start, size, Direction.DESC, "date");
+        Query query = new Query();
+        if(criteria.isEmpty() == false)
+            query.addCriteria(Criteria.where(criteria).is(criteriaValue));
+
+        //query.addCriteria(Criteria.where("age").gte(30));
+        //query.with(new Sort(Sort.Direction.DESC, "date"));
+        //query.skip(pageNumber * resultLimit);
+        //query.limit(resultLimit);
 
         // Search collections in reverse-time order
-        while(resultList.size() < pageRequest.getPageSize()){
+        List<RssItem> resultList = new ArrayList<RssItem>();
+        while(resultList.size() < size){
 
             // Backup Query before adding pageRequest
             Query queryCopy = query;
-            queryCopy.with(pageRequest);
+            queryCopy.with(request);
 
             // Search results
-            resultList.addAll( mongoTemplate.find( queryCopy, RssItem.class, collectionName.toString() ) );
+            List<RssItem> rssItems = mongoTemplate.find(queryCopy, RssItem.class, collectionName);
+            resultList.addAll( rssItems );
 
             // If we run out of entries in this Collection
-            if(resultList.size() < pageRequest.getPageSize())
+            if(resultList.size() < size)
             {
-                // Rewind the PageRequest:PageCount by subtracting the number of pages in previous collections
-                pageRequest = updatePageRequest(query, pageRequest, collectionName);
-
-                // Switch to new Collection
-                collectionName = collectionName.nextCollection();
-
-                // If no more collections, break loop.. we done son!!
-                if(collectionName == CollectionName.COMPLETE)
-                    break;
-
+                currentCollectionIndex++;
+                collectionName =  currentCollectionPrefix + currentCollectionIndex;
             }
 
         }
         return resultList;
     }
 
-    // Find All : Sort By DateMonth
-    public List<RssItem> find(int pageNumber, int resultLimit){
-		PageRequest request = new PageRequest(pageNumber, resultLimit, Direction.DESC, "date");
-        Query query = new Query();
-        return find(request, query, RssItem.class);
-
-        //query.addCriteria(Criteria.where("age").gte(30));
-        //query.with(new Sort(Sort.Direction.DESC, "date"));
-        //query.skip(pageNumber * resultLimit);
-        //query.limit(resultLimit);
-	}
-
-    // Find All : Sort By Property(ies)
-    public List<RssItem> find(int pageNumber, int resultLimit, Direction direction, String... property){
-    	// Eg : Page<Person> result = repository.findAll(new PageRequest(1, 2, Direction.ASC, "lastname", "firstname"));
-		PageRequest request = new PageRequest(pageNumber, resultLimit, direction, property);
-        Query query = new Query();
-        return find(request, query, RssItem.class);
-	}
-
-
-    // Find By Title
-    public List<RssItem> findById(String id ){		
-    	List<RssItem> rssItemList = new ArrayList<RssItem>();
-		rssItemList.add(repo.findOne(id));
-    	return rssItemList;
-    }
-
-    // Find By Category
-    public List<RssItem> findCategory(String category, int pageNumber, int resultLimit, Direction direction, String... property){
-		PageRequest request = new PageRequest(pageNumber, resultLimit, direction, property);
-        Query query = new Query();
-        query.addCriteria(Criteria.where("category").is(category));
-        query.with(new Sort(Sort.Direction.DESC, "date"));
-        return find(request, query, RssItem.class);
-//    	return repo.findDistinctByCategoryIgnoreCaseLikeOrderByDateDesc(category, request).getContent();
-	}
-
-    // Find By Company
-    public List<RssItem> findCompany(String company, int pageNumber, int resultLimit, Direction direction, String... property){
-        PageRequest request = new PageRequest(pageNumber, resultLimit, direction, property);
-        Query query = new Query();
-        query.addCriteria(Criteria.where("company").is(company));
-        query.with(new Sort(Sort.Direction.DESC, "date"));
-        return mongoTemplate.find(query, RssItem.class, "rssItem2015");
-//      return repo.findDistinctByCompanyIgnoreCaseLikeOrderByDateDesc(company, request).getContent();
-    }
-
-    // Find By Company And Channel
-    public List<RssItem> findCompanyAndChannel(String company, String channel, int pageNumber, int resultLimit){
-		PageRequest request = new PageRequest(pageNumber, resultLimit);
-        Query query = new Query();
-        query.addCriteria(Criteria.where("company").is(company));
-        query.addCriteria(Criteria.where("channel").is(channel));
-        query.with(new Sort(Sort.Direction.DESC, "date"));
-        return mongoTemplate.find(query, RssItem.class, "rssItem2015");
-//    	return repo.findDistinctByCompanyAndChannelIgnoreCaseOrderByDateDesc(company, channel, request).getContent();
-	}
-
-    // Find By Title
-    public List<RssItem> findByTitle(String term, int pageNumber, int resultLimit){
-		PageRequest request = new PageRequest(pageNumber, resultLimit);
-        Query query = new Query();
-        Criteria criteria = new Criteria();
-        query.addCriteria(Criteria.where("title").regex(term));
-        query.with(new Sort(Sort.Direction.DESC, "date"));
-        return mongoTemplate.find(query, RssItem.class, "rssItem2015");
-//    	return repo.findDistinctByTitleIgnoreCaseLikeOrderByDateDesc(term, request).getContent();
-    }
-
-    public List<RssItem> getRssItemId(String id)
-    {
-        return findById(id);
-	}
-    public List<RssItem> getRssItemCategoryList(String category, int start, int size)
-    {
-		return findCategory(category, start, size, Direction.DESC, "id") ;
-	}
-    public List<RssItem> getRssItemCompanyList(String company, int start, int size)
-    {
-		return findCompany(company, start, size, Direction.DESC, "id") ;
-	}
-    public List<RssItem> getRssItemCompanyAndChannelList(String company, String channel, int start, int size)
-    {
-		return findCompanyAndChannel(company, channel, start, size) ;
-	}
-
-
-    // List of Categories
-	public CategoryList getCategoryList(){
-		if(categoryList == null){
-			List<CategoryList> categoryLists = getCategoryRepo().findAll();
-			if(categoryLists.size() > 0){
-				categoryList = categoryLists.get(0);
-			}
-			Statics.Log("Found Categories : " + categoryList.getItems().size());
-		}
-		return categoryList;
-	}
-
-	// List of Companies
-	public CompanyList getCompanyList(){
-		if(companyList == null){
-			List<CompanyList> companyLists = getCompanyRepo().findAll();
-			if(companyLists.size() > 0){
-				companyList = companyLists.get(0);
-			}
-			Statics.Log("Found Companies : " + companyList.getItems().size());
-		}
-		return companyList;
-	}
-
-
-    // Save Unique Messages
-	public RssItem saveUnique(SyndEntry syndFeed, DataSource dataSource)
-	{
-        // Store Feed In DB
-        if( Statics.saveMessagesEnabled ){
-
-            try{
-                RssItem rssItem = convertToCDM(syndFeed, dataSource );
-                rssItem.setTag("saved");
-
-                Statics.Log(" ++++++++++++++++++++++++++++++++ ");
-                Statics.Log("Saving : " + rssItem.getTitle() );
-                mongoTemplate.save(rssItem, currentCollection.toString());
-
-                Statics.Log("Saved " + currentCollection.toString() );
-                Statics.Log(" ++++++++++++++++++++++++++++++++ ");
-                return rssItem;
-            }
-            catch(Exception ex){Statics.Log("Duplicate Message");}
-        }
-		return null;
-	}
-
-	// Convert
-	private RssItem convertToCDM(SyndEntry syndFeed, DataSource dataSource){
-
-		// Tag Content using NLP
-		String tag = tag( syndFeed );
-
-		RssItem rssItem = new RssItem();
-		rssItem.setCategory(dataSource.getCategory());
-		rssItem.setCompany(dataSource.getCompany());
-		rssItem.setChannel(dataSource.getChannel());
-		rssItem.setTag(tag);
-
-		if(syndFeed.getTitle() != null)
-			rssItem.setTitle(syndFeed.getTitle());
-	
-		if(syndFeed.getDescription() != null)
-			rssItem.setDescription(syndFeed.getDescription().getValue());
-		else if(syndFeed.getContents().get(0) != null)
-			rssItem.setDescription(((SyndContentImpl)syndFeed.getContents().get(0)).getValue());
-
-		if(syndFeed.getLink() != null)
-			rssItem.setUri(syndFeed.getLink());
-		if(syndFeed.getUri() != null)
-			rssItem.setFeed(dataSource.getUri());
-		if(syndFeed.getPublishedDate() != null)
-			rssItem.setDate(Time.convertXMLGregorianCalendar( syndFeed.getPublishedDate() ));
-
-		return rssItem;
-	}
-
-	// Heuristics : "tag content"
-	private String tag(SyndEntry syndFeed){
-
-//		String title = syndFeed.getTitle().toLowerCase();
-//		String description = syndFeed.getDescription().getValue().toLowerCase();		
-
-//		naturalLanguageProcessing(title);
-//		naturalLanguageProcessing(description);
-		
-//		if(description.contains("img"))			{return "img";}			
-//		else if(description.contains("video"))	{return "video";}			
-//		else {return "news";}			
-		return "";
-	}
-
-    public void queryDSL(){
-
-//		JPAQuery mQuery = new JPAQuery (em);
-//		QManifestEntity qManifestEntity = QManifestEntity.manifestEntity;
-//		List<ManifestEntity> mEntity = mQuery.from(qManifestEntity).list(qManifestEntity);
-//
-//		JPAQuery roQuery = new JPAQuery (em);
-//		QRegionalOfficeEntity qRegionalOfficeEntity = QRegionalOfficeEntity.regionalOfficeEntity;
-//		RegionalOfficeEntity roEntity = roQuery.from(qRegionalOfficeEntity)
-//				.where(qRegionalOfficeEntity.stationnumber.equalsIgnoreCase(stationNumber))
-//				.uniqueResult(qRegionalOfficeEntity);
-//
-//		JPAQuery intakeQuery = new JPAQuery (em);
-//		QIntakeSiteEntity qIntakeSiteEntity = QIntakeSiteEntity.intakeSiteEntity;
-//		IntakeSiteEntity intakeEntity = intakeQuery.from(qIntakeSiteEntity)
-//				.where(qIntakeSiteEntity.intakeSiteId.eq(intakeSiteId))
-//				.uniqueResult(qIntakeSiteEntity);
-
-    }
-
-
     private void naturalLanguageProcessing(String text) {
 		try {
-			// TikaParser.parseText(description );	
+			// TikaParser.parseText(description );
 
 			// Tokenize, Parts-Of-Speech Tagging, and Structure Chunking
 //			String[] tokens = OpenNLP.Tokenize(text);
 //			OpenNLP.POSTag(text);
 //			OpenNLP.chunk(text);
-//	
+//
 			// Break Paragraph into Sentence Array
 //			String[] sentences = OpenNLP.SentenceDetect(text);
 
@@ -349,63 +158,9 @@ public class    RssItemService //extends Amqp_Service
 //			OpenNLP.findMoney(sentences);
 //			OpenNLP.findDate(sentences);
 //			OpenNLP.findTime(sentences);
-		} 
+		}
 		catch (Exception e) {Statics.Log(e.getMessage());}
 	}
 }
 
 
-
-
-//    // Find By Title
-//    public List<RssItem> findByTitle(String term, int pageNumber, int resultLimit){
-//		PageRequest request = new PageRequest(pageNumber, resultLimit);
-//    	return repo.findDistinctByTitleIgnoreCaseLikeOrderByDateDesc(term, request).getContent();
-//    }
-//	// Find By Feed
-//    public List<RssItem> findByFeed(String feed, int pageNumber, int resultLimit){
-//		PageRequest request = new PageRequest(pageNumber, resultLimit);
-//    	return repo.findByFeedOrderByDateDesc(feed, request).getContent();
-//    }
-
-//    public List<RssItem> findAllOrderByDate(int pageNumber, int resultLimit){
-//        PageRequest request = new PageRequest(pageNumber, resultLimit);
-//        return repo.findAllOrderByDate(request).getContent();
-//    }
-//	// Find By Description
-//    public List<RssItem> findByDescription(String term, int pageNumber, int resultLimit){
-//		PageRequest request = new PageRequest(pageNumber, resultLimit);
-//    	return repo.findDistinctByDescriptionIgnoreCaseLikeOrderByDateDesc(term, request).getContent();
-//    }
-
-
-//    public RssItemList getRssItemId(String id){
-//		RssItemList rssItemList = new RssItemList();
-//		rssItemList.setCategory(id);
-//		rssItemList.getItems().addAll( findById(id) );
-//		Statics.Log("Found News : " + rssItemList.getItems().size());
-//		return rssItemList;
-//	}
-//    public RssItemList getRssItemCategoryList(String category, int start, int size){
-//		RssItemList rssItemList = new RssItemList();
-//		rssItemList.setCategory(category);
-//		rssItemList.getItems().addAll(
-//			findCategory(category, start, size, Direction.DESC, "id")
-//		);
-//		//Statics.Log("Found News : " + rssItemList.getItems().size());
-//		return rssItemList;
-//	}
-//    public RssItemList getRssItemCompanyList(String company, int start, int size){
-//		RssItemList rssItemList = new RssItemList();
-//		rssItemList.setCategory(company);
-//		rssItemList.getItems().addAll( findCompany(company, start, size, Direction.DESC, "id") );
-//		Statics.Log("Found News : " + rssItemList.getItems().size());
-//		return rssItemList;
-//	}
-//    public RssItemList getRssItemCompanyAndChannelList(String company, String channel, int start, int size){
-//		RssItemList rssItemList = new RssItemList();
-//		rssItemList.setCategory(company);
-//		rssItemList.getItems().addAll( findCompanyAndChannel(company, channel, start, size) );
-//		Statics.Log("Found News : " + rssItemList.getItems().size());
-//		return rssItemList;
-//	}

@@ -6,7 +6,7 @@
         xmlns:annox="http://annox.dev.java.net"
         jaxb:extensionBindingPrefixes="annox">
 
-    <jaxb:bindings schemaLocation="eventservices.xsd" node="/xs:schema">
+    <jaxb:bindings schemaLocation="news-services.xsd" node="/xs:schema">
 
         <!--<jaxb:bindings node="xs:complexType[@name='Item']/xs:sequence/xs:element[@name='shipTo']">-->
             <!--<annox:annotate target="field">-->
@@ -34,4 +34,7 @@
         <!--</jaxb:schemaBindings>-->
     </jaxb:bindings>
 
-</jaxb:bindings>
+    <jaxb:bindings schemaLocation="finance-services.xsd" node="/xs:schema">
+    </jaxb:bindings>
+
+    </jaxb:bindings>

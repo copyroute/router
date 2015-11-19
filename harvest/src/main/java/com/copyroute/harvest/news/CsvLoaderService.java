@@ -37,7 +37,7 @@
 //
 //
 //	// Load CSV file, and split on : Catagory, Company, Description, URI
-//	public PlayList LoadRssFeedsFromCSV(String feedListName, String filename){
+//	public PlayList LoadPlaylist(String feedListName, String filename){
 //		PlayList userFeedList = new PlayList();
 //        userFeedList.setName(feedListName);
 //

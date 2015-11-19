@@ -3,80 +3,76 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.copyroute</groupId>
-	<artifactId>services</artifactId>
+	<artifactId>copyroute-services</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 
-	<properties>
+    <!--<parent>-->
+        <!--<groupId>com.copyroute</groupId>-->
+        <!--<artifactId>copyroute-parent</artifactId>-->
+        <!--<version>1.0-SNAPSHOT</version>-->
+    <!--</parent>-->
+
+    <properties>
+        <source.version>1.8</source.version>
+        <target.version>1.8</target.version>
+
+        <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+
+        <jersey.version>1.8</jersey.version>
         <jetty.version>9.2.0.M1</jetty.version>
+        <javax.servlet.api>3.1.0</javax.servlet.api>
+        <aspectj.version>1.6.11</aspectj.version>
+        <httpclient.version>3.1</httpclient.version>
+        <xbean-version>3.7</xbean-version>
+        <slf4j.version>1.6.1</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <jaxb2.version>0.9.4</jaxb2.version>
         <spring.version>4.0.1.RELEASE</spring.version>
-        <spring.security.version>3.2.0.RELEASE</spring.security.version>        
+        <spring.security.version>3.2.0.RELEASE</spring.security.version>
         <spring.integration.version>4.0.1.RELEASE</spring.integration.version>
         <spring.ws.version>2.1.2.RELEASE</spring.ws.version>
-      	<xbean-version>3.7</xbean-version>
-        <aspectj.version>1.6.11</aspectj.version>
-        <slf4j.version>1.6.1</slf4j.version>
-		<querydsl.version>2.9.0</querydsl.version>
-	</properties>
+        <spring.oxm.version>1.5.9</spring.oxm.version>
+        <spring.data.mongodb.version>1.7.2.RELEASE</spring.data.mongodb.version>
+        <spring.amqp.version>1.4.5.RELEASE</spring.amqp.version>
+        <amqp.client.version>3.3.0</amqp.client.version>
+        <querydsl.version>3.6.3</querydsl.version>
+        <freemarker.version>2.3.19</freemarker.version>
+        <cxf.version>3.1.2</cxf.version>
+        <rome.version>1.0.0</rome.version>
+    </properties>
+
 
     <repositories>
-		 <repository>
-		 	<id>maven2-repository.dev.java.net</id>
-		    <name>Java.net Maven 2 Repository</name>
-		    <url>http://download.java.net/maven/2</url>
-		</repository>
         <repository>
-        	<id>repository.springframework.maven.snapshot</id>
-            <name>Spring Framework Maven Snapshot Repository</name>
-            <url>http://maven.springframework.org/snapshot</url>
+            <id>maven2-repository.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
         </repository>
-        <repository>
-            <id>spring-maven-release</id>
-            <name>Spring Maven Release Repository</name>
-            <url>http://maven.springframework.org/release</url>
-        </repository>
-        <repository>
-            <id>spring-maven-milestone</id>
-            <name>Spring Maven Milestone Repository</name>
-            <url>http://maven.springframework.org/milestone</url>
-        </repository>
-        <repository>
-            <id>Alfresco Maven Repository</id>
-            <url>https://maven.alfresco.com/nexus/content/groups/public/</url>
-        </repository>
-		<repository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-			<snapshots><enabled>true</enabled></snapshots>
-			<releases><enabled>false</enabled></releases>
-		</repository>
-	    <repository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-			<snapshots><enabled>false</enabled></snapshots>
-			<releases><enabled>true</enabled></releases>
-		</repository>
-		<repository>
-			<id>java-net</id>
-			<url>https://maven.java.net/content/repositories/releases</url>
-		</repository>
     </repositories>
-
-    <parent>
-        <groupId>com.copyroute</groupId>
-        <artifactId>parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
-    </parent>
 
     <dependencies>
 
+        <!-- ======================================================  -->
+        <!-- Local -->
         <dependency>
             <groupId>com.copyroute</groupId>
-            <artifactId>cdm</artifactId>
+            <artifactId>copyroute-cdm</artifactId>
 			<version>${project.version}</version>
         </dependency>
 
+
+        <!-- ======================================================  -->
+        <!-- Remote -->
+
+        <!-- Esper -->
+        <!-- 		<dependency> -->
+        <!-- 			<groupId>com.espertech</groupId> -->
+        <!-- 			<artifactId>esper</artifactId> -->
+        <!--       		<version>4.2.0</version> -->
+        <!--       	</dependency> -->
 
         <dependency>
 		  <groupId>org.apache.opennlp</groupId>
@@ -84,60 +80,53 @@
 		  <version>1.5.3</version>
 		</dependency>
 
-		<!-- Quartz-Timer-->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>1.8.6</version>
-		</dependency>
-		
-		<!-- Jackson JSON Mapper -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.7.1</version>
-		</dependency>
-		
-		<!-- RSS -->
-		<dependency>
-			<groupId>net.java.dev.rome</groupId>
-			<artifactId>rome</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>net.java.dev.rome</groupId>
-			<artifactId>rome-fetcher</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<!-- AMQP-->
-		<dependency>
-			<groupId>org.springframework.amqp</groupId>
-			<artifactId>spring-amqp</artifactId>
-			<version>1.3.0.RELEASE</version>
-		</dependency> 
-		<dependency>
-			<groupId>org.springframework.amqp</groupId>
-			<artifactId>spring-rabbit</artifactId>
-			<version>1.3.0.RELEASE</version>
-		</dependency>
-  		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-messaging</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-            
+        <!--<dependency>-->
+            <!--<groupId>com.fasterxml.jackson.jaxrs</groupId>-->
+            <!--<artifactId>jackson-jaxrs-json-provider</artifactId>-->
+            <!--<version>2.6.3</version>-->
+        <!--</dependency>-->
         <dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-   		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.2.1</version>
-		</dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf.version}</version>
+        </dependency><dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.cxf</groupId>-->
+            <!--<artifactId>cxf-rt-transports-http</artifactId>-->
+            <!--<version>${cxf.version}</version>-->
+        <!--</dependency>-->
+
+
+        <!--&lt;!&ndash; Jetty is needed if you're are not using the CXFServlet &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.cxf</groupId>-->
+            <!--<artifactId>cxf-rt-transports-http-jetty</artifactId>-->
+            <!--<version>${cxf.version}</version>-->
+        <!--</dependency>-->
+
+        <!-- ======================================================  -->
+        <!-- Javax -->
+        <!--<dependency>-->
+			<!--<groupId>javax.servlet</groupId>-->
+			<!--<artifactId>javax.servlet-api</artifactId>-->
+            <!--<version>${javax.servlet.api}</version>-->
+		<!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>com.sun.xml.ws</groupId>-->
+            <!--<artifactId>jaxws-rt</artifactId>-->
+            <!--<version>2.2.8</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>javax.inject</groupId>
@@ -145,219 +134,147 @@
             <version>1</version>
         </dependency>
 
-        <!-- ======================================================  -->
-		<!-- Spring Integration-->
-		<dependency>
-			<groupId>org.springframework.integration</groupId>
-			<artifactId>spring-integration-core</artifactId>
-            <version>${spring.integration.version}</version>
-		</dependency>
+
+        <!-- Selenium Drivers -->
         <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-stream</artifactId>
-            <version>${spring.integration.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-feed</artifactId>
-            <version>${spring.integration.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-amqp</artifactId>
-            <version>${spring.integration.version}</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.11</version>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>org.seleniumhq.selenium</groupId>-->
+            <!--<artifactId>selenium-java</artifactId>-->
+            <!--<version>2.44.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.seleniumhq.selenium</groupId>-->
+            <!--<artifactId>selenium-chrome-driver</artifactId>-->
+            <!--<version>2.44.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.seleniumhq.selenium</groupId>-->
+            <!--<artifactId>selenium-chrome-driver</artifactId>-->
+            <!--<version>2.44.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.seleniumhq.selenium</groupId>-->
+            <!--<artifactId>selenium-server</artifactId>-->
+            <!--<version>2.44.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.maven.surefire</groupId>-->
+            <!--<artifactId>surefire-api</artifactId>-->
+            <!--<version>2.18.1</version>-->
+        <!--</dependency>-->
 
-        <!-- ======================================================  -->
-		<!-- Spring 4 dependencies -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.ws</groupId>
-			<artifactId>spring-oxm</artifactId>
-			<version>1.5.9</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.ws</groupId>
-			<artifactId>spring-ws-core</artifactId>
-			<version>${spring.ws.version}</version>
-			<exclusions>
-			   <exclusion>
-			      <groupId>org.springframework</groupId>
-				  <artifactId>spring-asm</artifactId>
-			  </exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.xbean</groupId>
-			<artifactId>xbean-spring</artifactId>
-			<version>${xbean-version}</version>
-		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jmockit</groupId>
+            <artifactId>jmockit</artifactId>
+            <version>1.18</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
-            <scope>test</scope>
+        </dependency>
+
+        <!-- ======================================================  -->
+        <!-- Spring 4 dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		
-		<!-- REQUIRED FOR : Quartz-Timer && Freemarker-->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>2.3.19</version>
-		</dependency>
-		<!-- JaxB 2 -->
-		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-runtime</artifactId>
-			<version>0.6.3</version>
-		</dependency>
-
-		<!--<dependency>-->
-			<!--<groupId>org.eclipse.jetty</groupId>-->
-			<!--<artifactId>jetty-maven-plugin</artifactId>-->
-			<!--<version>${jetty.version}</version>-->
-		<!--</dependency>-->
-
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-
-        <!-- ======================================================  -->
-		<!-- MongoDB-->
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.6.1.RELEASE</version>
-             <exclusions>
-			   <exclusion>
-			      <groupId>org.springframework</groupId>
-                  <artifactId>spring-asm</artifactId>
-			  </exclusion>
-			</exclusions>
-		</dependency>
-        <dependency>
-            <groupId>org.springframework.ws</groupId>
-            <artifactId>spring-oxm</artifactId>
-            <version>1.5.9</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-context-support</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.ws</groupId>-->
+            <!--<artifactId>spring-ws-core</artifactId>-->
+            <!--<version>2.2.0.RELEASE</version>-->
+        <!--</dependency>-->
 
 
-		<!-- ======================================================  -->
-		<!-- QueryDSL -->
-		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
-			<artifactId>querydsl-mongodb</artifactId>
-			<version>${querydsl.version}</version>
-		</dependency>
+        <!--&lt;!&ndash; Jersey &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.sun.jersey</groupId>-->
+            <!--<artifactId>jersey-server</artifactId>-->
+            <!--<version>${jersey.version}</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring-core</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring-web</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring-beans</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring-context</artifactId>-->
+                <!--</exclusion>-->
+                <!--&lt;!&ndash;<exclusion>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<groupId>org.springframework</groupId>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<artifactId>spring-asm</artifactId>&ndash;&gt;-->
+                <!--&lt;!&ndash;</exclusion>&ndash;&gt;-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.1</version>
-		</dependency>
-
-		<!-- ======================================================  -->
-		<!-- Activiti -->
-<!--   		<dependency> -->
-<!-- 		  <groupId>org.apache.directory.client.ldap</groupId> -->
-<!-- 		  <artifactId>ldap-client-api</artifactId> -->
-<!-- 		  <version>0.1</version> -->
-<!-- 		</dependency> -->  
-<!-- 		<dependency> -->
-<!-- 		  <groupId>org.activiti</groupId> -->
-<!-- 		  <artifactId>activiti-engine</artifactId> -->
-<!-- 		  <version>5.10</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 		  <groupId>org.activiti</groupId> -->
-<!-- 		  <artifactId>activiti-spring</artifactId> -->
-<!-- 		  <version>5.10</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 		  <groupId>org.activiti</groupId> -->
-<!-- 		  <artifactId>activiti-cdi</artifactId> -->
-<!-- 		  <version>5.10</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.h2database</groupId> -->
-<!-- 			<artifactId>h2</artifactId> -->
-<!-- 			<version>1.3.168</version> -->
-<!-- 		</dependency> -->
-<!--  		<dependency> -->
-<!-- 		  <groupId>org.apache.commons</groupId> -->
-<!-- 		  <artifactId>commons-io</artifactId> -->
-<!-- 		  <version>1.3.2</version> -->
-<!-- 		</dependency> -->
-
-   		<!-- Esper -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.espertech</groupId> -->
-<!-- 			<artifactId>esper</artifactId> -->
-<!--       		<version>4.2.0</version> -->
-<!--       	</dependency> -->
-
-
-<!--         <dependency> -->
-<!--             <groupId>org.springframework</groupId> -->
-<!--             <artifactId>spring-aop</artifactId> -->
-<!--             <version>${spring.version}</version> -->
-<!--         </dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.security</groupId> -->
-<!-- 			<artifactId>spring-security-core</artifactId> -->
-<!-- 			<version>${spring.security.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.security</groupId> -->
-<!-- 			<artifactId>spring-security-config</artifactId> -->
-<!-- 			<version>${spring.security.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.security</groupId> -->
-<!-- 			<artifactId>spring-security-web</artifactId> -->
-<!-- 			<version>${spring.security.version}</version> -->
-<!-- 			<exclusions> -->
-<!-- 				<exclusion> -->
-<!-- 					<groupId>org.springframework</groupId> -->
-<!-- 					<artifactId>spring-jdbc</artifactId> -->
-<!-- 				</exclusion> -->
-<!-- 			</exclusions> -->
-<!-- 		</dependency> -->
-
+        <!--&lt;!&ndash; Jersey + Spring &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.sun.jersey.contribs</groupId>-->
+            <!--<artifactId>jersey-spring</artifactId>-->
+            <!--<version>${jersey.version}</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring-core</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring-web</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring-beans</artifactId>-->
+                <!--</exclusion>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework</groupId>-->
+                    <!--<artifactId>spring-context</artifactId>-->
+                <!--</exclusion>-->
+                <!--&lt;!&ndash;<exclusion>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<groupId>org.springframework</groupId>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<artifactId>spring-asm</artifactId>&ndash;&gt;-->
+                <!--&lt;!&ndash;</exclusion>&ndash;&gt;-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
 
 
 	</dependencies>
@@ -371,7 +288,7 @@
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-			    <version>0.8.1</version>
+                <version>0.12.1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -401,30 +318,27 @@
 			</plugin>
 
 			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>maven-apt-plugin</artifactId>
-				<version>1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>src/main/generated</outputDirectory>
-							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+                <version>${maven.compiler.plugin.version}</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+                    <source>${source.version}</source>
+                    <target>${target.version}</target>
 				</configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>make-a-jar</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
@@ -436,7 +350,294 @@
 			        </httpConnector>
 			      </configuration>
 			</plugin>
+
+            <!-- ==================== -->
+            <!--CXF WSDL2JAVA-->
+            <!-- ==================== -->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.cxf</groupId>-->
+                <!--<artifactId>cxf-codegen-plugin</artifactId>-->
+                <!--<version>${cxf.version}</version>-->
+                <!--<executions>-->
+
+                    <!--<execution>-->
+                        <!--<id>generate-sources</id>-->
+                        <!--<phase>generate-sources</phase>-->
+                        <!--<configuration>-->
+                            <!--<sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>-->
+                            <!--<wsdlOptions>-->
+
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>${basedir}/src/wsdl/AbstractService.wsdl</wsdl>-->
+                                    <!--<wsdlLocation>wsdl/AbstractService.wsdl</wsdlLocation>-->
+                                    <!--<extraargs>-->
+                                        <!--<extraarg>-client</extraarg>-->
+                                        <!--<extraarg>-impl</extraarg>-->
+                                        <!--<extraarg>-verbose</extraarg>-->
+                                    <!--</extraargs>-->
+                                <!--</wsdlOption>-->
+
+                            <!--</wsdlOptions>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>wsdl2java</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+                <!--</executions>-->
+            <!--</plugin>-->
+
+
+
+            <!-- ==================== -->
+            <!--CXF JAVA2WSDL-->
+            <!-- ==================== -->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.cxf</groupId>-->
+                <!--<artifactId>cxf-java2ws-plugin</artifactId>-->
+                <!--<version>${cxf.version}</version>-->
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.apache.cxf</groupId>-->
+                        <!--<artifactId>cxf-rt-frontend-jaxws</artifactId>-->
+                        <!--<version>${cxf.version}</version>-->
+                    <!--</dependency>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.apache.cxf</groupId>-->
+                        <!--<artifactId>cxf-rt-frontend-simple</artifactId>-->
+                        <!--<version>${cxf.version}</version>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
+
+                <!--<executions>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes1</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<configuration>-->
+                            <!--<className>com.copyroute.services.news.CompanyService</className>-->
+                            <!--<genWsdl>true</genWsdl>-->
+                            <!--&lt;!&ndash;<genWrapperbean>true</genWrapperbean>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<genServer>true</genServer>&ndash;&gt;-->
+                            <!--<genClient>true</genClient>-->
+                            <!--<verbose>true</verbose>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>java2ws</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes2</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<configuration>-->
+                            <!--<className>com.copyroute.services.news.CategoryService</className>-->
+                            <!--<genWsdl>true</genWsdl>-->
+                            <!--&lt;!&ndash;<genWrapperbean>true</genWrapperbean>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<genServer>true</genServer>&ndash;&gt;-->
+                            <!--<genClient>true</genClient>-->
+                            <!--<verbose>true</verbose>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>java2ws</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes3</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<configuration>-->
+                            <!--<className>com.copyroute.services.news.RssItemService</className>-->
+                            <!--<genWsdl>true</genWsdl>-->
+                            <!--&lt;!&ndash;<genWrapperbean>true</genWrapperbean>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<genServer>true</genServer>&ndash;&gt;-->
+                            <!--<genClient>true</genClient>-->
+                            <!--<verbose>true</verbose>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>java2ws</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes4</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<configuration>-->
+                            <!--<className>com.copyroute.services.news.ChannelService</className>-->
+                            <!--<genWsdl>true</genWsdl>-->
+                            <!--&lt;!&ndash;<genWrapperbean>true</genWrapperbean>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<genServer>true</genServer>&ndash;&gt;-->
+                            <!--<genClient>true</genClient>-->
+                            <!--<verbose>true</verbose>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>java2ws</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes5</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<configuration>-->
+                            <!--<className>com.copyroute.services.news.AbstractService</className>-->
+                            <!--<genWsdl>true</genWsdl>-->
+                            <!--&lt;!&ndash;<genWrapperbean>true</genWrapperbean>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<genServer>true</genServer>&ndash;&gt;-->
+                            <!--<genClient>true</genClient>-->
+                            <!--<verbose>true</verbose>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>java2ws</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes6</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<configuration>-->
+                            <!--<className>com.copyroute.services.news.CsvLoaderService</className>-->
+                            <!--<genWsdl>true</genWsdl>-->
+                            <!--&lt;!&ndash;<genWrapperbean>true</genWrapperbean>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<genServer>true</genServer>&ndash;&gt;-->
+                            <!--<genClient>true</genClient>-->
+                            <!--<verbose>true</verbose>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>java2ws</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes7</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<configuration>-->
+                            <!--<className>com.copyroute.services.news.PlayListService</className>-->
+                            <!--<genWsdl>true</genWsdl>-->
+                            <!--&lt;!&ndash;<genWrapperbean>true</genWrapperbean>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<genServer>true</genServer>&ndash;&gt;-->
+                            <!--<genClient>true</genClient>-->
+                            <!--<verbose>true</verbose>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>java2ws</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+
+                <!--</executions>-->
+            <!--</plugin>-->
+
+
+            <!-- ==================== -->
+            <!--CXF JAVA2WADL-->
+            <!-- ==================== -->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.cxf</groupId>-->
+                <!--<artifactId>cxf-java2wadl-plugin</artifactId>-->
+                <!--<version>3.0.0</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>process-classes1</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>java2wadl</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<classResourceNames>-->
+                                <!--<classResourceName>com.copyroute.services.news.CompanyService</classResourceName>-->
+                            <!--</classResourceNames>-->
+                            <!--<attachWadl>true</attachWadl>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes2</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>java2wadl</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<classResourceNames>-->
+                                <!--<classResourceName>com.copyroute.services.news.CategoryService</classResourceName>-->
+                            <!--</classResourceNames>-->
+                            <!--<attachWadl>true</attachWadl>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes3</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>java2wadl</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<classResourceNames>-->
+                                <!--<classResourceName>com.copyroute.services.news.RssItemService</classResourceName>-->
+                            <!--</classResourceNames>-->
+                            <!--<attachWadl>true</attachWadl>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes4</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>java2wadl</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<classResourceNames>-->
+                                <!--<classResourceName>com.copyroute.services.news.ChannelService</classResourceName>-->
+                            <!--</classResourceNames>-->
+                            <!--<attachWadl>true</attachWadl>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes5</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>java2wadl</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<classResourceNames>-->
+                                <!--<classResourceName>com.copyroute.services.news.AbstractService</classResourceName>-->
+                            <!--</classResourceNames>-->
+                            <!--<attachWadl>true</attachWadl>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes6</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>java2wadl</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<classResourceNames>-->
+                                <!--<classResourceName>com.copyroute.services.news.CsvLoaderService</classResourceName>-->
+                            <!--</classResourceNames>-->
+                            <!--<attachWadl>true</attachWadl>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>process-classes7</id>-->
+                        <!--<phase>process-classes</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>java2wadl</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<classResourceNames>-->
+                                <!--<classResourceName>com.copyroute.services.news.PlayListService</classResourceName>-->
+                            <!--</classResourceNames>-->
+                            <!--<attachWadl>true</attachWadl>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
 		</plugins>
 	</build>
 
 </project>
+

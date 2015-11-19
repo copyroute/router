@@ -12,11 +12,14 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import com.copyroute.services.news.CategoryService;
+import com.copyroute.services.news.CompanyService;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.sitemaps.schemas.sitemap._0.TChangeFreq;
 import org.sitemaps.schemas.sitemap._0.TUrl;
 import org.sitemaps.schemas.sitemap._0.Urlset;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -35,7 +38,10 @@ import com.copyroute.services.news.RssItemService;
 public class SitemapController {
 
 	@Qualifier("rssItemService")
-	@Inject		private RssItemService rssItemService;	
+	@Inject		private RssItemService rssItemService;
+
+    @Autowired private CategoryService categoryService;
+    @Autowired private CompanyService companyService;
 
 	
 	@PostConstruct
@@ -73,11 +79,11 @@ public class SitemapController {
     	String domain = getDomain(request);
     	
     	Urlset urlset = new Urlset();
-		CategoryList categoryList = rssItemService.getCategoryList();
+		CategoryList categoryList = categoryService.getCategoryList();
 		for(String category : categoryList.getItems() ){
 	    	urlset.getUrl().add(createUrl(domain, "/category/"+category));
 		}
-		CompanyList companyList = rssItemService.getCompanyList();
+		CompanyList companyList = companyService.getCompanyList();
 		for(String company : companyList.getItems() ){
 	    	urlset.getUrl().add(createUrl(domain, "/company/"+company));
 		}		

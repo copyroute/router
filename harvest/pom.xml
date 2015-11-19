@@ -1,86 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.copyroute</groupId>
-	<artifactId>harvest</artifactId>
+	<artifactId>copyroute-harvest</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 
-	<properties>
-        <jetty.version>9.2.0.M1</jetty.version>
-        <spring.version>4.0.1.RELEASE</spring.version>
-        <spring.security.version>3.2.0.RELEASE</spring.security.version>        
-        <spring.integration.version>4.0.1.RELEASE</spring.integration.version>
-        <spring.ws.version>2.1.2.RELEASE</spring.ws.version>
-      	<xbean-version>3.7</xbean-version>
-        <aspectj.version>1.6.11</aspectj.version>
-        <slf4j.version>1.6.1</slf4j.version>
-		<querydsl.version>2.9.0</querydsl.version>
+    <parent>
+        <groupId>com.copyroute</groupId>
+        <artifactId>copyroute-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
 	</properties>
 
     <repositories>
-		 <repository>
-		 	<id>maven2-repository.dev.java.net</id>
-		    <name>Java.net Maven 2 Repository</name>
-		    <url>http://download.java.net/maven/2</url>
-		</repository>
-        <repository>
-        	<id>repository.springframework.maven.snapshot</id>
-            <name>Spring Framework Maven Snapshot Repository</name>
-            <url>http://maven.springframework.org/snapshot</url>
-        </repository>
-        <repository>
-            <id>spring-maven-release</id>
-            <name>Spring Maven Release Repository</name>
-            <url>http://maven.springframework.org/release</url>
-        </repository>
-        <repository>
-            <id>spring-maven-milestone</id>
-            <name>Spring Maven Milestone Repository</name>
-            <url>http://maven.springframework.org/milestone</url>
-        </repository>
-        <repository>
-            <id>Alfresco Maven Repository</id>
-            <url>https://maven.alfresco.com/nexus/content/groups/public/</url>
-        </repository>
-		<repository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-			<snapshots><enabled>true</enabled></snapshots>
-			<releases><enabled>false</enabled></releases>
-		</repository>
-	    <repository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-			<snapshots><enabled>false</enabled></snapshots>
-			<releases><enabled>true</enabled></releases>
-		</repository>
-		<repository>
-			<id>java-net</id>
-			<url>https://maven.java.net/content/repositories/releases</url>
-		</repository>
     </repositories>
 
-    <parent>
-        <groupId>com.copyroute</groupId>
-        <artifactId>parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
-    </parent>
-
     <dependencies>
-
-
+        
         <dependency>
             <groupId>com.copyroute</groupId>
-            <artifactId>cdm</artifactId>
+            <artifactId>copyroute-cdm</artifactId>
 			<version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.copyroute</groupId>
-            <artifactId>services</artifactId>
+            <artifactId>copyroute-services</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -88,7 +39,7 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-            <version>3.0.0-milestone1</version>
+            <version>${cxf.version}</version>
         </dependency>
 
         <!-- NLP-->
@@ -122,12 +73,12 @@
 		<dependency>
 			<groupId>net.java.dev.rome</groupId>
 			<artifactId>rome</artifactId>
-			<version>1.0.0</version>
+            <version>${rome.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.java.dev.rome</groupId>
 			<artifactId>rome-fetcher</artifactId>
-			<version>1.0.0</version>
+            <version>${rome.version}</version>
 		</dependency>
 
 		<!-- AMQP-->
@@ -150,7 +101,7 @@
         <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
+            <version>${javax.servlet.api}</version>
 			<scope>provided</scope>
 		</dependency>
    		<dependency>
@@ -199,7 +150,7 @@
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
 			<artifactId>spring-oxm</artifactId>
-			<version>1.5.9</version>
+			<version>${spring.oxm.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
@@ -255,25 +206,13 @@
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.19</version>
+			<version>${freemarker.version}</version>
 		</dependency>
 		<!-- JaxB 2 -->
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics-runtime</artifactId>
-			<version>0.6.3</version>
-		</dependency>
-
-		<!--<dependency>-->
-			<!--<groupId>org.eclipse.jetty</groupId>-->
-			<!--<artifactId>jetty-maven-plugin</artifactId>-->
-			<!--<version>${jetty.version}</version>-->
-		<!--</dependency>-->
-
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+            <version>${jaxb2.version}</version>
 		</dependency>
 
         <!-- ======================================================  -->
@@ -281,7 +220,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.6.1.RELEASE</version>
+			<version>${spring.data.mongodb.version}</version>
              <exclusions>
 			   <exclusion>
 			      <groupId>org.springframework</groupId>
@@ -292,7 +231,7 @@
         <dependency>
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-oxm</artifactId>
-            <version>1.5.9</version>
+            <version>${spring.oxm.version}</version>
         </dependency>
 
 
@@ -304,86 +243,78 @@
 			<version>${querydsl.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.1</version>
-		</dependency>
+        <!-- Jersey -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <!--<exclusion>-->
+                <!--<groupId>org.springframework</groupId>-->
+                <!--<artifactId>spring-asm</artifactId>-->
+                <!--</exclusion>-->
+            </exclusions>
+        </dependency>
 
-		<!-- ======================================================  -->
-		<!-- Activiti -->
-<!--   		<dependency> -->
-<!-- 		  <groupId>org.apache.directory.client.ldap</groupId> -->
-<!-- 		  <artifactId>ldap-client-api</artifactId> -->
-<!-- 		  <version>0.1</version> -->
-<!-- 		</dependency> -->  
-<!-- 		<dependency> -->
-<!-- 		  <groupId>org.activiti</groupId> -->
-<!-- 		  <artifactId>activiti-engine</artifactId> -->
-<!-- 		  <version>5.10</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 		  <groupId>org.activiti</groupId> -->
-<!-- 		  <artifactId>activiti-spring</artifactId> -->
-<!-- 		  <version>5.10</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 		  <groupId>org.activiti</groupId> -->
-<!-- 		  <artifactId>activiti-cdi</artifactId> -->
-<!-- 		  <version>5.10</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.h2database</groupId> -->
-<!-- 			<artifactId>h2</artifactId> -->
-<!-- 			<version>1.3.168</version> -->
-<!-- 		</dependency> -->
-<!--  		<dependency> -->
-<!-- 		  <groupId>org.apache.commons</groupId> -->
-<!-- 		  <artifactId>commons-io</artifactId> -->
-<!-- 		  <version>1.3.2</version> -->
-<!-- 		</dependency> -->
-
-   		<!-- Esper -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.espertech</groupId> -->
-<!-- 			<artifactId>esper</artifactId> -->
-<!--       		<version>4.2.0</version> -->
-<!--       	</dependency> -->
-
-
-<!--         <dependency> -->
-<!--             <groupId>org.springframework</groupId> -->
-<!--             <artifactId>spring-aop</artifactId> -->
-<!--             <version>${spring.version}</version> -->
-<!--         </dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.security</groupId> -->
-<!-- 			<artifactId>spring-security-core</artifactId> -->
-<!-- 			<version>${spring.security.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.security</groupId> -->
-<!-- 			<artifactId>spring-security-config</artifactId> -->
-<!-- 			<version>${spring.security.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.security</groupId> -->
-<!-- 			<artifactId>spring-security-web</artifactId> -->
-<!-- 			<version>${spring.security.version}</version> -->
-<!-- 			<exclusions> -->
-<!-- 				<exclusion> -->
-<!-- 					<groupId>org.springframework</groupId> -->
-<!-- 					<artifactId>spring-jdbc</artifactId> -->
-<!-- 				</exclusion> -->
-<!-- 			</exclusions> -->
-<!-- 		</dependency> -->
+        <!-- Jersey + Spring -->
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-spring</artifactId>
+            <version>${jersey.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <!--<exclusion>-->
+                <!--<groupId>org.springframework</groupId>-->
+                <!--<artifactId>spring-asm</artifactId>-->
+                <!--</exclusion>-->
+            </exclusions>
+        </dependency>
 
 
 
-	</dependencies>
+    </dependencies>
 
 	<build>
-		<finalName>router</finalName>
+		<finalName>harvest</finalName>
 		<plugins>
 
             <!-- Run JAXB against XSD schemas
@@ -439,10 +370,10 @@
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>${maven.compiler.plugin.version}</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+                    <source>${source.version}</source>
+                    <target>${target.version}</target>
 				</configuration>
 			</plugin>
 
@@ -452,7 +383,7 @@
 			      <configuration>
 			        <httpConnector>
 			          <!--host>localhost</host-->
-			          <port>9090</port>
+			          <port>9191</port>
 			        </httpConnector>
 			      </configuration>
 			</plugin>

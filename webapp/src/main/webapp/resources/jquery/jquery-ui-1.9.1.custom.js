@@ -45,7 +45,7 @@ $.extend( $.ui, {
 	}
 });
 
-// plugins
+// finance
 $.fn.extend({
 	_focus: $.fn.focus,
 	focus: function( delay, fn ) {
@@ -324,7 +324,7 @@ $.extend( $.ui, {
 		return has;
 	},
 
-	// these are odd functions, fix the API or move into individual plugins
+	// these are odd functions, fix the API or move into individual finance
 	isOverAxis: function( x, reference, size ) {
 		//Determines when x coordinate is over "b" element axis
 		return ( x > reference ) && ( x < ( reference + size ) );
@@ -1667,7 +1667,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 		this.position = this._generatePosition(event);
 		this.positionAbs = this._convertPositionTo("absolute");
 
-		//Call plugins and callbacks and use the resulting position if something is returned
+		//Call finance and callbacks and use the resulting position if something is returned
 		if (!noPropagation) {
 			var ui = this._uiHash();
 			if(this._trigger('drag', event, ui) === false) {
@@ -1981,7 +1981,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 	_trigger: function(type, event, ui) {
 		ui = ui || this._uiHash();
 		$.ui.plugin.call(this, type, [event, ui]);
-		if(type == "drag") this.positionAbs = this._convertPositionTo("absolute"); //The absolute position has to be recalculated after plugins
+		if(type == "drag") this.positionAbs = this._convertPositionTo("absolute"); //The absolute position has to be recalculated after finance
 		return $.Widget.prototype._trigger.call(this, type, event, ui);
 	},
 
@@ -2029,7 +2029,7 @@ $.ui.plugin.add("draggable", "connectToSortable", {
 				this.instance.isOver = 0;
 
 				inst.cancelHelperRemoval = true; //Don't remove the helper in the draggable instance
-				this.instance.cancelHelperRemoval = false; //Remove it in the sortable instance (so sortable plugins like revert still work)
+				this.instance.cancelHelperRemoval = false; //Remove it in the sortable instance (so sortable finance like revert still work)
 
 				//The sortable revert is supported, and we have to set a temporary dropped variable on the draggable to support revert: 'valid/invalid'
 				if(this.shouldRevert) this.instance.options.revert = true;
@@ -2888,7 +2888,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 		data = this._respectSize(data, event);
 
-		// plugins callbacks need to be called first
+		// finance callbacks need to be called first
 		this._propagate("resize", event);
 
 		el.css({
@@ -4666,7 +4666,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 			}
 		}
 
-		//Do what was originally in plugins
+		//Do what was originally in finance
 		if(this._storedCursor) $('body').css("cursor", this._storedCursor); //Reset cursor
 		if(this._storedOpacity) this.helper.css("opacity", this._storedOpacity); //Reset opacity
 		if(this._storedZIndex) this.helper.css("zIndex", this._storedZIndex == 'auto' ? '' : this._storedZIndex); //Reset z-index
@@ -6224,7 +6224,7 @@ $.widget( "ui.button", {
 
 		// TODO: pull out $.Widget's handling for the disabled option into
 		// $.Widget.prototype._setOptionDisabled so it's easy to proxy and can
-		// be overridden by individual plugins
+		// be overridden by individual finance
 		this._setOption( "disabled", options.disabled );
 		this._resetButton();
 	},

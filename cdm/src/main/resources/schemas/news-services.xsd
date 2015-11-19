@@ -23,8 +23,8 @@
 	    </xs:sequence>
 	</xs:complexType>		
 
-	<!-- Feed List -->		
- 	<xs:complexType name="playList">  
+	<!-- Feed List -->
+ 	<xs:complexType name="playList">
 	    <xs:sequence>
          	<xs:element name="_id" type="xs:string" minOccurs="1"/>
 			<xs:element name="name" type="xs:string"/>
@@ -35,28 +35,34 @@
 
 
     <!-- Category List -->
- 	<xs:complexType name="categoryList">  
+    <xs:element name="categoryList" >
+ 	<xs:complexType >
 	    <xs:sequence>
          	<xs:element name="_id" type="xs:string" minOccurs="1"/>
 	  		<xs:element name="items" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>  
 	    </xs:sequence>
-	</xs:complexType>		
+	</xs:complexType>
+    </xs:element>
 
-	<!-- Company List -->		
- 	<xs:complexType name="companyList">  
+	<!-- Company List -->
+    <xs:element name="companyList" >
+ 	<xs:complexType >
 	    <xs:sequence>
          	<xs:element name="_id" type="xs:string" minOccurs="1"/>
 	  		<xs:element name="items" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>  
 	    </xs:sequence>
-	</xs:complexType>		
+	</xs:complexType>
+    </xs:element>
 
-	<!-- Channel List -->		
- 	<xs:complexType name="channelList">  
+	<!-- Channel List -->
+    <xs:element name="channelList" >
+ 	<xs:complexType >
 	    <xs:sequence>
          	<xs:element name="_id" type="xs:string" minOccurs="1"/>
 	  		<xs:element name="items" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>  
 	    </xs:sequence>
 	</xs:complexType>		
+    </xs:element>
 
 	<!-- Channel List -->		
  	<xs:complexType name="ValueObject">  
@@ -88,19 +94,21 @@
 		</xs:sequence>
 	</xs:complexType>
 
-    <xs:element name="rssItemList" >
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="_id" type="xs:string" minOccurs="1"/>
-                <xs:element name="pageTitle" type="xs:string" minOccurs="1"/>
-                <xs:element name="searchType" type="xs:string" minOccurs="1"/>
-                <xs:element name="category" type="xs:string" minOccurs="1"/>
-                <xs:element name="items" type="rssItem" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-	<!-- Output: RSS Result -->
-	<xs:complexType name="rssItem">
+    <!--<xs:element name="rssItemList" >-->
+        <!--<xs:complexType>-->
+            <!--<xs:sequence>-->
+                <!--<xs:element name="_id" type="xs:string" minOccurs="1"/>-->
+                <!--<xs:element name="pageTitle" type="xs:string" minOccurs="1"/>-->
+                <!--<xs:element name="searchType" type="xs:string" minOccurs="1"/>-->
+                <!--<xs:element name="category" type="xs:string" minOccurs="1"/>-->
+                <!--<xs:element name="items" type="rssItem" minOccurs="0" maxOccurs="unbounded"/>-->
+            <!--</xs:sequence>-->
+        <!--</xs:complexType>-->
+    <!--</xs:element>-->
+
+    <!-- Output: RSS Result -->
+    <xs:element name="rssItem" >
+	<xs:complexType >
 		<xs:complexContent>
 		    <xs:extension base="item">
 			    <xs:sequence>
@@ -121,29 +129,8 @@
 		    </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+    </xs:element>
 
-	<xs:complexType name="rssItemArchive">
-		<xs:complexContent>
-			<xs:extension base="rssItem">
-				<xs:sequence>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-
-
-	<!-- Input: Search Request -->		
-	<xs:complexType name="rssSearchRequest">
-		<xs:complexContent>
-		    <xs:extension base="rssItem">
-				<xs:sequence>
-					<xs:element name="operation" type="xs:string"/>
-					<xs:element name="pageNumber" type="xs:int"/>
-					<xs:element name="pageSize" type="xs:int"/>
-				</xs:sequence>
-		    </xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
 
 
 </xs:schema>

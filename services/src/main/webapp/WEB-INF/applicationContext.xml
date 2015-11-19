@@ -1,0 +1,266 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/data/mongo
+    http://www.springframework.org/schema/data/mongo/spring-mongo-1.7.xsd
+    http://www.springframework.org/schema/rabbit
+    http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+    http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+    http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+	<!--&lt;!&ndash; Map "/resources/**" urls to "src/main/webapp/resources" &ndash;&gt;-->
+	<!--&lt;!&ndash; Cache for one day &ndash;&gt;-->
+	<!--<mvc:resources mapping="/public-resources/**" location="/public-resources/" cache-period="86400"/>-->
+
+    <context:property-placeholder location="router.properties" />
+	<context:annotation-config />
+    <!--<mvc:annotation-driven />-->
+
+    <context:component-scan base-package="com.copyroute.services" />
+
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+
+    <!-- RssItemService -->
+    <jaxrs:server id="rssItemServiceREST" address="/rest/rssItemService">
+        <jaxrs:serviceBeans>
+            <ref bean="rssItemService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean='jsonProvider' />
+        </jaxrs:providers>
+    </jaxrs:server>
+    <jaxws:endpoint id="rssItemServiceEndpoint" implementor="#rssItemService" address="/RssItemService" />
+    <bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>
+
+    <!-- ChannelService -->
+    <!--<jaxrs:server id="channelServiceREST" address="/rest/channelService">-->
+        <!--<jaxrs:serviceBeans>-->
+            <!--<ref bean="channelService"/>-->
+        <!--</jaxrs:serviceBeans>-->
+        <!--<jaxrs:providers>-->
+            <!--<ref bean='jsonProvider' />-->
+        <!--</jaxrs:providers>-->
+    <!--</jaxrs:server>-->
+    <jaxws:endpoint id="channelServiceEndpoint" implementor="#channelService" address="/ChannelService"/>
+    <bean id="channelService" class="com.copyroute.services.news.ChannelService"/>
+
+    <!-- CompanyService -->
+    <jaxrs:server id="companyServiceREST" address="/rest/companyService">
+        <jaxrs:serviceBeans>
+            <ref bean="companyService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean='jsonProvider' />
+        </jaxrs:providers>
+    </jaxrs:server>
+    <jaxws:endpoint id="companyServiceEndpoint" implementor="#companyService" address="/CompanyService" />
+    <bean id="companyService" class="com.copyroute.services.news.CompanyService"/>
+
+    <!-- CategoryService -->
+    <jaxrs:server id="categoryServiceREST" address="/rest/categoryService">
+        <jaxrs:serviceBeans>
+            <ref bean="categoryService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean='jsonProvider' />
+        </jaxrs:providers>
+    </jaxrs:server>
+    <jaxws:endpoint id="categoryServiceEndpoint" implementor="#categoryService" address="/CategoryService" />
+    <bean id="categoryService" class="com.copyroute.services.news.CategoryService"/>
+
+    <!-- CsvLoaderService -->
+    <jaxrs:server id="csvLoaderServiceREST" address="/rest/csvLoaderService">
+        <jaxrs:serviceBeans>
+            <ref bean="csvLoaderService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean='jsonProvider' />
+        </jaxrs:providers>
+    </jaxrs:server>
+    <jaxws:endpoint id="csvLoaderServiceEndpoint" implementor="#csvLoaderService" address="/CsvLoaderService" />
+    <bean id="csvLoaderService" class="com.copyroute.services.news.CsvLoaderService"/>
+
+    <!-- CategoryService -->
+    <jaxrs:server id="abstractServiceREST" address="/rest/abstractService">
+        <jaxrs:serviceBeans>
+            <ref bean="abstractService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean='jsonProvider' />
+        </jaxrs:providers>
+    </jaxrs:server>
+    <jaxws:endpoint id="abstractServiceEndpoint" implementor="#abstractService" address="/AbstractService" />
+    <bean id="abstractService" class="com.copyroute.services.news.AbstractService"/>
+
+
+
+
+    <!-- AMQP ============================================================================== -->
+    <!-- Connection and Template -->
+
+    <rabbit:connection-factory id="amqpConnectionFactory" host="127.0.0.1" />
+    <!--<rabbit:connection-factory id="amqpConnectionFactory" host="${amqp.host}" />-->
+    <rabbit:admin connection-factory="amqpConnectionFactory" />
+    <rabbit:template  id="amqpTemplate" connection-factory="amqpConnectionFactory" />
+    <!-- .. Caching Connection
+    <bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <property name="host" value="localhost" />
+        <property name="username" value="guest" />
+        <property name="password" value="guest" />
+        <property name="virtualHost" value="/" />
+        <property name="port" value="5672" />
+    </bean>
+    -->
+    <!-- Transactions -->
+    <!-- 	<tx:annotation-driven transaction-manager="rabbitTxManager"/> -->
+    <!-- 	<bean id="rabbitTxManager" class="org.springframework.amqp.rabbit.transaction.RabbitTransactionManager"> -->
+    <!-- 		<property name="connectionFactory" ref="amqpConnectionFactory"/> -->
+    <!-- 	</bean> -->
+    <!-- ListenerContainer : Driven by TaskExecutor -->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="10" />
+        <property name="maxPoolSize" value="15" />
+        <property name="queueCapacity" value="25" />
+    </bean>
+
+
+    <!-- Mongo Config ==============================================================================-->
+
+    <!-- Repo-Scan : Pick up Mongo Repos -->
+    <mongo:repositories base-package="com.copyroute.services.mongo" />
+    <mongo:mongo host="${mongo.host}" port="27017">
+        <mongo:options
+                connections-per-host="100"
+                threads-allowed-to-block-for-connection-multiplier="10"
+                connect-timeout="30000"
+                max-wait-time="30000"
+                auto-connect-retry="true"
+                socket-keep-alive="true"
+                socket-timeout="0"
+                slave-ok="true"
+                write-number="1"
+                write-timeout="0"
+                write-fsync="true"/>
+    </mongo:mongo>
+    <!--<bean id="mongoError" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>-->
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongo" ref="mongo"/>
+        <constructor-arg name="databaseName" value="test"/>
+        <constructor-arg name="userCredentials" ref="userCredentials"/>
+    </bean>
+    <bean id="gridFSTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+        <constructor-arg ref="dbFactory" />
+        <constructor-arg ref="converter" />
+    </bean>
+    <mongo:mapping-converter id="converter" db-factory-ref="dbFactory" />
+    <mongo:db-factory id="dbFactory" dbname="test" />
+    <bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
+        <constructor-arg name="username" value="${mongo.user}"/>
+        <constructor-arg name="password" value="${mongo.pass}"/>
+    </bean>
+
+
+
+
+
+
+
+	<!--<bean id="jmsMessageListener" class="gov.va.vba.vbms.das.mocks.jms.JmsMessageListener" />-->
+	<!--<bean id="jmsMessageProducer" class="gov.va.vba.vbms.das.mocks.jms.JmsMessageProducer" />-->
+	<!--<bean id="dasMockService" class="gov.va.vba.vbms.das.mocks.services.DASMockServiceImpl" />-->
+
+	<!--&lt;!&ndash; Counter for consumer to increment and test to verify count &ndash;&gt;-->
+	<!--<bean id="counter" class="java.util.concurrent.atomic.AtomicInteger" />-->
+
+
+	<!--====================================================================-->
+	<!--  ActiveMQ Server -->
+	<!--====================================================================-->
+
+	<!--&lt;!&ndash;  Embedded ActiveMQ Broker &ndash;&gt;-->
+	<!--<amq:broker id="broker" useJmx="false" persistent="false">-->
+		<!--<amq:transportConnectors>-->
+			<!--<amq:transportConnector uri="tcp://localhost:0" />-->
+		<!--</amq:transportConnectors>-->
+	<!--</amq:broker>-->
+
+	<!--&lt;!&ndash; JMS ConnectionFactory to use, configuring the embedded broker using XML &ndash;&gt;-->
+	<!--<amq:connectionFactory id="jmsFactory" brokerURL="vm://localhost" />-->
+
+	<!--&lt;!&ndash; Caching Connection Factory &ndash;&gt;-->
+	<!--&lt;!&ndash;<bean id="cachedConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="targetConnectionFactory" ref="jmsConsumerConnectionFactory" />&ndash;&gt;-->
+	<!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+	<!--&lt;!&ndash; JMS Queue & Producer Configuration &ndash;&gt;-->
+	<!--<bean id="jmsProducerConnectionFactory"-->
+		  <!--class="org.springframework.jms.connection.SingleConnectionFactory"-->
+		  <!--depends-on="broker"-->
+		  <!--p:targetConnectionFactory-ref="jmsFactory" />-->
+
+	<!--<bean id="jmsProducerTemplate" class="org.springframework.jms.core.JmsTemplate">-->
+		<!--<property name="connectionFactory" ref="jmsProducerConnectionFactory" />-->
+		<!--<property name="defaultDestination" ref="queueDestination" />-->
+	<!--</bean>-->
+	<!--<bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+		<!--<constructor-arg value="gov.va.vba.vbms.das.mocks.str.queue" />-->
+	<!--</bean>-->
+	<!--&lt;!&ndash;<amq:queue id="queueDestination" physicalName="gov.va.vba.vbms.das.mocks.str.queue" />&ndash;&gt;-->
+
+
+	<!--&lt;!&ndash; JMS Topic & Producer Configuration &ndash;&gt;-->
+	<!--<bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">-->
+		<!--<property name="connectionFactory" ref="jmsConsumerConnectionFactory" />-->
+		<!--<property name="defaultDestination" ref="topicDestination" />-->
+		<!--<property name="pubSubDomain" value="true"/>-->
+	<!--</bean>-->
+	<!--<bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">-->
+		<!--<constructor-arg value="gov.va.vba.vbms.das.mocks.str.topic" />-->
+	<!--</bean>-->
+
+	<!--====================================================================-->
+	<!--  ActiveMQ Client -->
+	<!--====================================================================-->
+
+	<!--&lt;!&ndash; JMS Consumer Connection Factory &ndash;&gt;-->
+	<!--<bean id="jmsConsumerConnectionFactory"-->
+		  <!--class="org.springframework.jms.connection.SingleConnectionFactory"-->
+		  <!--depends-on="broker"-->
+		  <!--p:targetConnectionFactory-ref="jmsFactory" />-->
+
+	<!--&lt;!&ndash; Queue Listener &ndash;&gt;-->
+	<!--<jms:listener-container container-type="default"-->
+							<!--connection-factory="jmsConsumerConnectionFactory"-->
+							<!--acknowledge="auto">-->
+		<!--<jms:listener destination="gov.va.vba.vbms.das.mocks.str.queue" ref="jmsMessageListener" />-->
+	<!--</jms:listener-container>-->
+
+	<!--&lt;!&ndash; Topic Listener &ndash;&gt;-->
+	<!--<jms:listener-container destination-type="topic"-->
+							<!--connection-factory="jmsConsumerConnectionFactory"-->
+							<!--acknowledge="auto"-->
+							<!--concurrency="1">-->
+		<!--<jms:listener destination="gov.va.vba.vbms.das.mocks.str.topic" ref="jmsMessageListener" />-->
+		<!--&lt;!&ndash;<jms:listener destination="test.topic" ref="testReceiver" method="onMessage" />&ndash;&gt;-->
+	<!--</jms:listener-container>-->
+
+
+</beans>

@@ -3218,7 +3218,7 @@ jQuery.event = {
 	}
 };
 
-// Some plugins are using, but it's undocumented/deprecated and will be removed.
+// Some finance are using, but it's undocumented/deprecated and will be removed.
 // The 1.7 special event interface should provide all the hooks needed now.
 jQuery.event.handle = jQuery.event.dispatch;
 

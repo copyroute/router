@@ -48,7 +48,9 @@
 <!-- 	<mvc:annotation-driven />  -->
 	<!--<context:component-scan base-package="com.copyroute.services"/>-->
 
-	<!-- Listeners -->
+    <!--<bean id="collectionUtils" class="com.copyroute.services.mongo.CollectionUtils"/>-->
+
+    <!-- Listeners -->
 	<!--<bean id="playListService" class="com.copyroute.services.news.PlayListService"/>-->
 	<!--<bean id="rssItemService" class="com.copyroute.services.news.RssItemService"/>-->
 	<!--<bean id="csvLoaderService" class="com.copyroute.services.news.CsvLoaderService"/>-->

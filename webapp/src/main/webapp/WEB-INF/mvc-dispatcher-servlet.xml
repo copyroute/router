@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns:beans="http://www.springframework.org/schema/beans"
-		xmlns:context="http://www.springframework.org/schema/context"
-		xmlns:util="http://www.springframework.org/schema/util"
-        xmlns:sws="http://www.springframework.org/schema/web-services"
        	xmlns:mvc="http://www.springframework.org/schema/mvc"
-		xmlns:tx="http://www.springframework.org/schema/tx" 		
  		xsi:schemaLocation="
 			http://www.springframework.org/schema/beans 				http://www.springframework.org/schema/beans/spring-beans.xsd
-			http://www.springframework.org/schema/context 				http://www.springframework.org/schema/context/spring-context.xsd
-			http://www.springframework.org/schema/web-services 			http://www.springframework.org/schema/web-services/web-services.xsd
       		http://www.springframework.org/schema/mvc 					http://www.springframework.org/schema/mvc/spring-mvc.xsd
-	        http://www.springframework.org/schema/util					http://www.springframework.org/schema/util/spring-util.xsd
 
 ">
 <!-- 	<context:annotation-config />	 -->
@@ -24,53 +16,53 @@
 <!--   	<mvc:resources mapping="/resources/**" location="/resources/" cache-period="86400"/> -->
   	<mvc:resources mapping="/resources/**" location="/resources/" cache-period="1"/>
   	
-	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-	  <property name="order" value="1" />
-		<property name="contentNegotiationManager">
-            <bean class="org.springframework.web.accept.ContentNegotiationManager">
-                <constructor-arg>
-                    <bean class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">
-                        <constructor-arg>
-                            <map>
-                                <entry key="json" value="application/json"/>
-                                <entry key="xml" value="application/xml"/>
-								<entry key="rss" value="application/rss+xml" />
-                            </map>
-                        </constructor-arg>
-                    </bean>
-                </constructor-arg>
-            </bean>
-        </property>
-         
-	  <property name="defaultViews">
-		<list>
-		  <!-- JSON View -->
-		  <bean
-			class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
-		  </bean>
- 
-		  <!-- RSS View -->
-		  <bean class="com.copyroute.ui.controller.CustomRssViewer" />
- 
-		  <!-- JAXB XML View -->
-		  <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
-			<constructor-arg>
-				<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        			<property name="contextPath" value="com.copyroute.cdm.rss"/>
-        			<property name="schema" value="classpath:schemas/eventservices.xsd"/>
-<!-- 				   <property name="classesToBeBound"> -->
-<!-- 					<list> -->
-<!-- 					   <value>com.copyroutel.SampleContent</value> -->
-<!-- 					</list> -->
-<!-- 				   </property> -->
-				</bean>
-			</constructor-arg>
-		  </bean>
-		 </list>
-	  </property>
-	  <property name="ignoreAcceptHeader" value="true" />
- 
-	</bean>
+	<!--<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">-->
+	  <!--<property name="order" value="1" />-->
+		<!--<property name="contentNegotiationManager">-->
+            <!--<bean class="org.springframework.web.accept.ContentNegotiationManager">-->
+                <!--<constructor-arg>-->
+                    <!--<bean class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">-->
+                        <!--<constructor-arg>-->
+                            <!--<map>-->
+                                <!--<entry key="json" value="application/json"/>-->
+                                <!--<entry key="xml" value="application/xml"/>-->
+								<!--<entry key="rss" value="application/rss+xml" />-->
+                            <!--</map>-->
+                        <!--</constructor-arg>-->
+                    <!--</bean>-->
+                <!--</constructor-arg>-->
+            <!--</bean>-->
+        <!--</property>-->
+         <!---->
+	  <!--<property name="defaultViews">-->
+		<!--<list>-->
+		  <!--&lt;!&ndash; JSON View &ndash;&gt;-->
+		  <!--<bean-->
+			<!--class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">-->
+		  <!--</bean>-->
+ <!---->
+		  <!--&lt;!&ndash; RSS View &ndash;&gt;-->
+		  <!--<bean class="com.copyroute.ui.controller.CustomRssViewer" />-->
+ <!---->
+		  <!--&lt;!&ndash; JAXB XML View &ndash;&gt;-->
+		  <!--<bean class="org.springframework.web.servlet.view.xml.MarshallingView">-->
+			<!--<constructor-arg>-->
+				<!--<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">-->
+        			<!--<property name="contextPath" value="com.copyroute.cdm.rss"/>-->
+        			<!--<property name="schema" value="classpath:schemas/news-services.xsd"/>-->
+<!--&lt;!&ndash; 				   <property name="classesToBeBound"> &ndash;&gt;-->
+<!--&lt;!&ndash; 					<list> &ndash;&gt;-->
+<!--&lt;!&ndash; 					   <value>com.copyroutel.SampleContent</value> &ndash;&gt;-->
+<!--&lt;!&ndash; 					</list> &ndash;&gt;-->
+<!--&lt;!&ndash; 				   </property> &ndash;&gt;-->
+				<!--</bean>-->
+			<!--</constructor-arg>-->
+		  <!--</bean>-->
+		 <!--</list>-->
+	  <!--</property>-->
+	  <!--<property name="ignoreAcceptHeader" value="true" />-->
+ <!---->
+	<!--</bean>-->
  
 	<!-- JSP view -->
 <!-- 	<bean -->
@@ -85,23 +77,23 @@
 <!-- 	</bean> -->
 	
 	
-	  <mvc:interceptors>
-	    <mvc:interceptor>
-	      <mvc:mapping path="/**/*.jsp" />
-	        <bean id="responseCachingFilter" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
-	          <property name="cacheSeconds" value="0" />
-	          <property name="useExpiresHeader" value="true" />
-	          <property name="useCacheControlHeader" value="true" />
-	          <property name="useCacheControlNoStore" value="true" />
-	          <property name="cacheMappings">
-	          <props>
-	            <!-- cache for one month -->
-	            <prop key="/**/*.jsp">3600</prop>
-	          </props>
-	        </property>
-	      </bean>
-	    </mvc:interceptor>
-	  </mvc:interceptors>
+	  <!--<mvc:interceptors>-->
+	    <!--<mvc:interceptor>-->
+	      <!--<mvc:mapping path="/**/*.jsp" />-->
+	        <!--<bean id="responseCachingFilter" class="org.springframework.web.servlet.mvc.WebContentInterceptor">-->
+	          <!--<property name="cacheSeconds" value="0" />-->
+	          <!--<property name="useExpiresHeader" value="true" />-->
+	          <!--<property name="useCacheControlHeader" value="true" />-->
+	          <!--<property name="useCacheControlNoStore" value="true" />-->
+	          <!--<property name="cacheMappings">-->
+	          <!--<props>-->
+	            <!--&lt;!&ndash; cache for one month &ndash;&gt;-->
+	            <!--<prop key="/**/*.jsp">3600</prop>-->
+	          <!--</props>-->
+	        <!--</property>-->
+	      <!--</bean>-->
+	    <!--</mvc:interceptor>-->
+	  <!--</mvc:interceptors>-->
 
 	<!-- freemarker config -->
 	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" version="2.1"
+           targetNamespace="http://copyroute.com/cdm/finance"
+           xmlns="http://copyroute.com/cdm/finance"
+           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Income Account -->
+    <xs:element name="income" >
+        <xs:complexType >
+            <xs:sequence>
+                <xs:element name="_id" type="xs:string" minOccurs="1"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="amount" type="xs:string"/>
+                <xs:element name="date" type="xs:date"/>
+                <xs:element name="term" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Expense Account -->
+    <xs:element name="expense" >
+        <xs:complexType >
+            <xs:sequence>
+                <xs:element name="_id" type="xs:string" minOccurs="1"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="amount" type="xs:string"/>
+                <xs:element name="date" type="xs:date"/>
+                <xs:element name="term" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+</xs:schema>

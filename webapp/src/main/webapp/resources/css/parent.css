@@ -9,30 +9,24 @@ html {
 	height: 100%; 
 }
 body { 
-    background: -webkit-linear-gradient(rgba(50,50,50,0.7) 7em, rgba(200,200,200,0.3) 10em, rgba(50,50,50,0.7) 3em); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(rgba(50,50,50,0.7) 7em, rgba(200,200,200,0.3) 10em, rgba(50,50,50,0.7) 3em); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(rgba(50,50,50,0.7) 7em, rgba(200,200,200,0.3) 10em, rgba(50,50,50,0.7) 3em); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(rgba(50,50,50,0.7) 7em, rgba(200,200,200,0.3) 10em, rgba(50,50,50,0.7) 3em); /* Standard syntax (must be last) */
+    background: -webkit-linear-gradient(rgba(5,5,5,0.9), rgba(0,200,0,0.9) ); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(     rgba(5,5,5,0.9), rgba(0,200,0,0.9) ); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(   rgba(5,5,5,0.9), rgba(0,200,0,0.9) ); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(        rgba(5,5,5,0.9), rgba(0,200,0,0.9) ); /* Standard syntax (must be last) */
 /* 	background: #eeeeee url(/resources/images/Old_Newspaper_Texture_by_powerpuffjazz.jpg) 50% top repeat-x;  */
 /* 	background: #eeeeee url(/resources/images/Maple_Tea_Texture_by_Shadsie.jpg) 10% top fixed;   */
 /* 	background-size: 100% auto  */	
-	display: table-cell; 
-	height: 100%; 
-	font-family: Verdana, Geneva, sans-serif; 
+	font-family: Verdana, Geneva, sans-serif;
 	font-size:1.0em; 
 	line-height:1.0em;
 	vertical-align: top;
-	align:center; 
- 	margin: 0; 
-	padding: 0;
 }
 
 h1 {
-	color:rgba(250,250,250,0.9); 
-	font-size:1.5em; 
-	line-height:1.5em;
-	margin:3px 3px 1px 1px;
-	box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.3);	
+	/*color:rgba(250,250,250,0.9); */
+	font-size:1.3em;
+	line-height:1.3em;
+	box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.3);
 }
 h2 {			
 	font-size:0.75em; 
@@ -47,8 +41,6 @@ hr {
 	color:rgba(42,42,42,0.3);
 }
 
-
-
 #bodyDiv {
 	width:100%; 
 	height:100%;
@@ -56,13 +48,12 @@ hr {
 	align:center; 
 	font-size:1.0em;
 	line-height:1.0em;
-	box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.3);	
-	
 }
 
 #searchBox{
-	padding:0em;
 	width:10em;
+    vertical-align: center;
+    align:center;
 }
 
 #searchPageSizeBox{
@@ -79,7 +70,7 @@ hr {
 	color:rgba(250,250,250,0.9); 
 	font-family: Verdana, Geneva, sans-serif; 
 	font-size:0.9em;
-	vertical-align: top;
+	vertical-align: center;
 	align:center; 
 }
 #connImage{
@@ -87,15 +78,15 @@ hr {
 	height:1em;
 }
 #header{	
-	top:0; 
-	left:0; 
+	top:0;
+	left:0;
 	right:0;
 	position:fixed;
-	background-color: rgba(50,50,50,0.9); 
-	font-size:1.0em; 
+    background-color: rgba(5,5,5,0.7);
+    font-size:1.0em;
 	font-family: Verdana, Geneva, sans-serif;
 	line-height:1.0em;
-	vertical-align: top;
+	vertical-align: center;
 	align:center; 
 }
 #logo{
@@ -112,8 +103,8 @@ hr {
 	position:fixed;
 	height:5em;
 	background-color: rgba(5,5,5,0.7); 
-	font-size:0.75em; font-family: Verdana, Geneva, sans-serif;
-	line-height:0.75em;
+	font-size:1.0em; font-family: Verdana, Geneva, sans-serif;
+	line-height:1.0em;
 	vertical-align: top;
 	align:center; 
 }
@@ -127,7 +118,7 @@ hr {
 }
 
 #bannerSpacer{
-	height:5em; 
+	height:4em;
 	vertical-align: top;
 	align:center; 
 }
@@ -135,50 +126,47 @@ hr {
 .scrollable-menu {
     width: auto;
     max-height: 20em;
-    overflow-x: hidden;
-}
-.dropdown-menu{
-	background-color:rgba(50,50,50,0.7);
+    /*overflow-x: hidden;*/
 }
 
-
-/* Categories
-#categoryListPanel{
-	left:0; 
-	top:0em; 
-	position:fixed;
-}
- */
 .categoryListPanel{
-	background-color:rgba(25,25,25,0.5);
+	/*background-color:rgba(25,25,25,0.5);*/
 	text-decoration:none;	
 	vertical-align: top;	
 	align: center;	
 	width:100%;
+    padding: 0.25em 0.25em 0.25em 0.25em;
 }
-	
- 
-/* MenuBar */
+.categoryItemListItem{
+    color: rgba(225,175,100,0.95);
+    background-color:rgba(25,25,25,0.5);
+    box-shadow: inset 1px 1px 0px 0px rgba(200,200,200,0.7);
+    font:1.0em Verdana, Geneva, sans-serif;
+    width:100%;
+    display: inline-block;
+    text-align:center;
+
+}
 .categoryItem{
 	color: rgba(225,175,100,0.95);
-	background-color:rgba(25,25,25,0.5);
-	box-shadow: inset 1px 1px 0px 0px rgba(200,200,200,0.7);
+	/*background-color:rgba(25,25,25,0.5);*/
+	/*box-shadow: inset 1px 1px 0px 0px rgba(200,200,200,0.7);*/
 	font:1.0em Verdana, Geneva, sans-serif;
 	cursor:pointer;
-	width:5em;
+	width:100%;
 	height:40px;
 	display: inline-block; 
 	text-align:center;
-	padding: 0.0em 0.0em 0.0em 0.0em;
-	
 }
 
+
 .categoryItem:hover {
-	box-shadow: inset 0px 0px 1px 1px rgba(20,20,20,0.5);
+    color:rgba(255,100,10,0.8);
+    font:1.3em Verdana, Geneva, sans-serif;
 }
 
 .category{
-	font:2.0em Verdana, Geneva, sans-serif;
+	font:1.0em Verdana, Geneva, sans-serif;
 	color: rgba(250,250,250,0.9);
 	background-color:rgba(50,50,50,0.0);
 	cursor:pointer;
@@ -192,15 +180,16 @@ hr {
 /* News Columns */
 .searchListType {
 	display: inline-block;
+    width : 100%;
 }
 
 .categoryColumn{
 	display: table-cell; 	
-	overflow: hidden; 
+	/*overflow: hidden; */
 }
 
 .row-fluid{
-	background-color:rgba(100,100,100,0.5); 
+	background-color:rgba(100,100,100,0.1);
 	box-shadow: 1px 1px 0px 0px rgba(0,0,0,0.3);	
 	width:100%;
 }
@@ -208,17 +197,20 @@ hr {
 
 /* RSSItems */
 .rssItemType {
-	color:rgba(50,50,50,0.9); 
-	background-color:rgba(250,250,250,0.9); 
+	color:rgba(50,50,50,1.0);
+	background-color:rgba(255,255,255,0.3);
 	box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.3);	
 	font-family: Verdana, Geneva, sans-serif; 
 	font-size:1.0em;
 	line-height:1.25em;	
 	display: block;
-	margin:.5em .5em .5em .5em;
+	/*margin:.5em .5em .5em .5em;*/
 	width:95%;
-	overflow: hidden; 
-	padding: 0.5em 0.5em 0.5em 0.5em;	
+	/*overflow: hidden; */
+	padding: 0.5em 0.5em 0.5em 0.5em;
+}
+.rssItemType:hover {
+    background-color:rgba(255,255,255,0.5);
 }
 .rssItemTypeBreakingNews {
 	color:rgba(0,200,0,0.1);
@@ -226,25 +218,30 @@ hr {
 }
 
 .rssItemHeader{
-	font-family: Verdana, Geneva, sans-serif; 
-	font-size:0.75em ;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size:1.0em ;
 	line-height:1.0em ;
 }
 .rssItemTitle{
-	font-family: Verdana, Geneva, sans-serif; 
+	font-family: Verdana, Geneva, sans-serif;
 	font-size:1.15em ;
 	line-height:1.25em ;
 }
 .rssItemDescription {
-	font:Verdana, Geneva, sans-serif;
-	font-size:0.75em ;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size:0.75em ;
 	line-height:1.0em ;
 }	
 .rssItemDate{
 	font-family: Verdana, Geneva, sans-serif; 
-	font-size:0.5em;
+	font-size:1.0em;
 }
 
+.cr-pagination
+{
+    color:rgba(50,50,50,1.0);
+    background-color:rgba(5,5,5,0.1);
+}
 
 /* Large desktop */
 @media (min-width: 1200px) {
@@ -265,7 +262,7 @@ hr {
 }
  
 /* Landscape phones and down */
-@media (max-width: 480px) { 
+@media (max-width: 480px) {
 	#connectionDiv			{display:none;}
 	#footer					{display:none; }
 }

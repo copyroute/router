@@ -16,6 +16,10 @@
 //
 //import com.copyroute.global.*;
 //
+
+//import javax.jws.WebService;
+//
+//@WebService
 //@Component
 //public class FeedReader {
 //

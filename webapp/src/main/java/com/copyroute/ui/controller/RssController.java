@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 //import net.sourceforge.wurfl.core.WURFLEngine;
 
 
-
+import com.copyroute.services.news.CategoryService;
+import com.copyroute.services.news.CompanyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,15 +29,17 @@ import com.copyroute.cdm.global.Statics;
 @Controller
 public class RssController 
 {
-	@Qualifier("rssItemService")
-	@Inject		private RssItemService rssItemService;	
+	@Autowired private RssItemService rssItemService;
+    @Autowired private CategoryService categoryService;
+    @Autowired private CompanyService companyService;
+
 
 	List<String> categoryList;
 
 	
 	@PostConstruct
 	public void init(){ 
-		categoryList = rssItemService.getCategoryList().getItems();
+		categoryList = categoryService.getCategoryList().getItems();
 		Statics.Log("================= >>>>>> Initialized : " + this.getClass().toString()); 
 	}
 
@@ -100,7 +104,7 @@ public class RssController
 		if(category.isEmpty())
 			category = "News";
 		
-		List<RssItem> rssLists = rssItemService.getRssItemCategoryList(category, start, size) ;
+		List<RssItem> rssLists = categoryService.findByCategory(category, start, size) ;
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("CategoryList", categoryList);		
@@ -124,7 +128,7 @@ public class RssController
 		if(company.isEmpty())
 			company = "AP";
 		
-		List<RssItem> rssLists  = rssItemService.getRssItemCompanyList(company, start, size);
+		List<RssItem> rssLists  = companyService.findByCompany(company, start, size);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("CategoryList", categoryList);		
@@ -147,9 +151,9 @@ public class RssController
 			) throws Exception 
 	{
 
-		List<RssItem> rssLists = rssItemService.getRssItemCompanyAndChannelList(company, channel, start, size) ;
+		List<RssItem> rssLists = companyService.findByCompanyAndChannel(company, channel, start, size);
 
-		ModelAndView mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView();
 		mav.addObject("CategoryList", categoryList);		
 		mav.addObject("Category", channel );
 		mav = Statics.setPageData(request, mav, "Company : " + company + "Channel : " + channel, "company", start, size, term);
@@ -167,11 +171,11 @@ public class RssController
 		if(id.isEmpty())
 			id = "";
 
-		List<RssItem> rssList = rssItemService.getRssItemId(id);
+		List<RssItem> rssList = rssItemService.findById(id);
 
 		String title = "";
-		if(rssList.size() > 0)
-		{	title = rssList.get(0).getTitle() ;	}
+//		if(rssList.size() > 0)
+//		{	title = rssList.get(0).getTitle() ;	}
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("RssItems", rssList);

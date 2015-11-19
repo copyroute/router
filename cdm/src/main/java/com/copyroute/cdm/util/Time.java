@@ -21,7 +21,7 @@ public class Time {
 		}catch(DatatypeConfigurationException ex){Statics.Log("Calender Exception: " + ex.getMessage() );}
 		return null;
     }
-    
+
     // Convert XMLGregorianCalendar
 	public static XMLGregorianCalendar convertXMLGregorianCalendar(Date date0){
 		try{

@@ -137,7 +137,8 @@ jQuery(document).ready(function() {
     });
 
     // Start routing
-    Backbone.history.start();
+    Backbone.history.start({pushState: true});
+    //Backbone.history.start();
 });
 
 

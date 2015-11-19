@@ -3,20 +3,12 @@
 
 <div class="container-fluid">
 <div id="header" class="navbar navbar-default navbar-inverse navbar-fixed-top row-fluid" role="navigation">
-	
-		<div id="logoDiv" class="navbar-brand span1 col-xs-1">
-			<a href="/" id="frontpage">
-				<img id="logo" src="/resources/images/copyroute-logo.png" alt="CopyRoute Logo">
-			</a>
-		</div>
 
-		<div id="connectionDiv" class="span1 col-xs-1 ">
+
+		<div id="connectionDiv" class="span2 col-xs-2 ">
 			<a href="/" id="frontpage">
 				 <h1> CopyRoute</h1>
 			</a>
-		</div>
-		<div id="connectionDiv" class="span1 col-xs-1 text-right pull-right">
-			<div id="connectionStatus" class="connectionStatus "></div>
 		</div>
 		<div id="searchDiv" class="span4 col-xs-4 text-right pull-right">
 
@@ -30,6 +22,6 @@
 
 		
 	
-</div>		
+</div>
 </div>
 	

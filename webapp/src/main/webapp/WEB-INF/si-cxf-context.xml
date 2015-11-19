@@ -1,0 +1,36 @@
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+       <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+       <!--xmlns:int="http://www.springframework.org/schema/integration"-->
+       <!--xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd-->
+        <!--http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">-->
+
+    <!--&lt;!&ndash; wire rest with SI &ndash;&gt;-->
+    <!--<int:gateway id="rssItemServiceRESTGateway"-->
+                 <!--service-interface="com.copyroute.endpoints.RssItemServiceRest"-->
+                 <!--default-request-channel="rssItemChannelREST">-->
+        <!--<int:method name="getRssItem" request-channel="rssItemChannelREST" />-->
+    <!--</int:gateway>-->
+
+    <!--&lt;!&ndash; wire soap with SI &ndash;&gt;-->
+    <!--<int:gateway id="rssItemServiceSOAPGateway"-->
+                 <!--service-interface="com.copyroute.endpoints.RssItemServiceSoap"-->
+                 <!--default-request-channel="rssItemChannelSOAP">-->
+        <!--<int:method name="getRssItem" request-channel="rssItemChannelSOAP"/>-->
+    <!--</int:gateway>-->
+
+    <!--<int:channel id="rssItemChannelSOAP"/>-->
+    <!--<int:channel id="rssItemChannelREST"/>-->
+
+    <!--<int:chain input-channel="rssItemChannelSOAP">-->
+        <!--<int:transformer ref="userTransformer" method="userFormToUser"/>-->
+        <!--<int:service-activator ref="rssItemServiceGateway" method="getRssItem"/>-->
+        <!--<int:transformer ref="userTransformer" method="userToUserForm"/>-->
+    <!--</int:chain>-->
+
+    <!--<int:chain input-channel="rssItemChannelREST">-->
+        <!--<int:transformer ref="userTransformer" method="userFormToUser"/>-->
+        <!--<int:service-activator ref="rssItemServiceGateway" method="getRssItem"/>-->
+        <!--<int:transformer ref="userTransformer" method="userToUserForm"/>-->
+    <!--</int:chain>-->
+
+<!--</beans>-->

@@ -1,0 +1,36 @@
+HOST=copyroute.com
+#read -p "Penguins Password?" password
+
+echo "Compiling War Files"
+pushd cdm
+rm -rf target/ && mvn clean generate-sources compile install
+popd
+pushd services
+rm -rf target/ && mvn clean compile war:war install
+popd
+pushd webapp
+rm -rf target/ && mvn clean compile war:war install
+popd
+pushd harvest
+rm -rf target/ && mvn clean compile war:war install
+popd
+
+echo "Uploading War File"
+scp ./services/target/router.war root@$HOST:/opt/router.war
+scp ./harvest/target/harvest.war root@$HOST:/opt/harvest.war
+scp ./webapp/target/news.war root@$HOST:/opt/root.war
+
+echo "Stopping Servers"
+ssh root@$HOST 'service jetty stop; service rabbitmq-server stop; '
+ssh root@$HOST 'mv /opt/router.war /opt/jetty/webapps/router.war; '
+ssh root@$HOST 'mv /opt/harvest.war /opt/jetty/webapps/harvest.war; '
+ssh root@$HOST 'mv /opt/root.war /opt/jetty/webapps/root.war; '
+ssh root@$HOST 'service rabbitmq-server start; service jetty start'
+
+# Change Permissions
+echo "Changing Permissions"
+ssh root@$HOST 'chown jetty:jetty /opt/jetty/webapps/*.war'
+
+
+
+echo "Deploy Complete"

@@ -180,11 +180,11 @@
      * config - object to hold configuration information for jqPlot plot object.
      * 
      * attributes:
-     * enablePlugins - False to disable plugins by default.  Plugins must then be explicitly 
+     * enablePlugins - False to disable finance by default.  Plugins must then be explicitly
      *   enabled in the individual plot options.  Default: false.
-     *   This property sets the "show" property of certain plugins to true or false.
-     *   Only plugins that can be immediately active upon loading are affected.  This includes
-     *   non-renderer plugins like cursor, dragable, highlighter, and trendline.
+     *   This property sets the "show" property of certain finance to true or false.
+     *   Only finance that can be immediately active upon loading are affected.  This includes
+     *   non-renderer finance like cursor, dragable, highlighter, and trendline.
      * defaultHeight - Default height for plots where no css height specification exists.  This
      *   is a jqplot wide default.
      * defaultWidth - Default height for plots where no css height specification exists.  This
@@ -357,7 +357,7 @@
         gapLength: 4,
         dotGapLength: 2.5,
         srcLocation: 'jqplot/src/',
-        pluginLocation: 'jqplot/src/plugins/'
+        pluginLocation: 'jqplot/src/finance/'
     };
     
     
@@ -410,7 +410,7 @@
      * $.jqplot.preDrawSeriesHooks - called before each series is drawn.
      * $.jqplot.postDrawSeriesHooks - called after each series is drawn.
      * $.jqplot.preDrawLegendHooks - called before the legend is drawn.
-     * $.jqplot.addLegendRowHooks - called at the end of legend draw, so plugins
+     * $.jqplot.addLegendRowHooks - called at the end of legend draw, so finance
      *     can add rows to the legend table.
      * $.jqplot.preSeriesInitHooks - called before series is initialized.
      * $.jqplot.postSeriesInitHooks - called after series is initialized.
@@ -654,7 +654,7 @@
         // This number will be an upper bound, actual spacing will be less.
         this.tickSpacing = 75;
         // Properties to hold the original values for min, max, ticks, tickInterval and numberTicks
-        // so they can be restored if altered by plugins.
+        // so they can be restored if altered by finance.
         this._min = null;
         this._max = null;
         this._tickInterval = null;
@@ -1842,10 +1842,10 @@
         // prop: negativeSeriesColors 
         // colors to use for portions of the line below zero.
         this.negativeSeriesColors = $.jqplot.config.defaultNegativeColors;
-        // container to hold all of the merged options.  Convienence for plugins.
+        // container to hold all of the merged options.  Convienence for finance.
         this.options = {};
         this.previousSeriesStack = [];
-        // Namespace to hold plugins.  Generally non-renderer plugins add themselves to here.
+        // Namespace to hold finance.  Generally non-renderer finance add themselves to here.
         this.plugins = {};
         // prop: series
         // Array of series object options.
@@ -1863,7 +1863,7 @@
         this.seriesColors = $.jqplot.config.defaultColors;
         // prop: sortData
         // false to not sort the data passed in by the user.
-        // Many bar, stacked and other graphs as well as many plugins depend on
+        // Many bar, stacked and other graphs as well as many finance depend on
         // having sorted data.
         this.sortData = true;
         // prop: stackSeries
@@ -5603,7 +5603,7 @@
     
     // makeGridData
     // converts any arbitrary data values to grid coordinates and
-    // returns them.  This method exists so that plugins can use a series'
+    // returns them.  This method exists so that finance can use a series'
     // linerenderer to generate grid data points without overwriting the
     // grid data associated with that series.
     // Called with scope of a series.
@@ -7973,7 +7973,7 @@
                         this.renderer.addrow.call(this, lt, color, pad, reverse);
                         pad = true;
                     }
-                    // let plugins add more rows to legend.  Used by trend line plugin.
+                    // let finance add more rows to legend.  Used by trend line plugin.
                     for (var j=0; j<$.jqplot.addLegendRowHooks.length; j++) {
                         var item = $.jqplot.addLegendRowHooks[j].call(this, s);
                         if (item) {
